@@ -64,7 +64,7 @@ Da una macchina nuova, in questo ordine:
    powershell -ExecutionPolicy Bypass -File start.ps1
    ```
    (Con la policy predefinita di Windows `.\start.ps1` da solo può essere bloccato.)
-   Avvia Docker Desktop se è spento, crea i container, aspetta OpenCms, apre il login e lancia `dev.py`. Il primo avvio installa database, moduli e demo (qualche minuto, anche più di 10 con CPU alta: lo script aspetta al massimo 10 minuti, se scade rilancialo, l'installazione prosegue nel container); `dev.py` poi installa da solo il modulo `it.progetti.figma` (build, import, riavvio, circa un minuto).
+   Avvia Docker Desktop se è spento, crea i container, aspetta OpenCms, apre il login e lancia `dev.py`. Il primo avvio installa database, moduli e demo (qualche minuto, anche più di 10 con CPU alta: lo script aspetta al massimo 25 minuti, se scade rilancialo, l'installazione prosegue nel container); `dev.py` poi installa da solo il modulo `it.progetti.figma` (build, import, riavvio, circa un minuto).
 4. OpenCms risponde su http://localhost:8080/system/login. `dev.py` resta in ascolto: ogni file che salvi nel modulo viene inviato a OpenCms. Non lanciarlo a mano in altri terminali, ne ammette una sola istanza.
 
 Se `dev.py` mostra "OpenCms non risponde...", attende e riprova da solo: non serve riavviarlo.

@@ -33,13 +33,14 @@ docker compose --env-file $envFile -f $compose up -d
 if ($LASTEXITCODE -ne 0) { throw "docker compose up non riuscito" }
 
 Write-Host "Attendo OpenCms su $server (il primo avvio puo' richiedere diversi minuti)..."
-$end = (Get-Date).AddMinutes(10)
+$waitMinutes = 25
+$end = (Get-Date).AddMinutes($waitMinutes)
 while ($true) {
     try {
         Invoke-WebRequest "$server/system/login" -UseBasicParsing -TimeoutSec 5 | Out-Null
         break
     } catch {
-        if ((Get-Date) -gt $end) { throw "OpenCms non risponde dopo 10 minuti" }
+        if ((Get-Date) -gt $end) { throw "OpenCms non risponde dopo $waitMinutes minuti" }
         Start-Sleep -Seconds 3
     }
 }

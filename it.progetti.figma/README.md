@@ -14,7 +14,7 @@ caricati su tutte le pagine come plugin Mercury del gruppo `css` (`plugins/*.xml
 
 ## Sviluppo in locale
 
-Dalla cartella `opencms/`, con OpenCms acceso (Docker):
+Dalla radice del repo, con `start.ps1` (avvia Docker, OpenCms e `dev.py`; vedi il README principale). Solo la sincronizzazione, con OpenCms già acceso:
 
 ```
 python dev.py
@@ -29,11 +29,11 @@ Resta in ascolto e decide da solo come aggiornare OpenCms:
 | nuovo formatter, plugin, configurazione, etichette, font, schema (content type) | aggiornamento completo: build, `replaceModule`, riavvio (~1 minuto) |
 
 All'avvio allinea tutto. Le modifiche arrivano nel progetto Offline: per il sito pubblico vanno pubblicate.
-I content type si ricavano da `schemas/*.xsd`; gli id sono fissati in `module-types.json`, la versione in `module-version.txt`.
+I content type si ricavano da `schemas/*.xsd`; gli id sono fissati in `module-types.json`, la versione dell'ultimo aggiornamento completo in `module-version.txt` (file locale, non versionato: se manca si riparte da 1.0.0).
 
 ## Storybook
 
-In `opencms/storybook/` (fuori dal modulo, non finisce nello zip). Usa gli stessi `tokens.css` e `components.css`;
+In `storybook/`, nella radice del repo (fuori dal modulo, non finisce nello zip). Usa gli stessi `tokens.css` e `components.css`;
 il markup è in `storybook/stories/markup.js`, copia fedele dei JSP: se cambi un JSP, aggiorna anche lì.
 
 ```
@@ -47,7 +47,7 @@ Viewport di default 375px (mobile first); c'è anche 390px per il confronto col 
 
 ## Build e installazione
 
-Dalla cartella `opencms/`:
+Dalla radice del repo:
 
 ```
 python build_module.py it.progetti.figma dist/it.progetti.figma_1.0.0.zip
