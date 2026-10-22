@@ -10,17 +10,22 @@ const cdata = (s) => `<![CDATA[${s}]]>`;
 /** fx-cta-button → FxCtaButton (nome dei tipi XML e prefisso delle etichette). */
 export const xsdName = (type) => type.split('-').map((w) => w[0].toUpperCase() + w.slice(1)).join('');
 
-const fields = (def) => Object.entries(def.bind).filter(([, b]) => b?.kind === 'field' || b?.kind === 'link');
+const fields = (def) => Object.entries(def.bind).filter(([, b]) => ['field', 'link', 'image'].includes(b?.kind));
+const XSD_TYPE = { field: 'OpenCmsString', link: 'OpenCmsVarLink', image: 'OpenCmsVfsFile' };
+// Editor dei campi che non usano quello predefinito del tipo: le immagini si scelgono dalla galleria.
+const WIDGET = { image: 'ImageGalleryWidget' };
 const settings = (def) => Object.values(def.bind).filter((b) => b?.kind === 'setting' || b?.kind === 'settingIs');
 
 export function schemaXsd(def) {
   const n = xsdName(def.type.name);
   const elements = fields(def).map(([, b]) =>
-    `            <xsd:element name="${b.name}" type="${b.kind === 'link' ? 'OpenCmsVarLink' : 'OpenCmsString'}"${b.optional ? ' minOccurs="0"' : ''}/>`);
+    `            <xsd:element name="${b.name}" type="${XSD_TYPE[b.kind]}"${b.optional ? ' minOccurs="0"' : ''}/>`);
   // Default dei campi di testo: quelli del template, cioè i testi del Figma.
   const defaults = fields(def).filter(([prop, b]) => b.kind === 'field' && typeof def.component.props[prop].default === 'string'
     && def.component.props[prop].default !== '')
     .map(([prop, b]) => `                <default element="${b.name}" value="${xmlAttr(def.component.props[prop].default)}"/>`);
+  const layouts = fields(def).filter(([, b]) => WIDGET[b.kind])
+    .map(([, b]) => `                <layout element="${b.name}" widget="${WIDGET[b.kind]}"/>`);
   return [
     '<?xml version="1.0" encoding="UTF-8"?>',
     `<!-- ${GEN}, cambia ${def.opencmsSource}. -->`,
@@ -50,6 +55,7 @@ export function schemaXsd(def) {
     '            </resourcebundles>',
     ...(def.type.titleField ? ['            <mappings>', `                <mapping element="${def.type.titleField}" mapto="property:Title"/>`, '            </mappings>'] : []),
     ...(defaults.length ? ['            <defaults>', ...defaults, '            </defaults>'] : []),
+    ...(layouts.length ? ['            <layouts>', ...layouts, '            </layouts>'] : []),
     '        </xsd:appinfo>',
     '    </xsd:annotation>',
     '',

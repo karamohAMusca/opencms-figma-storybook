@@ -99,4 +99,4 @@ Le credenziali e la chiave del file Figma stanno in `.env`, che non è nel repo 
 
 ## Stato del progetto
 
-Il design di esempio contiene Button, Input e la schermata Login. Le modifiche inviate da `dev.py` arrivano nel progetto *Offline* di OpenCms: per il sito pubblico vanno pubblicate.
+Il design di esempio contiene Button, Input, Card e la schermata Login. Le modifiche inviate da `dev.py` arrivano nel progetto *Offline* di OpenCms: per il sito pubblico vanno pubblicate.

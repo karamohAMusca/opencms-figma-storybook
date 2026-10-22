@@ -104,6 +104,67 @@
   border-color: var(--brand-primary);
 }
 
+/* ---------- src/components/card/card.css ---------- */
+
+/* Figma: Card (44:10) — immagine 192px, corpo con titolo, testo e Button Primary */
+
+.fx-card {
+  box-sizing: border-box;
+  display: flex;
+  flex-direction: column;
+  width: 100%; /* in Figma è 342px; qui prende la larghezza della colonna */
+  overflow: hidden;
+  background: var(--surface-card);
+  border: 1px solid var(--border-default); /* come in Figma il bordo è dentro la misura: contenuto largo 340px */
+  border-radius: var(--radius-lg);
+  box-shadow: var(--shadow-card);
+  font-family: var(--font-family);
+}
+
+.fx-card__image {
+  display: block;
+  width: 100%;
+  max-width: none; /* Mercury limita le immagini con max-width/height */
+  height: 192px;
+  margin: 0;
+  object-fit: cover;
+  background: var(--surface-background); /* colore del segnaposto Figma, visibile mentre l'immagine carica */
+}
+
+.fx-card__body {
+  box-sizing: border-box;
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start; /* il Button resta largo quanto il suo testo, come in Figma */
+  gap: var(--space-md);
+  padding: var(--space-lg);
+}
+
+.fx-card__texts {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-sm);
+  width: 100%;
+}
+
+.fx-card__title {
+  margin: 0;
+  font-family: inherit; /* Mercury dà ai titoli font e spaziatura propri */
+  letter-spacing: normal;
+  font-size: 20px;
+  font-weight: 700;
+  line-height: var(--font-line-height); /* "normal" di Figma: round(size × 1.21) */
+  color: var(--text-primary);
+}
+
+.fx-card__text {
+  margin: 0;
+  font-size: 15px;
+  font-weight: 400;
+  line-height: var(--font-line-height); /* "normal" di Figma: round(size × 1.21) */
+  color: var(--text-secondary);
+}
+
 /* ---------- src/screens/login/login.css ---------- */
 
 /* Figma: Login – Mobile (1:27), frame 390×844. Mobile first: i valori base sono quelli del frame. */

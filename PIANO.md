@@ -18,7 +18,7 @@ Stato: `fatto` / `in corso` / `da fare`.
 | 2 | Markup unico | Button, Input, Login con template dichiarativo (campi, condizioni, inclusione di componenti): Storybook lo disegna, l'esportatore lo traduce in JSP | stesso HTML in Storybook e nei JSP generati | fatto |
 | 3 | Descrittore OpenCms | Ogni componente dichiara content type, campi con tipo OpenCms e impostazioni (default e varianti dal manifest Figma); l'esportatore genera `.xsd`, `.formatter` ed etichette. Si eliminano `storybook/` e `preview.html` | un componente nuovo arriva in OpenCms senza XML scritto a mano | fatto |
 | 4 | Verifica in OpenCms | Script che crea una pagina di prova in OpenCms, la fotografa con Playwright e la confronta con la story | differenza entro la tolleranza | fatto |
-| 5 | Nuovo componente da Figma | Card (immagine, titolo, testo, Button annidato) disegnata in Figma e portata per tutta la pipeline | Card in OpenCms uguale alla story | da fare |
+| 5 | Nuovo componente da Figma | Card (immagine, titolo, testo, Button annidato) disegnata in Figma e portata per tutta la pipeline | Card in OpenCms uguale alla story | fatto |
 
 ## Decisioni
 
@@ -58,3 +58,12 @@ Stato: `fatto` / `in corso` / `da fare`.
 - Risultato finale: Button Primary 0,48%, Secondary 0,00%, Login 1,36% (solo resa del testo), misure uguali.
 - Ostacoli trovati e risolti (in `PROBLEMI.md`): due aggiornamenti completi contemporanei (con `dev.py` attivo `--deploy` ora si rifiuta), `plugins/prova.xml` rimasto online, la shell come seconda istanza di OpenCms (serve un riavvio), WebDAV dopo il riavvio, posizioni frazionarie degli elementi nel confronto.
 - La pagina `/fx-test/` resta pubblicata nel sito demo locale; ogni esecuzione la ricrea.
+
+### Fase 5 (fatta il 2026-10-22)
+
+- Card (`44:10`) creata in Figma con le variabili esistenti (`surface/*`, `border/default`, `text/*`, `space/*`, `radius/lg`) e il Button Primary come istanza esposta; dati salvati in `figma/` (metadata, design context, screenshot, voce del manifest con `position` per l'ombra). Chiamate Figma: sessione, lettura, creazione, design context, metadata, screenshot.
+- Storybook: `src/components/card/` (template, css, story Default / Senza immagine / Senza bottone). Confronto con Figma: 1,09%.
+- Nuovo tipo di campo `image` (`OpenCmsVfsFile` con `ImageGalleryWidget`); il bottone annidato in OpenCms è fatto di due campi della card (testo e link).
+- Export: JSP, schema, formatter, etichette e configurazione generati; `dev.py` ha fatto da solo l'aggiornamento completo (1.0.7, `fx-card` id 20003). Nessun XML scritto a mano.
+- Verifica in OpenCms: Card 0,00% con immagine vera caricata nella pagina di prova (SVG 684×384); test JSP = template 25 casi.
+- Corretto lungo la strada: il test JSP ora prova anche i rami con link e immagini senza default; il ritaglio dello screenshot tiene conto dello scostamento dell'ombra (16/12/20 px).

@@ -6,7 +6,7 @@
  * - out: cosa scrive il JSP (testo con espressioni EL);
  * - test: condizioni EL (in AND) per cui il valore è presente; [] = sempre presente (campo obbligatorio).
  * Un valore semplice (stringa, booleano) al posto di un collegamento è una costante.
- * I campi (`field`, `link`) diventano elementi dello schema .xsd, le impostazioni (`setting`, `settingIs`) del .formatter;
+ * I campi (`field`, `link`, `image`) diventano elementi dello schema .xsd, le impostazioni (`setting`, `settingIs`) del .formatter;
  * `label` è l'etichetta mostrata nell'editor di OpenCms.
  */
 
@@ -17,6 +17,10 @@ export const field = (name, { optional = false, requires = [], label = name } = 
 /** Campo link del contenuto (OpenCmsVarLink). */
 export const link = (name, { optional = false, label = name } = {}) =>
   ({ kind: 'link', name, label, optional, out: `\${value.${name}.toLink}`, test: optional ? [`value.${name}.isSet`] : [] });
+
+/** Campo immagine del contenuto: un file del VFS (OpenCmsVfsFile) scelto con la galleria immagini; il JSP ne scrive il link. */
+export const image = (name, { optional = false, label = name } = {}) =>
+  ({ kind: 'image', name, label, optional, out: `\${value.${name}.toLink}`, test: optional ? [`value.${name}.isSet`] : [] });
 
 /**
  * Impostazione dell'elemento: una scelta tra `options` ({ valore: etichetta }); valori non ammessi diventano `default`.

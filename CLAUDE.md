@@ -11,6 +11,7 @@
 | Login – Mobile | frame | `1:27` | 390×844, schermata principale |
 | Button | component set | `1:22` | varianti Primary (`1:18`), Secondary (`1:20`) |
 | Input | component | `1:23` | 326×72 |
+| Card | component | `44:10` | 342×368, immagine + titolo + testo + Button Primary annidato (istanza esposta) |
 
 ### Token
 
@@ -30,7 +31,7 @@ Altezza di riga dei testi: `var(--font-line-height)`, non `line-height: normal` 
 ## OpenCms
 
 - Template: **Mercury**. Modulo: `opencms/it.progetti.figma/` (vedi il suo README).
-- Componenti Figma → OpenCms: Button → content type `fx-cta-button`, Input → include `elements/fx-input.jsp`, Login → content type `fx-login`.
+- Componenti Figma → OpenCms: Button → content type `fx-cta-button`, Input → include `elements/fx-input.jsp`, Login → content type `fx-login`, Card → content type `fx-card`.
 - Classi CSS con prefisso `fx-`, mobile first.
 - Avvio locale: `start.ps1` (Docker + container + login + `dev.py`). Un CSS nuovo in `resources/css/` viene registrato da solo da `dev.py`.
 - **Registro problemi:** a inizio lavoro leggi `PROBLEMI.md`; quando incontri o risolvi un problema, aggiornalo. L'output completo degli errori di `dev.py` è in `dev.log`.

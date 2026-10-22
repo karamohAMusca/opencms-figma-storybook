@@ -15,6 +15,17 @@
       <DetailPagesDisabled>true</DetailPagesDisabled>
     </ResourceType>
     <ResourceType>
+      <TypeName><![CDATA[fx-card]]></TypeName>
+      <Disabled><![CDATA[false]]></Disabled>
+      <Folder>
+        <Name><![CDATA[fx-card]]></Name>
+      </Folder>
+      <NamePattern><![CDATA[fx-card_%(number).xml]]></NamePattern>
+      <Order><![CDATA[9020]]></Order>
+      <ElementView/>
+      <DetailPagesDisabled>true</DetailPagesDisabled>
+    </ResourceType>
+    <ResourceType>
       <TypeName><![CDATA[fx-login]]></TypeName>
       <Disabled><![CDATA[false]]></Disabled>
       <Folder>
@@ -29,6 +40,11 @@
       <AddFormatter>
         <link type="WEAK">
           <target><![CDATA[/system/modules/it.progetti.figma/formatters/fx-cta-button.formatter]]></target>
+        </link>
+      </AddFormatter>
+      <AddFormatter>
+        <link type="WEAK">
+          <target><![CDATA[/system/modules/it.progetti.figma/formatters/fx-card.formatter]]></target>
         </link>
       </AddFormatter>
       <AddFormatter>

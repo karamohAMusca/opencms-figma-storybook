@@ -24,7 +24,7 @@ function context(def, props) {
   for (const [name, b] of Object.entries(def.bind).filter(([, b]) => isBinding(b))) {
     const v = props[name];
     if (b.kind === 'field') Object.assign(wrap(b.name), { text: v ?? '', isSet: !!v });
-    if (b.kind === 'link') Object.assign(wrap(b.name), { toLink: v ?? '', isSet: !!v });
+    if (b.kind === 'link' || b.kind === 'image') Object.assign(wrap(b.name), { toLink: v ?? '', isSet: !!v });
     if (b.kind === 'setting') settings[b.name] = v;
     if (b.kind === 'settingIs') settings[b.name] = v ? b.on : '';
     if (b.kind === 'param') param[b.name] = v == null || v === false ? '' : String(v);
@@ -42,9 +42,11 @@ function cases(def) {
   const base = {};
   for (const [name, p] of Object.entries(def.component.props)) {
     const b = def.bind[name];
-    // Valori calcolati (id) e campi obbligatori in OpenCms senza default nel template (es. il link del Button): valore di prova.
+    // Valore di prova per i valori calcolati (id), per i campi obbligatori in OpenCms senza default nel template
+    // (es. il link del Button) e per link e immagini senza default (es. l'immagine della Card), così il loro ramo si prova.
     const required = isBinding(b) && !b.test.length && b.kind !== 'raw' && b.kind !== 'setting';
-    base[name] = typeof p.default === 'function' || (required && p.default == null) ? `test-${name}` : p.default;
+    const fileOrLink = isBinding(b) && ['link', 'image'].includes(b.kind);
+    base[name] = typeof p.default === 'function' || ((required || fileOrLink) && !p.default) ? `test-${name}` : p.default;
   }
   const list = [{ label: 'default', props: base }];
   for (const [name, b] of Object.entries(def.bind).filter(([, b]) => isBinding(b))) {
@@ -52,7 +54,7 @@ function cases(def) {
     // Scelte: ogni opzione, più un valore non ammesso (impostazione vuota in OpenCms): deve valere il default.
     if (p.options) for (const o of [...p.options, '']) list.push({ label: `${name}=${o || '(vuoto)'}`, props: { ...base, [name]: o } });
     else if (typeof p.default === 'boolean') list.push({ label: `${name}=${!p.default}`, props: { ...base, [name]: !p.default } });
-    else if (['field', 'param'].includes(b.kind) && b.test.length) list.push({ label: `${name} vuoto`, props: { ...base, [name]: '' } });
+    else if (['field', 'param', 'image'].includes(b.kind) && b.test.length) list.push({ label: `${name} vuoto`, props: { ...base, [name]: '' } });
   }
   return list;
 }

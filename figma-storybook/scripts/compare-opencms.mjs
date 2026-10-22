@@ -27,11 +27,19 @@ const VIEWPORT = { width: 1280, height: 900 };
 const { defs } = await loadOpencms(root);
 const byType = Object.fromEntries(defs.filter((d) => d.type).map((d) => [d.type.name, d]));
 
-/** Casi: un elemento in OpenCms per ognuno, confrontato con `selector` nella story `title › story`. */
+/**
+ * Casi: un elemento in OpenCms per ognuno, confrontato con `selector` nella story `title › story`.
+ * `files`: file caricati con la pagina di prova (un campo immagine con quel nome li usa); `width`: larghezza imposta
+ * all'elemento in entrambe le pagine, per i componenti che prendono la larghezza della colonna.
+ */
 const CASES = [
   { id: 'button-primary', type: 'fx-cta-button', props: { href: '#', variant: 'primary' }, title: 'Componenti/Button', story: 'Primary', selector: '.fx-button' },
   { id: 'button-secondary', type: 'fx-cta-button', props: { href: '#', variant: 'secondary' }, title: 'Componenti/Button', story: 'Secondary', selector: '.fx-button' },
   { id: 'login', type: 'fx-login', props: {}, title: 'Schermate/Login', story: 'Desktop', selector: '.fx-login__inner' },
+  {
+    id: 'card', type: 'fx-card', props: { image: 'card-image.svg' }, title: 'Componenti/Card', story: 'Default', selector: '.fx-card', width: 342,
+    files: [{ from: join(root, 'src', 'components', 'card', 'placeholder.svg'), name: 'card-image.svg', type: 'image' }],
+  },
 ];
 
 /** Contenuto e impostazioni OpenCms che corrispondono alle proprietà del caso (i collegamenti al contrario). */
@@ -41,11 +49,11 @@ function opencmsCase(c) {
   const fields = [];
   const settings = {};
   for (const [name, b] of Object.entries(def.bind)) {
-    if (b?.kind === 'field' || b?.kind === 'link') fields.push([b.name, b.kind, props[name] ?? '']);
+    if (['field', 'link', 'image'].includes(b?.kind)) fields.push([b.name, b.kind, props[name] ?? '']);
     if (b?.kind === 'setting') settings[b.name] = props[name];
     if (b?.kind === 'settingIs') settings[b.name] = props[name] ? b.on : b.default;
   }
-  return { id: c.id, type: c.type, formatterKey: def.formatter.key, fields, settings };
+  return { id: c.id, type: c.type, formatterKey: def.formatter.key, fields, settings, files: c.files ?? [] };
 }
 
 if (!process.argv.includes('--no-page')) {
@@ -84,12 +92,13 @@ const STILL = '*, *::before, *::after { caret-color: transparent !important; tra
 // Banner dei cookie di Mercury: copre la pagina di prova, non fa parte dei componenti.
 const NO_BANNER = '#privacy-policy-banner, .pp-banner { display: none !important; }';
 
-async function shot(url, locate, extraCss = '') {
+async function shot(url, locate, extraCss = '', width = null) {
   const page = await browser.newPage({ viewport: VIEWPORT, deviceScaleFactor: 1 });
   await page.goto(url, { waitUntil: 'networkidle' });
   await page.addStyleTag({ content: STILL + extraCss });
   await page.evaluate(() => document.fonts.ready);
   const el = locate(page);
+  if (width) await el.evaluate((e, w) => { e.style.width = `${w}px`; }, width);
   await el.scrollIntoViewIfNeeded();
   // L'elemento può partire da una coordinata frazionaria (centrato in Storybook, sotto la testata in Mercury): il testo
   // cadrebbe su sottopixel diversi e il confronto conterebbe differenze che nel componente non ci sono. Lo si porta al pixel intero.
@@ -118,8 +127,8 @@ for (const c of CASES) {
   if (!id) { results.push({ ...c, error: `story ${c.title} › ${c.story} non trovata` }); continue; }
   try {
     const n = counters[c.selector] = (counters[c.selector] ?? -1) + 1; // n-esimo elemento con quel selettore nella pagina
-    const story = await shot(`${SB}/iframe.html?id=${id}&viewMode=story`, (p) => p.locator(`#storybook-root ${c.selector}`).first());
-    const cms = await shot(`${CMS}/fx-test/`, (p) => p.locator(c.selector).nth(n), NO_BANNER);
+    const story = await shot(`${SB}/iframe.html?id=${id}&viewMode=story`, (p) => p.locator(`#storybook-root ${c.selector}`).first(), '', c.width);
+    const cms = await shot(`${CMS}/fx-test/`, (p) => p.locator(c.selector).nth(n), NO_BANNER, c.width);
     const w = Math.max(story.png.width, cms.png.width);
     const h = Math.max(story.png.height, cms.png.height);
     const a = pad(story.png, w, h);

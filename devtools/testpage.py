@@ -4,7 +4,9 @@ Uso, dalla radice del repo con OpenCms acceso:
     python -m devtools.testpage casi.json [--deploy]
 
 casi.json (lo scrive figma-storybook/scripts/compare-opencms.mjs) è una lista di
-{ "id", "type", "formatterKey", "fields": [[nome, "field"|"link", valore], ...], "settings": {nome: valore} }.
+{ "id", "type", "formatterKey", "fields": [[nome, "field"|"link"|"image", valore], ...], "settings": {nome: valore},
+  "files": [{ "from": percorso locale, "name": nome nel VFS, "type": tipo OpenCms }] }.
+Un campo "image" con un nome senza percorso punta a uno dei "files", caricato nella cartella della prova.
 --deploy prima carica il modulo com'è nella cartella (aggiornamento completo, ~1 minuto con riavvio).
 
 Si lavora in un progetto "fx-test" creato apposta e cancellato alla fine: la pubblicazione riguarda solo la pagina
@@ -12,7 +14,7 @@ di prova, non le modifiche in sospeso nel progetto Offline. La password passa da
 La shell è una seconda istanza di OpenCms sullo stesso database: alla fine OpenCms si riavvia (~40 secondi) perché
 il server veda la pagina nuova.
 """
-import json, os, re, socket, subprocess, sys, tempfile, urllib.request, uuid
+import json, os, re, shutil, socket, subprocess, sys, tempfile, urllib.request, uuid
 from xml.sax.saxutils import escape
 
 from .config import AUTH, CONTAINER, DOCKER_ENV, PASSWORD, SERVER, USER
@@ -41,6 +43,11 @@ def content_xml(case):
             continue
         if kind == "link":
             lines.append(f'    <{name}>\n      <link type="A" internal="false">\n        <target>{cdata(value)}</target>\n'
+                         f"      </link>\n    </{name}>")
+        elif kind == "image":
+            # Un nome senza percorso è un file caricato con la prova (vedi "files" nei casi)
+            path = value if value.startswith("/") else f"{SITE}{FOLDER}/{value}"
+            lines.append(f'    <{name}>\n      <link type="WEAK">\n        <target>{cdata(path)}</target>\n'
                          f"      </link>\n    </{name}>")
         else:
             lines.append(f"    <{name}>{cdata(value)}</{name}>")
@@ -141,7 +148,10 @@ def run(cases_file, deploy=False):
 
     cases = json.load(open(cases_file, encoding="utf-8"))
     paths = {c["id"]: f"{SITE}{FOLDER}/{c['id']}.xml" for c in cases}
+    files = {f["name"]: f for c in cases for f in c.get("files", [])}  # file da caricare (es. immagini), una volta sola
     with tempfile.TemporaryDirectory() as tmp:
+        for f in files.values():
+            shutil.copy(f["from"], os.path.join(tmp, f["name"]))
         for c in cases:
             with open(os.path.join(tmp, c["id"] + ".xml"), "w", encoding="utf-8", newline="\n") as f:
                 f.write(content_xml(c))
@@ -154,7 +164,8 @@ def run(cases_file, deploy=False):
     # 1) via la pagina della prova precedente e pubblicazione della cancellazione (alla prima prova non c'è: errori ignorati)
     shell(in_project([f'lockResource "{SITE}{FOLDER}/"', f'deleteResource "{SITE}{FOLDER}/"']))
     # 2) contenuti e pagina nuovi
-    uploads = [f'uploadFile "{REMOTE_DIR}/{c["id"]}.xml" "{SITE}{FOLDER}/" "{c["id"]}.xml" "{c["type"]}"' for c in cases]
+    uploads = [f'uploadFile "{REMOTE_DIR}/{n}" "{SITE}{FOLDER}/" "{n}" "{f["type"]}"' for n, f in files.items()]
+    uploads += [f'uploadFile "{REMOTE_DIR}/{c["id"]}.xml" "{SITE}{FOLDER}/" "{c["id"]}.xml" "{c["type"]}"' for c in cases]
     uploads.append(f'uploadFile "{REMOTE_DIR}/index.html" "{SITE}{FOLDER}/" "index.html" "containerpage"')
     out = shell(in_project([f'createFolder "{SITE}" "{FOLDER}"', *uploads]))
     subprocess.run(["docker", "exec", CONTAINER, "rm", "-rf", REMOTE_DIR], env=DOCKER_ENV)

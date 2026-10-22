@@ -8,6 +8,7 @@ ricavati **solo dal Figma**, in HTML + CSS + JS senza framework, con Storybook.
 | Variabili | `src/tokens.css` (generato da `figma/tokens.json`) | Fondamenta/Token |
 | Button (1:22) | `src/components/button/` | Componenti/Button |
 | Input (1:23) | `src/components/input/` | Componenti/Input |
+| Card (44:10) | `src/components/card/` | Componenti/Card |
 | Login – Mobile (1:27) | `src/screens/login/` | Schermate/Login |
 
 ## Export verso OpenCms
@@ -33,7 +34,7 @@ Ogni componente ha quattro file:
 |---|---|
 | `*.template.js` | markup e proprietà, scritti con i nodi di `src/template.js` (`h`, `prop`, `when`, `choose`, `use`, `cls`, `mod`, `concat`, `opt`): niente funzioni, perché ogni nodo deve avere un equivalente JSP |
 | `*.js` | il componente per Storybook: CSS e `render(template, props)` |
-| `*.opencms.js` | content type (`type`: nome, etichette, cartella, campo titolo), formatter o elemento, e da dove prende i valori il JSP: campi del contenuto (`field`, `link`, con etichetta e obbligatorietà), impostazioni (`setting`, `settingIs`, con opzioni), parametri di un elemento incluso (`param`), testo JSP (`raw`), costanti. Helper in `src/opencms.js` |
+| `*.opencms.js` | content type (`type`: nome, etichette, cartella, campo titolo), formatter o elemento, e da dove prende i valori il JSP: campi del contenuto (`field`, `link`, `image`, con etichetta e obbligatorietà), impostazioni (`setting`, `settingIs`, con opzioni), parametri di un elemento incluso (`param`), testo JSP (`raw`), costanti. Helper in `src/opencms.js` |
 | `*.css` | stili |
 
 Un componente usato da un altro (`use`) diventa `<cms:include>` se ha un proprio elemento JSP (Input), altrimenti viene espanso nel JSP di chi lo usa (Button nel Login).

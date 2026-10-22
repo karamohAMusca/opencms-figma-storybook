@@ -6,6 +6,7 @@ Componenti OpenCms (template Mercury) generati dal file Figma "Esempio Claude ×
 |---|---|---|
 | Button (1:22) | content type `fx-cta-button`, settings `variant` e `width` | `schemas/fx-cta-button.xsd`, `formatters/fx-cta-button.*` |
 | Input (1:23) | include JSP riusabile (non è un contenuto) | `elements/fx-input.jsp` |
+| Card (44:10) | content type `fx-card`: immagine (galleria), titolo, testo, testo e link del bottone | `schemas/fx-card.xsd`, `formatters/fx-card.*` |
 | Login – Mobile (1:27) | content type `fx-login` | `schemas/fx-login.xsd`, `formatters/fx-login.*` |
 
 Quasi tutto il modulo è **generato** da `npm run export:opencms` in `figma-storybook/`, a partire da template e collegamenti dei componenti (`*.template.js`, `*.opencms.js`): JSP (`formatters/*.jsp`, `elements/fx-input.jsp`), schemi (`schemas/*.xsd`), formatter (`formatters/*.formatter`), etichette (`i18n/`), `.config` e `configuration/figma.master.additions.xml` (tranne il blocco `AddPlugins`, che aggiorna `dev.py`). Non modificarli a mano: per vederli e provarli c'è lo Storybook in `figma-storybook/`.
