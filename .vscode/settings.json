@@ -16,6 +16,5 @@
   "files.watcherExclude": {
     "**/node_modules/**": true,
     "**/storybook-static/**": true
-  },
-  "task.allowAutomaticTasks": "on"
+  }
 }

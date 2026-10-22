@@ -30,5 +30,5 @@ Altezza di riga dei testi: `var(--font-line-height)`, non `line-height: normal` 
 - Template: **Mercury**. Modulo: `opencms/it.progetti.figma/` (vedi il suo README).
 - Componenti Figma → OpenCms: Button → content type `fx-cta-button`, Input → include `elements/fx-input.jsp`, Login → content type `fx-login`.
 - Classi CSS con prefisso `fx-`, mobile first.
-- Avvio locale: `start.ps1` / task VS Code "OpenCms: avvia tutto" (Docker + container + login + `dev.py`). Un CSS nuovo in `resources/css/` viene registrato da solo da `dev.py`.
+- Avvio locale: `start.ps1` (Docker + container + login + `dev.py`). Un CSS nuovo in `resources/css/` viene registrato da solo da `dev.py`.
 - **Registro problemi:** a inizio lavoro leggi `PROBLEMI.md`; quando incontri o risolvi un problema, aggiornalo. L'output completo degli errori di `dev.py` è in `dev.log`.

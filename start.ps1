@@ -1,6 +1,6 @@
 # Avvia tutto il necessario per lavorare su OpenCms in locale:
 # Docker Desktop -> container (DB + OpenCms) -> attesa del server -> dev.py (sincronizzazione del modulo).
-# Uso: powershell -ExecutionPolicy Bypass -File start.ps1   (oppure il task VS Code "OpenCms: avvia tutto")
+# Uso: powershell -ExecutionPolicy Bypass -File start.ps1  
 
 $ErrorActionPreference = "Stop"
 $here = Split-Path -Parent $MyInvocation.MyCommand.Path

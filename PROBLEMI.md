@@ -10,7 +10,7 @@ Il log di `dev.py` (con l'output completo degli errori) è in `dev.log`.
 
 ## Risolti
 
-- **2026-10-20 · file cancellato che ricompare in OpenCms** (`prova.css`). Causa: due `dev.py` in esecuzione insieme (vecchia versione del codice) che si contendevano i file e rigeneravano `plugins/prova.xml`. Soluzione: fermati i processi, tolti i file orfani in locale e via WebDAV; `dev.py` ora ammette una sola istanza (porta 47321) e rimuove le voci di configurazione senza plugin. **Regola: avviare solo "OpenCms: avvia tutto" (o `start.ps1`), mai `dev.py` a mano in altri terminali.**
+- **2026-10-20 · file cancellato che ricompare in OpenCms** (`prova.css`). Causa: due `dev.py` in esecuzione insieme (vecchia versione del codice) che si contendevano i file e rigeneravano `plugins/prova.xml`. Soluzione: fermati i processi, tolti i file orfani in locale e via WebDAV; `dev.py` ora ammette una sola istanza (porta 47321) e rimuove le voci di configurazione senza plugin. **Regola: avviare solo `start.ps1`, mai `dev.py` a mano in altri terminali.**
 
 - **2026-10-20 · `start.ps1`: `docker info` bloccava lo script** con Docker spento, per via di `$ErrorActionPreference = "Stop"` e dello stderr di docker. Soluzione: controllo via `cmd /c "docker info >nul 2>&1"`.
 - **2026-10-20 · pagina login non carica subito dopo l'avvio.** Al primo avvio OpenCms installa DB, moduli e demo (CPU alta, minuti); il server risponde ma lentamente. Soluzione: attendere; ricaricare.
