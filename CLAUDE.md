@@ -20,7 +20,7 @@ Quando cambiano in Figma si aggiorna il JSON e si rilancia lo script: i `tokens.
 
 ### Pipeline Figma → Storybook → OpenCms
 
-Piano e stato delle fasi: `PIANO.md`. Storybook (`figma-storybook/`) è la fonte dei componenti: `npm run export:opencms` genera i file del modulo (oggi `resources/css/components.css`), `-- --check` verifica che siano allineati. I file generati non si modificano a mano. Le classi sono `fx-` anche in Storybook.
+Piano e stato delle fasi: `PIANO.md`. Storybook (`figma-storybook/`) è la fonte dei componenti: `npm run export:opencms` genera i file del modulo (`resources/css/components.css` e i JSP), `-- --check` verifica che siano allineati, `npm run test:opencms` che i JSP producano lo stesso HTML dei template. I file generati non si modificano a mano. Le classi sono `fx-` anche in Storybook. Il markup sta nei `*.template.js` (solo nodi di `figma-storybook/src/template.js`), i collegamenti a OpenCms nei `*.opencms.js`.
 
 Uscita: `figma-storybook/`. Inventario della pagina in `figma-storybook/figma/` (`metadata.xml` grezzo, `manifest.json` con componenti, varianti e node-id).
 Il piano Figma è Starter: limitare le chiamate MCP e riusare i file salvati.

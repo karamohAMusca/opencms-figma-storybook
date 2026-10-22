@@ -19,7 +19,22 @@ npm run export:opencms             # genera i file del modulo
 npm run export:opencms -- --check  # esce con 1 se il modulo non è allineato
 ```
 
-Oggi genera `resources/css/components.css`: i CSS dei componenti e delle schermate, nell'ordine di `figma/manifest.json`.
+Genera:
+
+- `resources/css/components.css`: i CSS dei componenti e delle schermate, nell'ordine di `figma/manifest.json`;
+- i JSP: `formatters/fx-cta-button.jsp`, `elements/fx-input.jsp`, `formatters/fx-login.jsp`.
+
+Ogni componente ha quattro file:
+
+| File | Contenuto |
+|---|---|
+| `*.template.js` | markup e proprietà, scritti con i nodi di `src/template.js` (`h`, `prop`, `when`, `choose`, `use`, `cls`, `mod`, `concat`, `opt`): niente funzioni, perché ogni nodo deve avere un equivalente JSP |
+| `*.js` | il componente per Storybook: CSS e `render(template, props)` |
+| `*.opencms.js` | da dove prende i valori il JSP: campi del contenuto (`field`, `link`), impostazioni (`setting`, `settingIs`), parametri di un elemento incluso (`param`), testo JSP (`raw`), costanti. Helper in `src/opencms.js` |
+| `*.css` | stili |
+
+Un componente usato da un altro (`use`) diventa `<cms:include>` se ha un proprio elemento JSP (Input), altrimenti viene espanso nel JSP di chi lo usa (Button nel Login).
+`npm run test:opencms` esegue i JSP generati con un interprete minimo (`scripts/opencms/jsp-sim.mjs`) e confronta l'HTML con quello del template, per i default e per ogni opzione, sì/no e testo facoltativo vuoto: controlla la traduzione, non sostituisce la prova in OpenCms.
 Le regole che servono solo dentro Mercury (colori ripetuti su `:hover`/`:focus` dei link, niente ombra sui campi, font dei titoli) stanno
 nel CSS dei componenti, commentate. Classi con prefisso `fx-`. Con `dev.py` in ascolto, i file generati arrivano in OpenCms da soli.
 

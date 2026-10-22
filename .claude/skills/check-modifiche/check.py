@@ -128,6 +128,11 @@ def check_export():
         add("OK", "export OpenCms", "file del modulo allineati a Storybook")
     else:
         add("FAIL", "export OpenCms", "modulo non allineato: lancia npm run export:opencms in figma-storybook")
+    test = ROOT / "figma-storybook" / "scripts" / "test-opencms.mjs"
+    if test.exists():
+        r = run([node, str(test)])
+        last = (r.stdout.strip() or r.stderr.strip()).splitlines()[-1:] or [""]
+        add("OK" if r.returncode == 0 else "FAIL", "JSP = template", last[0][:200])
 
 
 def check_python(files):

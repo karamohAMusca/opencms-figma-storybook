@@ -15,7 +15,7 @@ Stato: `fatto` / `in corso` / `da fare`.
 | # | Fase | Cosa | Verifica | Stato |
 |---|---|---|---|---|
 | 1 | CSS unico | Prefisso `fx-` anche in Storybook; le regole contro gli stili di Mercury entrano nel CSS dei componenti; `npm run export:opencms` genera `resources/css/components.css` | `npm run visual` entro il 2%; `export:opencms -- --check` | fatto |
-| 2 | Markup unico | Button, Input, Login con template dichiarativo (campi, condizioni, inclusione di componenti): Storybook lo disegna, l'esportatore lo traduce in JSP | stesso HTML in Storybook e nei JSP generati | da fare |
+| 2 | Markup unico | Button, Input, Login con template dichiarativo (campi, condizioni, inclusione di componenti): Storybook lo disegna, l'esportatore lo traduce in JSP | stesso HTML in Storybook e nei JSP generati | fatto |
 | 3 | Descrittore OpenCms | Ogni componente dichiara content type, campi con tipo OpenCms e impostazioni (default e varianti dal manifest Figma); l'esportatore genera `.xsd`, `.formatter` ed etichette. Si eliminano `storybook/` e `preview.html` | un componente nuovo arriva in OpenCms senza XML scritto a mano | da fare |
 | 4 | Verifica in OpenCms | Script che crea una pagina di prova in OpenCms, la fotografa con Playwright e la confronta con la story | differenza entro la tolleranza | da fare |
 | 5 | Nuovo componente da Figma | Card (immagine, titolo, testo, Button annidato) disegnata in Figma e portata per tutta la pipeline | Card in OpenCms uguale alla story | da fare |
@@ -33,3 +33,11 @@ Stato: `fatto` / `in corso` / `da fare`.
 - Effetti in OpenCms rispetto al CSS scritto a mano: altezza di riga come Figma (via il difetto da 1px), colonna del Login 400px invece di 420px, link del Login con focus visibile.
 - Confronto visivo dopo il cambio: Button Primary 1,90%, Secondary 0,72%, Input 1,30%, Login 0,66%.
 - La schermata Login prende tutta l'altezza della finestra (`min-height: 100dvh`) come il frame Figma: vale anche in OpenCms.
+
+### Fase 2 (fatta il 2026-10-22)
+
+- Markup in `*.template.js` (nodi di `src/template.js`), collegamenti a OpenCms in `*.opencms.js`; `scripts/opencms/jsp.mjs` traduce in JSP, l'export scrive `formatters/fx-cta-button.jsp`, `elements/fx-input.jsp`, `formatters/fx-login.jsp`.
+- `npm run test:opencms`: 20 casi, JSP eseguiti con un interprete minimo e confrontati con l'HTML del template. Provato che fallisce con un default di variante sbagliato e con uno spazio mancante nelle classi.
+- Confronto visivo invariato (stesse percentuali della fase 1): il nuovo motore disegna lo stesso markup.
+- Cambi in OpenCms rispetto ai JSP scritti a mano: radice del Login `<section class="fx-login">` (prima `<div class="fx-element fx-login">`); `name` dell'Input omesso se vuoto.
+- Da sapere: `storybook/stories/markup.js` ora non coincide più con il Login generato; si elimina nella fase 3. I JSP generati non sono ancora stati provati in OpenCms: lo fa la fase 4.
