@@ -18,11 +18,13 @@ Fonte unica: `figma-storybook/figma/tokens.json` (`variables` = output di `get_v
 `python sync_tokens.py` genera `tokens.css` con gli stessi nomi (`brand/primary` → `--brand-primary`) in `figma-storybook/src/` e `it.progetti.figma/resources/css/`.
 Quando cambiano in Figma si aggiorna il JSON e si rilancia lo script: i `tokens.css` sono generati, non vanno modificati a mano.
 
-### Pipeline Figma → Storybook
+### Pipeline Figma → Storybook → OpenCms
+
+Piano e stato delle fasi: `PIANO.md`. Storybook (`figma-storybook/`) è la fonte dei componenti: `npm run export:opencms` genera i file del modulo (oggi `resources/css/components.css`), `-- --check` verifica che siano allineati. I file generati non si modificano a mano. Le classi sono `fx-` anche in Storybook.
 
 Uscita: `figma-storybook/`. Inventario della pagina in `figma-storybook/figma/` (`metadata.xml` grezzo, `manifest.json` con componenti, varianti e node-id).
 Il piano Figma è Starter: limitare le chiamate MCP e riusare i file salvati.
-Verifiche in `figma-storybook/`: `npm run check:figma` (story ↔ manifest) e, con Storybook acceso, `npm run visual` (story ↔ screenshot Figma, tolleranza 2%).
+Verifiche in `figma-storybook/`: `npm run check:figma` (story ↔ manifest) e, con Storybook acceso, `npm run visual` (story ↔ screenshot Figma, tolleranza 2%; al primo uso `npx playwright install chromium`).
 Altezza di riga dei testi: `var(--font-line-height)`, non `line-height: normal` (in Chromium su Windows dà 1px in più rispetto a Figma).
 
 ## OpenCms

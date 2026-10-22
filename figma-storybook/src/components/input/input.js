@@ -12,12 +12,12 @@ export function Input({
   placeholder = 'nome@esempio.it',
   type = 'text',
   name,
-  id = `ui-input-${++count}`,
+  id = `fx-input-${++count}`,
   autocomplete,
   required = false,
 } = {}) {
-  return el('div', { class: 'ui-input' },
-    el('label', { class: 'ui-input__label', for: id }, label),
-    el('input', { class: 'ui-input__field', id, name, type, placeholder, autocomplete, required }),
+  return el('div', { class: 'fx-input' },
+    el('label', { class: 'fx-input__label', for: id }, label),
+    el('input', { class: 'fx-input__field', id, name, type, placeholder, autocomplete, required }),
   );
 }

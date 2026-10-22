@@ -6,7 +6,8 @@
     "storybook": "storybook dev -p 6007",
     "build-storybook": "storybook build",
     "check:figma": "node scripts/check-figma.mjs",
-    "visual": "node scripts/visual-compare.mjs"
+    "visual": "node scripts/visual-compare.mjs",
+    "export:opencms": "node scripts/export-opencms.mjs"
   },
   "devDependencies": {
     "@storybook/addon-designs": "^11.1.4",

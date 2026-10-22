@@ -22,6 +22,7 @@ Solo libreria standard, non stampa mai i valori di `.env`. Stampa una riga per c
 | file da non versionare | niente `dist/`, `dev.log`, `module-version.txt`, `.env`, `CLAUDE.local.md`, `node_modules`, `__pycache__`, zip tra i file tracciati |
 | segreti | token noti (GitHub, Figma, chiavi API, chiavi private), valori di `OPENCMS_PASSWORD`, `DB_PASSWORD`, `FIGMA_FILE_KEY` assenti da file e cronologia; percorsi con nome utente (WARN) |
 | token generati | `python sync_tokens.py --check`: i `tokens.css` sono allineati a `tokens.json` |
+| export OpenCms | `export-opencms.mjs --check`: i file del modulo generati da Storybook (oggi `components.css`) sono allineati ai sorgenti |
 | sintassi | Python (tutti i `.py` tracciati) e PowerShell (`start.ps1`, con avviso per caratteri non ASCII: PowerShell 5.1 legge UTF-8 senza BOM come ANSI) |
 | docker compose | `docker compose config -q` con il `.env` locale |
 | build del modulo | `build_module.py` in una cartella temporanea (non tocca `dist/`) e `module-types.json` invariato: gli id dei content type devono restare stabili |

@@ -8,7 +8,7 @@ Componenti OpenCms (template Mercury) generati dal file Figma "Esempio Claude ×
 | Input (1:23) | include JSP riusabile (non è un contenuto) | `elements/fx-input.jsp` |
 | Login – Mobile (1:27) | content type `fx-login` | `schemas/fx-login.xsd`, `formatters/fx-login.*` |
 
-CSS: `resources/css/tokens.css` (variabili Figma, **generato** da `python sync_tokens.py` a partire da `figma-storybook/figma/tokens.json`: non modificarlo a mano) e `resources/css/components.css` (classi `fx-`),
+CSS: `resources/css/tokens.css` (variabili Figma, **generato** da `python sync_tokens.py` a partire da `figma-storybook/figma/tokens.json`: non modificarlo a mano) e `resources/css/components.css` (classi `fx-`, **generato** da `npm run export:opencms` in `figma-storybook/` unendo i CSS dei componenti di Storybook: non modificarlo a mano),
 caricati su tutte le pagine come plugin Mercury del gruppo `css` (`plugins/*.xml`, registrati in `configuration/figma.master.additions.xml`).
 `preview.html` mostra lo stesso markup senza OpenCms.
 

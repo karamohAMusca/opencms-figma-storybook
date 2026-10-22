@@ -10,6 +10,19 @@ ricavati **solo dal Figma**, in HTML + CSS + JS senza framework, con Storybook.
 | Input (1:23) | `src/components/input/` | Componenti/Input |
 | Login – Mobile (1:27) | `src/screens/login/` | Schermate/Login |
 
+## Export verso OpenCms
+
+Questo Storybook è la fonte dei componenti del modulo OpenCms `it.progetti.figma` (piano in `PIANO.md` nella radice).
+
+```
+npm run export:opencms             # genera i file del modulo
+npm run export:opencms -- --check  # esce con 1 se il modulo non è allineato
+```
+
+Oggi genera `resources/css/components.css`: i CSS dei componenti e delle schermate, nell'ordine di `figma/manifest.json`.
+Le regole che servono solo dentro Mercury (colori ripetuti su `:hover`/`:focus` dei link, niente ombra sui campi, font dei titoli) stanno
+nel CSS dei componenti, commentate. Classi con prefisso `fx-`. Con `dev.py` in ascolto, i file generati arrivano in OpenCms da soli.
+
 ## Dati Figma (`figma/`)
 
 | File | Contenuto | Come si aggiorna |

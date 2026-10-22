@@ -117,6 +117,19 @@ def check_tokens():
         add("FAIL", "token generati", "tokens.css non allineati: lancia python sync_tokens.py")
 
 
+def check_export():
+    """I file del modulo generati da Storybook (export:opencms) devono essere allineati ai sorgenti."""
+    script = ROOT / "figma-storybook" / "scripts" / "export-opencms.mjs"
+    node = shutil.which("node")
+    if not script.exists() or not node:
+        return
+    r = run([node, str(script), "--check"])
+    if r.returncode == 0:
+        add("OK", "export OpenCms", "file del modulo allineati a Storybook")
+    else:
+        add("FAIL", "export OpenCms", "modulo non allineato: lancia npm run export:opencms in figma-storybook")
+
+
 def check_python(files):
     errors = []
     py = [f for f in files if f.endswith(".py")]
@@ -206,6 +219,7 @@ def main():
     check_git(files)
     check_secrets(files)
     check_tokens()
+    check_export()
     check_python(files)
     check_powershell(files)
     check_compose()

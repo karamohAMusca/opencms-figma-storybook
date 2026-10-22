@@ -7,9 +7,9 @@ import './button.css';
  */
 export function Button({ label = 'Accedi', variant = 'primary', fullWidth = false, href, type = 'button', onClick } = {}) {
   const className = [
-    'ui-button',
-    `ui-button--${variant === 'secondary' ? 'secondary' : 'primary'}`,
-    fullWidth && 'ui-button--full',
+    'fx-button',
+    `fx-button--${variant === 'secondary' ? 'secondary' : 'primary'}`,
+    fullWidth && 'fx-button--full',
   ].filter(Boolean).join(' ');
 
   return href
