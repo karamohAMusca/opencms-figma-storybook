@@ -33,7 +33,7 @@ Creare una pipeline efficace di **Figma → Storybook → OpenCms**, in cui:
 | [sync_tokens.py](sync_tokens.py) | Genera i `tokens.css` (Storybook e modulo) da `figma-storybook/figma/tokens.json` |
 | [dev.py](dev.py), [devtools/](devtools/) | Sincronizza il modulo con l'OpenCms locale mentre lavori |
 | [build_module.py](build_module.py) | Crea lo zip importabile del modulo |
-| [docker/](docker/), [start.ps1](start.ps1), [start.bat](start.bat) | OpenCms 22 e MariaDB in locale con Docker |
+| [docker/](docker/), [start.ps1](start.ps1) | OpenCms 22 e MariaDB in locale con Docker |
 
 ## Come funziona
 
@@ -47,7 +47,7 @@ Creare una pipeline efficace di **Figma → Storybook → OpenCms**, in cui:
 - Docker Desktop
 - Python 3 (provato con 3.12), senza librerie esterne: [requirements.txt](requirements.txt) è vuoto di proposito
 - Node.js (per Storybook)
-- Windows per gli script di avvio `start.ps1` / `start.bat`; il resto è portabile
+- Windows (PowerShell) per lo script di avvio `start.ps1`; il resto è portabile
 
 ## Avvio rapido
 
@@ -59,11 +59,12 @@ Da una macchina nuova, in questo ordine:
    copy .env.example .env
    ```
    Compila `DB_PASSWORD` (a piacere al primo avvio, poi deve restare uguale: il volume Docker la conserva) e `OPENCMS_PASSWORD`. Su un'installazione nuova quest'ultima è la password predefinita di Admin dell'immagine [alkacon/opencms-docker](https://hub.docker.com/r/alkacon/opencms-docker); se la cambi in OpenCms, aggiorna anche `.env`.
-3. Avvia tutto:
+3. Avvia tutto, da PowerShell nella cartella della repo:
    ```
-   start.bat
+   powershell -ExecutionPolicy Bypass -File start.ps1
    ```
-   Avvia Docker Desktop se è spento, crea i container, aspetta OpenCms, apre il login e lancia `dev.py`. Il primo avvio installa database, moduli e demo (qualche minuto, anche più di 10 con CPU alta); `dev.py` poi installa da solo il modulo `it.progetti.figma` (build, import, riavvio, circa un minuto).
+   (Con la policy predefinita di Windows `.\start.ps1` da solo può essere bloccato; in VS Code c'è anche il task "OpenCms: avvia tutto", che fa la stessa cosa.)
+   Avvia Docker Desktop se è spento, crea i container, aspetta OpenCms, apre il login e lancia `dev.py`. Il primo avvio installa database, moduli e demo (qualche minuto, anche più di 10 con CPU alta: lo script aspetta al massimo 10 minuti, se scade rilancialo, l'installazione prosegue nel container); `dev.py` poi installa da solo il modulo `it.progetti.figma` (build, import, riavvio, circa un minuto).
 4. OpenCms risponde su http://localhost:8080/system/login. `dev.py` resta in ascolto: ogni file che salvi nel modulo viene inviato a OpenCms. Non lanciarlo a mano in altri terminali, ne ammette una sola istanza.
 
 Se `dev.py` mostra "OpenCms non risponde...", attende e riprova da solo: non serve riavviarlo.
