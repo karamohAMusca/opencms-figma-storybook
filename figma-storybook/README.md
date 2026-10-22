@@ -41,6 +41,19 @@ Un componente usato da un altro (`use`) diventa `<cms:include>` se ha un proprio
 Le regole che servono solo dentro Mercury (colori ripetuti su `:hover`/`:focus` dei link, niente ombra sui campi, font dei titoli) stanno
 nel CSS dei componenti, commentate. Classi con prefisso `fx-`. Con `dev.py` in ascolto, i file generati arrivano in OpenCms da soli.
 
+### Confronto con OpenCms
+
+```
+npm run compare:opencms               # ricrea la pagina di prova e confronta
+npm run compare:opencms -- --deploy   # prima carica il modulo (aggiornamento completo; solo con dev.py spento)
+npm run compare:opencms -- --no-page  # solo il confronto, sulla pagina già pubblicata
+```
+
+Con OpenCms e Storybook accesi, crea in OpenCms la pagina `/fx-test/` (`devtools/testpage.py`): una pagina Mercury vera, con un elemento per ogni caso
+di `scripts/compare-opencms.mjs` (contenuti e impostazioni ricavati dai `*.opencms.js`). La prepara in un progetto OpenCms temporaneo, pubblica solo quello e
+riavvia OpenCms (la shell è un'altra istanza di OpenCms: il server vede i cambi solo dopo il riavvio). Poi fotografa ogni elemento lì e nella sua story,
+allineati al pixel intero, e li confronta (tolleranza 2%, report in `opencms-report/index.html`).
+
 ## Dati Figma (`figma/`)
 
 | File | Contenuto | Come si aggiorna |

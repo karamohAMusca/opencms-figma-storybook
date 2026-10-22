@@ -46,8 +46,7 @@ Si importa da **Launchpad → Modules → Import** oppure con la shell OpenCms (
 
 ## Da sapere
 
-- **Font Inter**: Mercury non lo include. Ospitalo nel modulo (consigliato per il GDPR) e aggiungi un `@font-face`,
-  altrimenti si usa il font di sistema.
+- **Font Inter**: è nel modulo (`resources/fonts/`, sottoinsiemi latin e latin-ext, licenza SIL OFL in `LICENSE-inter.txt`), con i `@font-face` in `resources/css/fonts.css`; tutto generato da `npm run export:opencms` dagli stessi file `@fontsource` di Storybook. Nessuna richiesta a server esterni.
 - **Login**: il form fa una POST all'URL del campo `Action`. L'autenticazione (OpenCms o backend esterno) va collegata lì.
 - **iOS**: i campi hanno font 15px come in Figma. Safari su iPhone zooma sugli input sotto i 16px.
 - **Hover**: in Figma non ci sono stati hover/pressed. Ho aggiunto solo focus visibile e sottolineatura dei link.

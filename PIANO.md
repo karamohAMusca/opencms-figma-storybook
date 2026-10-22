@@ -17,7 +17,7 @@ Stato: `fatto` / `in corso` / `da fare`.
 | 1 | CSS unico | Prefisso `fx-` anche in Storybook; le regole contro gli stili di Mercury entrano nel CSS dei componenti; `npm run export:opencms` genera `resources/css/components.css` | `npm run visual` entro il 2%; `export:opencms -- --check` | fatto |
 | 2 | Markup unico | Button, Input, Login con template dichiarativo (campi, condizioni, inclusione di componenti): Storybook lo disegna, l'esportatore lo traduce in JSP | stesso HTML in Storybook e nei JSP generati | fatto |
 | 3 | Descrittore OpenCms | Ogni componente dichiara content type, campi con tipo OpenCms e impostazioni (default e varianti dal manifest Figma); l'esportatore genera `.xsd`, `.formatter` ed etichette. Si eliminano `storybook/` e `preview.html` | un componente nuovo arriva in OpenCms senza XML scritto a mano | fatto |
-| 4 | Verifica in OpenCms | Script che crea una pagina di prova in OpenCms, la fotografa con Playwright e la confronta con la story | differenza entro la tolleranza | da fare |
+| 4 | Verifica in OpenCms | Script che crea una pagina di prova in OpenCms, la fotografa con Playwright e la confronta con la story | differenza entro la tolleranza | fatto |
 | 5 | Nuovo componente da Figma | Card (immagine, titolo, testo, Button annidato) disegnata in Figma e portata per tutta la pipeline | Card in OpenCms uguale alla story | da fare |
 
 ## Decisioni
@@ -49,3 +49,12 @@ Stato: `fatto` / `in corso` / `da fare`.
 - Eliminati `storybook/` (copia a mano dei JSP, con i suoi `node_modules`) e `preview.html`; `build_module.py` non ha più `preview.html` tra i file esclusi.
 - Nuovo controllo nella skill: XML del modulo ben formati.
 - La prova "componente nuovo senza XML scritto a mano" da capo a fondo è la Card della fase 5; qui è verificato che la generazione riproduce i file esistenti.
+
+### Fase 4 (fatta il 2026-10-22)
+
+- `npm run compare:opencms`: pagina Mercury `/fx-test/` creata da `devtools/testpage.py` (progetto temporaneo, pubblicazione solo di quello, riavvio), foto degli elementi e confronto con le story.
+- Primo risultato sul modulo generato: JSP, schemi e formatter funzionano in OpenCms (varianti dalle impostazioni, include dell'Input, link). Differenza principale: niente Inter in OpenCms.
+- Correzione: l'export porta nel modulo i font di Storybook (`resources/fonts/`, `resources/css/fonts.css`, licenza OFL); `dev.py` ha registrato `plugins/fonts.xml`.
+- Risultato finale: Button Primary 0,48%, Secondary 0,00%, Login 1,36% (solo resa del testo), misure uguali.
+- Ostacoli trovati e risolti (in `PROBLEMI.md`): due aggiornamenti completi contemporanei (con `dev.py` attivo `--deploy` ora si rifiuta), `plugins/prova.xml` rimasto online, la shell come seconda istanza di OpenCms (serve un riavvio), WebDAV dopo il riavvio, posizioni frazionarie degli elementi nel confronto.
+- La pagina `/fx-test/` resta pubblicata nel sito demo locale; ogni esecuzione la ricrea.

@@ -24,7 +24,7 @@ Piano e stato delle fasi: `PIANO.md`. Storybook (`figma-storybook/`) è la fonte
 
 Uscita: `figma-storybook/`. Inventario della pagina in `figma-storybook/figma/` (`metadata.xml` grezzo, `manifest.json` con componenti, varianti e node-id).
 Il piano Figma è Starter: limitare le chiamate MCP e riusare i file salvati.
-Verifiche in `figma-storybook/`: `npm run check:figma` (story ↔ manifest) e, con Storybook acceso, `npm run visual` (story ↔ screenshot Figma, tolleranza 2%; al primo uso `npx playwright install chromium`).
+Verifiche in `figma-storybook/`: `npm run check:figma` (story ↔ manifest) e, con Storybook acceso, `npm run visual` (story ↔ screenshot Figma, tolleranza 2%; al primo uso `npx playwright install chromium`) e, con OpenCms e Storybook accesi, `npm run compare:opencms` (story ↔ elementi nella pagina di prova `/fx-test/` di OpenCms, tolleranza 2%; `-- --deploy` carica prima il modulo, solo con `dev.py` spento).
 Altezza di riga dei testi: `var(--font-line-height)`, non `line-height: normal` (in Chromium su Windows dà 1px in più rispetto a Figma).
 
 ## OpenCms

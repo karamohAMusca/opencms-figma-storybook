@@ -48,6 +48,11 @@
           <target><![CDATA[/system/modules/it.progetti.figma/plugins/components.xml]]></target>
         </link>
       </Plugin>
+      <Plugin>
+        <link type="WEAK">
+          <target><![CDATA[/system/modules/it.progetti.figma/plugins/fonts.xml]]></target>
+        </link>
+      </Plugin>
     </AddPlugins>
   </SitemapMasterConfiguration>
 </SitemapMasterConfigurations>
