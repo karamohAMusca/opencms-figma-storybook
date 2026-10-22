@@ -1,0 +1,43 @@
+/* Figma: Button (1:22) — Primary 1:18, Secondary 1:20 */
+
+.ui-button {
+  box-sizing: border-box;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  margin: 0;
+  padding: 12px var(--space-lg);
+  border: 0;
+  border-radius: var(--radius-md);
+  font-family: var(--font-family);
+  font-size: 15px;
+  font-weight: 600;
+  line-height: var(--font-line-height); /* "normal" di Figma: round(size × 1.21) */
+  text-decoration: none;
+  white-space: nowrap;
+  cursor: pointer;
+}
+
+.ui-button--primary {
+  background: var(--brand-primary);
+  color: var(--text-on-primary);
+}
+
+/* In Figma il bordo conta nel layout: Secondary è alto 44px, Primary 42px */
+.ui-button--secondary {
+  background: var(--surface-card);
+  border: 1px solid var(--border-default);
+  color: var(--text-primary);
+}
+
+/* In Figma il componente è a larghezza automatica; nella card del Login riempie la riga */
+.ui-button--full {
+  display: flex;
+  width: 100%;
+}
+
+/* Non disegnato in Figma: focus visibile per tastiera */
+.ui-button:focus-visible {
+  outline: 2px solid var(--brand-primary);
+  outline-offset: 2px;
+}

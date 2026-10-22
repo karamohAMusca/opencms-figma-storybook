@@ -1,0 +1,19 @@
+# Python
+__pycache__/
+*.pyc
+
+# Node
+node_modules/
+storybook-static/
+visual-report/
+
+# Generati da dev.py / build_module.py (stato locale del container)
+dist/
+dev.log
+module-version.txt
+
+# Log e file locali
+*.log
+.claude/settings.local.json
+.env
+CLAUDE.local.md

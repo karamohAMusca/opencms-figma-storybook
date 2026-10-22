@@ -1,0 +1,37 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<NewFormatters xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="opencms://system/modules/org.opencms.ade.config/schemas/formatters/new_formatter.xsd">
+  <NewFormatter language="en">
+    <NiceName><![CDATA[Figma – Bottone]]></NiceName>
+    <Type><![CDATA[fx-cta-button]]></Type>
+    <Key><![CDATA[fx/cta-button]]></Key>
+    <Jsp>
+      <link type="STRONG">
+        <target><![CDATA[/system/modules/it.progetti.figma/formatters/fx-cta-button.jsp]]></target>
+      </link>
+    </Jsp>
+    <Rank><![CDATA[1000]]></Rank>
+    <Match>
+      <Types>
+        <ContainerType><![CDATA[element]]></ContainerType>
+        <ContainerType><![CDATA[m-element]]></ContainerType>
+      </Types>
+    </Match>
+    <AutoEnabled>true</AutoEnabled>
+    <SearchContent>true</SearchContent>
+    <StrictContainers>false</StrictContainers>
+    <Setting>
+      <PropertyName><![CDATA[variant]]></PropertyName>
+      <DisplayName><![CDATA[Variante]]></DisplayName>
+      <Widget><![CDATA[select]]></Widget>
+      <Default><![CDATA[primary]]></Default>
+      <WidgetConfig><![CDATA[primary:Primary|secondary:Secondary]]></WidgetConfig>
+    </Setting>
+    <Setting>
+      <PropertyName><![CDATA[width]]></PropertyName>
+      <DisplayName><![CDATA[Larghezza]]></DisplayName>
+      <Widget><![CDATA[select]]></Widget>
+      <Default><![CDATA[auto]]></Default>
+      <WidgetConfig><![CDATA[auto:Automatica|full:Tutta la larghezza]]></WidgetConfig>
+    </Setting>
+  </NewFormatter>
+</NewFormatters>

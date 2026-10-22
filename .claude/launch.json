@@ -1,0 +1,11 @@
+{
+  "version": "0.0.1",
+  "configurations": [
+    {
+      "name": "figma-storybook",
+      "runtimeExecutable": "npm",
+      "runtimeArgs": ["--prefix", "figma-storybook", "run", "storybook", "--", "--no-open"],
+      "port": 6007
+    }
+  ]
+}

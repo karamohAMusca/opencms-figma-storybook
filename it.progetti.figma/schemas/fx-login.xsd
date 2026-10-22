@@ -1,0 +1,61 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<xsd:schema xmlns:xsd="http://www.w3.org/2001/XMLSchema" elementFormDefault="qualified">
+
+    <xsd:include schemaLocation="opencms://opencms-xmlcontent.xsd"/>
+
+    <xsd:element name="FxLogins" type="OpenCmsFxLogins"/>
+
+    <xsd:complexType name="OpenCmsFxLogins">
+        <xsd:sequence>
+            <xsd:element name="FxLogin" type="OpenCmsFxLogin" minOccurs="0" maxOccurs="unbounded"/>
+        </xsd:sequence>
+    </xsd:complexType>
+
+    <xsd:complexType name="OpenCmsFxLogin">
+        <xsd:sequence>
+            <xsd:element name="LogoText" type="OpenCmsString" minOccurs="0"/>
+            <xsd:element name="Title" type="OpenCmsString"/>
+            <xsd:element name="Subtitle" type="OpenCmsString" minOccurs="0"/>
+            <xsd:element name="Action" type="OpenCmsVarLink"/>
+            <xsd:element name="EmailLabel" type="OpenCmsString"/>
+            <xsd:element name="EmailPlaceholder" type="OpenCmsString" minOccurs="0"/>
+            <xsd:element name="PasswordLabel" type="OpenCmsString"/>
+            <xsd:element name="PasswordPlaceholder" type="OpenCmsString" minOccurs="0"/>
+            <xsd:element name="ForgotText" type="OpenCmsString" minOccurs="0"/>
+            <xsd:element name="ForgotLink" type="OpenCmsVarLink" minOccurs="0"/>
+            <xsd:element name="SubmitText" type="OpenCmsString"/>
+            <xsd:element name="GoogleText" type="OpenCmsString" minOccurs="0"/>
+            <xsd:element name="GoogleLink" type="OpenCmsVarLink" minOccurs="0"/>
+            <xsd:element name="SignupText" type="OpenCmsString" minOccurs="0"/>
+            <xsd:element name="SignupLinkText" type="OpenCmsString" minOccurs="0"/>
+            <xsd:element name="SignupLink" type="OpenCmsVarLink" minOccurs="0"/>
+        </xsd:sequence>
+        <xsd:attribute name="language" type="OpenCmsLocale" use="required"/>
+    </xsd:complexType>
+
+    <xsd:annotation>
+        <xsd:appinfo>
+            <resourcebundles>
+                <propertybundle name="it.progetti.figma.messages"/>
+            </resourcebundles>
+            <mappings>
+                <mapping element="Title" mapto="property:Title"/>
+            </mappings>
+            <defaults>
+                <default element="LogoText" value="A"/>
+                <default element="Title" value="Bentornato"/>
+                <default element="Subtitle" value="Accedi per continuare sul tuo account"/>
+                <default element="EmailLabel" value="Email"/>
+                <default element="EmailPlaceholder" value="nome@esempio.it"/>
+                <default element="PasswordLabel" value="Password"/>
+                <default element="PasswordPlaceholder" value="••••••••"/>
+                <default element="ForgotText" value="Password dimenticata?"/>
+                <default element="SubmitText" value="Accedi"/>
+                <default element="GoogleText" value="Continua con Google"/>
+                <default element="SignupText" value="Non hai un account?"/>
+                <default element="SignupLinkText" value="Registrati"/>
+            </defaults>
+        </xsd:appinfo>
+    </xsd:annotation>
+
+</xsd:schema>

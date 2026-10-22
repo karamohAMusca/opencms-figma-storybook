@@ -1,0 +1,70 @@
+{
+  "$comment": "Inventario della pagina 🎨 Design. Struttura da metadata.xml (get_metadata 0:1); proprietà, default e descrizioni da design-context/*.tsx (get_design_context); immagini di riferimento 1x in screenshots/. Confronto visivo: ogni variante col suo ritaglio dello screenshot del set (position + size), i nodi senza varianti con la story 'visualStory'.",
+  "file": {
+    "name": "Esempio Claude × Figma",
+    "page": { "id": "0:1", "name": "🎨 Design" },
+    "inventoryDate": "2026-10-16",
+    "designContextDate": "2026-10-16"
+  },
+  "components": [
+    {
+      "name": "Button",
+      "kind": "component_set",
+      "nodeId": "1:22",
+      "size": [266, 94],
+      "description": "Bottone principale. Varianti Primary e Secondary; la proprietà Label imposta il testo.",
+      "variants": [
+        { "name": "Variant=Primary", "nodeId": "1:18", "position": [25, 25], "size": [99, 42], "story": "Primary" },
+        { "name": "Variant=Secondary", "nodeId": "1:20", "position": [140, 25], "size": [101, 44], "story": "Secondary" }
+      ],
+      "properties": {
+        "Variant": { "type": "VARIANT", "options": ["Primary", "Secondary"], "default": "Primary" },
+        "Label": { "type": "TEXT", "default": "Accedi" }
+      },
+      "designContext": "design-context/button-1_22.tsx",
+      "screenshot": "screenshots/button-1_22.png",
+      "code": "src/components/button/",
+      "stories": "Componenti/Button"
+    },
+    {
+      "name": "Input",
+      "kind": "component",
+      "nodeId": "1:23",
+      "size": [326, 72],
+      "description": "Campo di testo con etichetta. Proprietà: Label, Placeholder.",
+      "variants": [],
+      "properties": {
+        "Label": { "type": "TEXT", "default": "Email" },
+        "Placeholder": { "type": "TEXT", "default": "nome@esempio.it" }
+      },
+      "visualStory": "Email",
+      "designContext": "design-context/input-1_23.tsx",
+      "screenshot": "screenshots/input-1_23.png",
+      "code": "src/components/input/",
+      "stories": "Componenti/Input"
+    }
+  ],
+  "screens": [
+    {
+      "name": "Login – Mobile",
+      "nodeId": "1:27",
+      "size": [390, 844],
+      "sections": [
+        { "name": "Header", "nodeId": "1:28", "children": ["1:29 Logo", "1:31 Bentornato", "1:32 Sottotitolo"] },
+        { "name": "Card", "nodeId": "1:33", "children": ["1:34 Input", "1:38 Input", "1:42 Password dimenticata?", "1:43 Button", "1:45 Button"] },
+        { "name": "Footer", "nodeId": "1:47", "children": [] }
+      ],
+      "instances": [
+        { "nodeId": "1:34", "component": "Input", "size": [292, 72], "props": {} },
+        { "nodeId": "1:38", "component": "Input", "size": [292, 72], "props": { "Label": "Password", "Placeholder": "••••••••" } },
+        { "nodeId": "1:43", "component": "Button", "size": [292, 42], "props": { "Variant": "Primary" } },
+        { "nodeId": "1:45", "component": "Button", "size": [292, 44], "props": { "Variant": "Secondary", "Label": "Continua con Google" } }
+      ],
+      "visualStory": "Figma390",
+      "designContext": "design-context/login-1_27.tsx",
+      "screenshot": "screenshots/login-1_27.png",
+      "code": "src/screens/login/",
+      "stories": "Schermate/Login"
+    }
+  ]
+}

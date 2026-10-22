@@ -1,0 +1,26 @@
+label.FxCtaButton.Text=Testo
+label.FxCtaButton.Link=Link
+
+label.FxLogin.LogoText=Testo logo
+label.FxLogin.Title=Titolo
+label.FxLogin.Subtitle=Sottotitolo
+label.FxLogin.Action=URL di invio del form
+label.FxLogin.EmailLabel=Etichetta email
+label.FxLogin.EmailPlaceholder=Placeholder email
+label.FxLogin.PasswordLabel=Etichetta password
+label.FxLogin.PasswordPlaceholder=Placeholder password
+label.FxLogin.ForgotText=Testo "password dimenticata"
+label.FxLogin.ForgotLink=Link "password dimenticata"
+label.FxLogin.SubmitText=Testo bottone di accesso
+label.FxLogin.GoogleText=Testo bottone Google
+label.FxLogin.GoogleLink=Link accesso Google
+label.FxLogin.SignupText=Testo registrazione
+label.FxLogin.SignupLinkText=Testo link registrazione
+label.FxLogin.SignupLink=Link registrazione
+
+type.fx-cta-button.name=Figma - Bottone
+type.fx-cta-button.title=Crea un nuovo bottone
+type.fx-cta-button.description=Bottone Primary o Secondary dal file Figma.
+type.fx-login.name=Figma - Login
+type.fx-login.title=Crea un nuovo login
+type.fx-login.description=Form di login dal file Figma.

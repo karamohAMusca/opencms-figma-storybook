@@ -1,0 +1,38 @@
+# OpenCms locale (immagine ufficiale Alkacon) con template Mercury e sito demo.
+# Avvio: docker compose --env-file ../.env up -d   →   http://localhost:8080/system/login
+# Le password stanno in .env (vedi .env.example), non qui.
+name: opencms
+
+services:
+  mariadb:
+    container_name: opencms-db
+    image: mariadb:11
+    restart: unless-stopped
+    environment:
+      MYSQL_ROOT_PASSWORD: ${DB_PASSWORD:?imposta DB_PASSWORD in .env}
+    volumes:
+      - opencms-db:/var/lib/mysql
+
+  opencms:
+    container_name: opencms
+    image: alkacon/opencms-docker:22.0
+    restart: unless-stopped
+    depends_on:
+      - mariadb
+    links:
+      - "mariadb:mysql"
+    ports:
+      - "8080:8080"
+    stop_grace_period: 90s
+    environment:
+      DB_PASSWD: ${DB_PASSWORD:?imposta DB_PASSWORD in .env}
+      OPENCMS_COMPONENTS: workplace,demo
+      SERVER_URL: http://localhost:8080
+    volumes:
+      - opencms-webapps:/container/webapps
+    command: ["/root/wait-for.sh", "mysql:3306", "-t", "30", "--", "/root/opencms-run.sh"]
+
+# Volumi Docker e non cartelle locali: il progetto è su OneDrive e il database non va sincronizzato.
+volumes:
+  opencms-db:
+  opencms-webapps:

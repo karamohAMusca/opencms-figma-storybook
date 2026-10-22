@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<NewFormatters xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="opencms://system/modules/org.opencms.ade.config/schemas/formatters/new_formatter.xsd">
+  <NewFormatter language="en">
+    <NiceName><![CDATA[Figma – Login]]></NiceName>
+    <Type><![CDATA[fx-login]]></Type>
+    <Key><![CDATA[fx/login]]></Key>
+    <Jsp>
+      <link type="STRONG">
+        <target><![CDATA[/system/modules/it.progetti.figma/formatters/fx-login.jsp]]></target>
+      </link>
+    </Jsp>
+    <Rank><![CDATA[1000]]></Rank>
+    <Match>
+      <Types>
+        <ContainerType><![CDATA[element]]></ContainerType>
+        <ContainerType><![CDATA[m-element]]></ContainerType>
+      </Types>
+    </Match>
+    <AutoEnabled>true</AutoEnabled>
+    <SearchContent>true</SearchContent>
+    <StrictContainers>false</StrictContainers>
+  </NewFormatter>
+</NewFormatters>

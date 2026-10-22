@@ -1,0 +1,25 @@
+<!-- get_metadata(fileKey=<fileKey>, nodeId=0:1), 2026-10-16. Output grezzo, non modificare a mano. -->
+<canvas id="0:1" name="🎨 Design" x="0" y="0" width="0" height="0">
+  <frame id="1:22" name="Button" x="0" y="0" width="266" height="94">
+    <symbol id="1:18" name="Variant=Primary" x="25" y="25" width="99" height="42" />
+    <symbol id="1:20" name="Variant=Secondary" x="140" y="25" width="101" height="44" />
+  </frame>
+  <symbol id="1:23" name="Input" x="326" y="24" width="326" height="72" />
+  <frame id="1:27" name="Login – Mobile" x="0" y="200" width="390" height="844">
+    <frame id="1:28" name="Header" x="24" y="139.5" width="342" height="124">
+      <frame id="1:29" name="Logo" x="143" y="0" width="56" height="56">
+        <text id="1:30" name="A" x="19" y="13.5" width="18" height="29" />
+      </frame>
+      <text id="1:31" name="Bentornato" x="94" y="64" width="154" height="34" />
+      <text id="1:32" name="Accedi per continuare sul tuo account" x="36.5" y="106" width="269" height="18" />
+    </frame>
+    <frame id="1:33" name="Card" x="24" y="295.5" width="342" height="360">
+      <instance id="1:34" name="Input" x="25" y="25" width="292" height="72" />
+      <instance id="1:38" name="Input" x="25" y="113" width="292" height="72" />
+      <text id="1:42" name="Password dimenticata?" x="25" y="201" width="292" height="16" />
+      <instance id="1:43" name="Button" x="25" y="233" width="292" height="42" />
+      <instance id="1:45" name="Button" x="25" y="291" width="292" height="44" />
+    </frame>
+    <text id="1:47" name="Non hai un account? Registrati" x="94" y="687.5" width="202" height="17" />
+  </frame>
+</canvas>

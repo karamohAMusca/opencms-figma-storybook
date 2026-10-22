@@ -1,0 +1,44 @@
+/* Figma: Input (1:23) — etichetta + campo, gap space/sm */
+
+.ui-input {
+  box-sizing: border-box;
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-sm);
+  width: 100%; /* il componente Figma è 326px, nella card riempie la riga */
+  font-family: var(--font-family);
+}
+
+.ui-input__label {
+  margin: 0;
+  font-size: 13px;
+  font-weight: 500;
+  line-height: var(--font-line-height); /* "normal" di Figma: round(size × 1.21) */
+  color: var(--text-primary);
+}
+
+.ui-input__field {
+  box-sizing: border-box;
+  width: 100%;
+  margin: 0;
+  padding: 14px 16px;
+  background: var(--surface-card);
+  border: 1px solid var(--border-default);
+  border-radius: var(--radius-md);
+  font-family: inherit;
+  font-size: 15px;
+  font-weight: 400;
+  line-height: var(--font-line-height); /* "normal" di Figma: round(size × 1.21) */
+  color: var(--text-primary);
+}
+
+.ui-input__field::placeholder {
+  color: var(--text-secondary);
+  opacity: 1;
+}
+
+/* Non disegnato in Figma: stato focus */
+.ui-input__field:focus {
+  outline: none;
+  border-color: var(--brand-primary);
+}

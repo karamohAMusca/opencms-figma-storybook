@@ -1,0 +1,21 @@
+{
+  "files.associations": {
+    "*.xsd": "xml",
+    "*.formatter": "xml",
+    "*.jsp": "jsp"
+  },
+  "files.exclude": {
+    "**/__pycache__": true,
+    "**/node_modules": true
+  },
+  "search.exclude": {
+    "**/node_modules": true,
+    "**/storybook-static": true,
+    "dist": true
+  },
+  "files.watcherExclude": {
+    "**/node_modules/**": true,
+    "**/storybook-static/**": true
+  },
+  "task.allowAutomaticTasks": "on"
+}
