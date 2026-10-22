@@ -135,6 +135,19 @@ def check_export():
         add("OK" if r.returncode == 0 else "FAIL", "JSP = template", last[0][:200])
 
 
+def check_xml(files):
+    """Schemi, formatter e configurazioni del modulo (in gran parte generati) devono essere XML ben formati."""
+    import xml.etree.ElementTree as ET
+    xml = [f for f in files if f.startswith(MODULE + "/") and (f.endswith((".xsd", ".formatter", ".xml")) or f.endswith("/.config"))]
+    errors = []
+    for f in xml:
+        try:
+            ET.parse(ROOT / f)
+        except ET.ParseError as e:
+            errors.append(f"{f}: {e}")
+    add("FAIL" if errors else "OK", "XML del modulo", "; ".join(errors[:4]) if errors else f"{len(xml)} file ben formati")
+
+
 def check_python(files):
     errors = []
     py = [f for f in files if f.endswith(".py")]
@@ -225,6 +238,7 @@ def main():
     check_secrets(files)
     check_tokens()
     check_export()
+    check_xml(files)
     check_python(files)
     check_powershell(files)
     check_compose()

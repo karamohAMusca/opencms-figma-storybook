@@ -24,6 +24,7 @@ Solo libreria standard, non stampa mai i valori di `.env`. Stampa una riga per c
 | token generati | `python sync_tokens.py --check`: i `tokens.css` sono allineati a `tokens.json` |
 | export OpenCms | `export-opencms.mjs --check`: i file del modulo generati da Storybook (`components.css`, JSP) sono allineati ai sorgenti |
 | JSP = template | `test-opencms.mjs`: i JSP generati producono lo stesso HTML dei template di Storybook |
+| XML del modulo | schemi, formatter e configurazioni del modulo sono XML ben formati |
 | sintassi | Python (tutti i `.py` tracciati) e PowerShell (`start.ps1`, con avviso per caratteri non ASCII: PowerShell 5.1 legge UTF-8 senza BOM come ANSI) |
 | docker compose | `docker compose config -q` con il `.env` locale |
 | build del modulo | `build_module.py` in una cartella temporanea (non tocca `dist/`) e `module-types.json` invariato: gli id dei content type devono restare stabili |

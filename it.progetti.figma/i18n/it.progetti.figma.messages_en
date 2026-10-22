@@ -1,3 +1,4 @@
+# GENERATO da figma-storybook/scripts/export-opencms.mjs: non modificare a mano, cambia i *.opencms.js in figma-storybook/src/.
 label.FxCtaButton.Text=Testo
 label.FxCtaButton.Link=Link
 
@@ -18,9 +19,9 @@ label.FxLogin.SignupText=Testo registrazione
 label.FxLogin.SignupLinkText=Testo link registrazione
 label.FxLogin.SignupLink=Link registrazione
 
-type.fx-cta-button.name=Figma - Bottone
+type.fx-cta-button.name=Figma \u2013 Bottone
 type.fx-cta-button.title=Crea un nuovo bottone
 type.fx-cta-button.description=Bottone Primary o Secondary dal file Figma.
-type.fx-login.name=Figma - Login
+type.fx-login.name=Figma \u2013 Login
 type.fx-login.title=Crea un nuovo login
 type.fx-login.description=Form di login dal file Figma.

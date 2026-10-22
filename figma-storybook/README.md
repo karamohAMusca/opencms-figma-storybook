@@ -22,7 +22,10 @@ npm run export:opencms -- --check  # esce con 1 se il modulo non è allineato
 Genera:
 
 - `resources/css/components.css`: i CSS dei componenti e delle schermate, nell'ordine di `figma/manifest.json`;
-- i JSP: `formatters/fx-cta-button.jsp`, `elements/fx-input.jsp`, `formatters/fx-login.jsp`.
+- i JSP: `formatters/fx-cta-button.jsp`, `elements/fx-input.jsp`, `formatters/fx-login.jsp`;
+- per i componenti con un content type (`type` nel `*.opencms.js`): `schemas/*.xsd` (un elemento per ogni `field`/`link`, con i default dei testi presi dal template), `formatters/*.formatter` (una impostazione `select` per ogni `setting`/`settingIs`), le etichette in `i18n/`, `.config` e `configuration/figma.master.additions.xml`. Di quest'ultima si conserva il blocco `AddPlugins`, che aggiorna `dev.py` quando nasce un CSS.
+
+Per un componente nuovo in OpenCms bastano quindi i suoi file in `src/` (template, opencms, css, stories) e la voce nel manifest: niente XML scritto a mano.
 
 Ogni componente ha quattro file:
 
@@ -30,7 +33,7 @@ Ogni componente ha quattro file:
 |---|---|
 | `*.template.js` | markup e proprietà, scritti con i nodi di `src/template.js` (`h`, `prop`, `when`, `choose`, `use`, `cls`, `mod`, `concat`, `opt`): niente funzioni, perché ogni nodo deve avere un equivalente JSP |
 | `*.js` | il componente per Storybook: CSS e `render(template, props)` |
-| `*.opencms.js` | da dove prende i valori il JSP: campi del contenuto (`field`, `link`), impostazioni (`setting`, `settingIs`), parametri di un elemento incluso (`param`), testo JSP (`raw`), costanti. Helper in `src/opencms.js` |
+| `*.opencms.js` | content type (`type`: nome, etichette, cartella, campo titolo), formatter o elemento, e da dove prende i valori il JSP: campi del contenuto (`field`, `link`, con etichetta e obbligatorietà), impostazioni (`setting`, `settingIs`, con opzioni), parametri di un elemento incluso (`param`), testo JSP (`raw`), costanti. Helper in `src/opencms.js` |
 | `*.css` | stili |
 
 Un componente usato da un altro (`use`) diventa `<cms:include>` se ha un proprio elemento JSP (Input), altrimenti viene espanso nel JSP di chi lo usa (Button nel Login).

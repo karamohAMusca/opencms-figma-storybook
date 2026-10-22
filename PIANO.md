@@ -16,7 +16,7 @@ Stato: `fatto` / `in corso` / `da fare`.
 |---|---|---|---|---|
 | 1 | CSS unico | Prefisso `fx-` anche in Storybook; le regole contro gli stili di Mercury entrano nel CSS dei componenti; `npm run export:opencms` genera `resources/css/components.css` | `npm run visual` entro il 2%; `export:opencms -- --check` | fatto |
 | 2 | Markup unico | Button, Input, Login con template dichiarativo (campi, condizioni, inclusione di componenti): Storybook lo disegna, l'esportatore lo traduce in JSP | stesso HTML in Storybook e nei JSP generati | fatto |
-| 3 | Descrittore OpenCms | Ogni componente dichiara content type, campi con tipo OpenCms e impostazioni (default e varianti dal manifest Figma); l'esportatore genera `.xsd`, `.formatter` ed etichette. Si eliminano `storybook/` e `preview.html` | un componente nuovo arriva in OpenCms senza XML scritto a mano | da fare |
+| 3 | Descrittore OpenCms | Ogni componente dichiara content type, campi con tipo OpenCms e impostazioni (default e varianti dal manifest Figma); l'esportatore genera `.xsd`, `.formatter` ed etichette. Si eliminano `storybook/` e `preview.html` | un componente nuovo arriva in OpenCms senza XML scritto a mano | fatto |
 | 4 | Verifica in OpenCms | Script che crea una pagina di prova in OpenCms, la fotografa con Playwright e la confronta con la story | differenza entro la tolleranza | da fare |
 | 5 | Nuovo componente da Figma | Card (immagine, titolo, testo, Button annidato) disegnata in Figma e portata per tutta la pipeline | Card in OpenCms uguale alla story | da fare |
 
@@ -41,3 +41,11 @@ Stato: `fatto` / `in corso` / `da fare`.
 - Confronto visivo invariato (stesse percentuali della fase 1): il nuovo motore disegna lo stesso markup.
 - Cambi in OpenCms rispetto ai JSP scritti a mano: radice del Login `<section class="fx-login">` (prima `<div class="fx-element fx-login">`); `name` dell'Input omesso se vuoto.
 - Da sapere: `storybook/stories/markup.js` ora non coincide più con il Login generato; si elimina nella fase 3. I JSP generati non sono ancora stati provati in OpenCms: lo fa la fase 4.
+
+### Fase 3 (fatta il 2026-10-22)
+
+- `*.opencms.js` con `type` (content type) ed etichette di campi e impostazioni; `scripts/opencms/xml.mjs` genera `.xsd`, `.formatter`, etichette `it`/`en`, `.config` e configurazione master (conservando il blocco `AddPlugins` di `dev.py`).
+- I file generati coincidono con quelli scritti a mano, salvo le intestazioni "GENERATO" e il nome del tipo con il trattino lungo (`Figma – Bottone`, scritto `–` nelle etichette). Etichette `en` uguali alle `it`, come prima.
+- Eliminati `storybook/` (copia a mano dei JSP, con i suoi `node_modules`) e `preview.html`; `build_module.py` non ha più `preview.html` tra i file esclusi.
+- Nuovo controllo nella skill: XML del modulo ben formati.
+- La prova "componente nuovo senza XML scritto a mano" da capo a fondo è la Card della fase 5; qui è verificato che la generazione riproduce i file esistenti.

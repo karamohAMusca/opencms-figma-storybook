@@ -8,11 +8,10 @@ Componenti OpenCms (template Mercury) generati dal file Figma "Esempio Claude ×
 | Input (1:23) | include JSP riusabile (non è un contenuto) | `elements/fx-input.jsp` |
 | Login – Mobile (1:27) | content type `fx-login` | `schemas/fx-login.xsd`, `formatters/fx-login.*` |
 
-I JSP (`formatters/*.jsp`, `elements/fx-input.jsp`) sono **generati** da `npm run export:opencms` in `figma-storybook/` a partire dai template dei componenti: non modificarli a mano.
+Quasi tutto il modulo è **generato** da `npm run export:opencms` in `figma-storybook/`, a partire da template e collegamenti dei componenti (`*.template.js`, `*.opencms.js`): JSP (`formatters/*.jsp`, `elements/fx-input.jsp`), schemi (`schemas/*.xsd`), formatter (`formatters/*.formatter`), etichette (`i18n/`), `.config` e `configuration/figma.master.additions.xml` (tranne il blocco `AddPlugins`, che aggiorna `dev.py`). Non modificarli a mano: per vederli e provarli c'è lo Storybook in `figma-storybook/`.
 
 CSS: `resources/css/tokens.css` (variabili Figma, **generato** da `python sync_tokens.py` a partire da `figma-storybook/figma/tokens.json`: non modificarlo a mano) e `resources/css/components.css` (classi `fx-`, **generato** da `npm run export:opencms` in `figma-storybook/` unendo i CSS dei componenti di Storybook: non modificarlo a mano),
 caricati su tutte le pagine come plugin Mercury del gruppo `css` (`plugins/*.xml`, registrati in `configuration/figma.master.additions.xml`).
-`preview.html` mostra lo stesso markup senza OpenCms.
 
 ## Sviluppo in locale
 
@@ -33,20 +32,6 @@ Resta in ascolto e decide da solo come aggiornare OpenCms:
 All'avvio allinea tutto. Le modifiche arrivano nel progetto Offline: per il sito pubblico vanno pubblicate.
 I content type si ricavano da `schemas/*.xsd`; gli id sono fissati in `module-types.json`, la versione dell'ultimo aggiornamento completo in `module-version.txt` (file locale, non versionato: se manca si riparte da 1.0.0).
 
-## Storybook
-
-In `storybook/`, nella radice del repo (fuori dal modulo, non finisce nello zip). Usa gli stessi `tokens.css` e `components.css`;
-il markup è in `storybook/stories/markup.js`, copia fedele dei JSP: se cambi un JSP, aggiorna anche lì.
-
-```
-cd storybook
-npm install
-npm run storybook        # http://localhost:6006
-npm run build-storybook  # versione statica in storybook-static/
-```
-
-Viewport di default 375px (mobile first); c'è anche 390px per il confronto col frame Figma.
-
 ## Build e installazione
 
 Dalla radice del repo:
@@ -57,7 +42,7 @@ python build_module.py it.progetti.figma dist/it.progetti.figma_1.0.0.zip
 
 Genera lo zip con il `manifest.xml` (tipi `fx-cta-button` id 20001 e `fx-login` id 20002).
 Si importa da **Launchpad → Modules → Import** oppure con la shell OpenCms (`importModuleFromDefault`).
-`README.md` e `preview.html` non vengono inclusi.
+`README.md` non viene incluso.
 
 ## Da sapere
 

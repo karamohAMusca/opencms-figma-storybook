@@ -1,4 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
+<!-- GENERATO da figma-storybook/scripts/export-opencms.mjs: non modificare a mano, cambia figma-storybook/src/components/button/button.opencms.js. -->
 <NewFormatters xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="opencms://system/modules/org.opencms.ade.config/schemas/formatters/new_formatter.xsd">
   <NewFormatter language="en">
     <NiceName><![CDATA[Figma – Bottone]]></NiceName>

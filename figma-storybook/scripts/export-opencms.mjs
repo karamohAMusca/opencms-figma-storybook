@@ -1,7 +1,8 @@
 // Esporta i componenti di Storybook nel modulo OpenCms it.progetti.figma: Storybook è la fonte, i file del modulo sono generati.
 // Oggi genera:
 // - resources/css/components.css: unione dei CSS dei componenti e delle schermate, nell'ordine di figma/manifest.json;
-// - i JSP dei componenti con un *.opencms.js (formatter ed elementi), tradotti dai loro *.template.js.
+// - i JSP dei componenti con un *.opencms.js (formatter ed elementi), tradotti dai loro *.template.js;
+// - per i componenti con un content type: schema .xsd, .formatter, etichette, .config e configurazione master del sito.
 // Uso: npm run export:opencms               (scrive i file)
 //      npm run export:opencms -- --check    (esce con 1 se il modulo non è allineato a Storybook)
 // Dopo l'export, dev.py (se è in ascolto) porta i file cambiati in OpenCms.
@@ -10,6 +11,7 @@ import { join, dirname, relative } from 'node:path';
 import { fileURLToPath } from 'node:url';
 import { compileJsp } from './opencms/jsp.mjs';
 import { loadOpencms, posix } from './opencms/load.mjs';
+import { schemaXsd, formatterXml, messages, moduleConfig, masterConfig } from './opencms/xml.mjs';
 
 const root = join(dirname(fileURLToPath(import.meta.url)), '..');
 const moduleDir = join(root, '..', 'it.progetti.figma');
@@ -39,12 +41,23 @@ function componentsCss() {
   ].join('\n');
 }
 
+const typed = defs.filter((def) => def.type);
+const masterPath = join(moduleDir, 'configuration', 'figma.master.additions.xml');
+const pluginFiles = readdirSync(join(moduleDir, 'plugins')).filter((f) => f.endsWith('.xml')).sort();
+
 const targets = [
   { path: join(moduleDir, 'resources', 'css', 'components.css'), content: componentsCss() },
   ...defs.map((def) => ({
     path: join(moduleDir, (def.formatter ?? def.element).jsp),
     content: compileJsp(def, registry),
   })),
+  ...typed.flatMap((def) => [
+    { path: join(moduleDir, 'schemas', `${def.type.name}.xsd`), content: schemaXsd(def) },
+    { path: join(moduleDir, def.formatter.jsp.replace(/\.jsp$/, '.formatter')), content: formatterXml(def) },
+  ]),
+  ...['it', 'en'].map((lang) => ({ path: join(moduleDir, 'i18n', `it.progetti.figma.messages_${lang}`), content: messages(defs) })),
+  { path: join(moduleDir, '.config'), content: moduleConfig(defs) },
+  { path: masterPath, content: masterConfig(defs, existsSync(masterPath) ? readFileSync(masterPath, 'utf8') : null, pluginFiles) },
 ];
 
 let stale = 0;

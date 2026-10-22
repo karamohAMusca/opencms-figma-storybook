@@ -13,7 +13,11 @@ export async function loadOpencms(root) {
     for (const f of existsSync(dir) ? readdirSync(dir).filter((x) => x.endsWith('.opencms.js')).sort() : []) {
       const def = (await import(pathToFileURL(join(dir, f)).href)).default;
       const template = f.replace('.opencms.js', '.template.js');
-      defs.push({ ...def, source: `figma-storybook/${posix(relative(root, join(dir, template)))}` });
+      defs.push({
+        ...def,
+        source: `figma-storybook/${posix(relative(root, join(dir, template)))}`,
+        opencmsSource: `figma-storybook/${posix(relative(root, join(dir, f)))}`,
+      });
     }
   }
   // componente → collegamenti, per sapere quali componenti usati da altri hanno un proprio JSP

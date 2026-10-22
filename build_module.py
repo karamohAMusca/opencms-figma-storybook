@@ -8,7 +8,7 @@ import sys, os, json, uuid, zipfile, email.utils
 HERE = os.path.dirname(os.path.abspath(__file__))
 MOD = "it.progetti.figma"
 BASE = f"system/modules/{MOD}"
-SKIP = {"README.md", "preview.html"}
+SKIP = {"README.md"}
 TYPES_FILE = os.path.join(HERE, "module-types.json")
 FIRST_TYPE_ID = 20001
 NS = uuid.UUID("6f1c3a52-6d1b-4b8e-9a43-1f0e2a7d9c11")  # UUID stabili tra build
