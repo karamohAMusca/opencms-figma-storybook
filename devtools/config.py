@@ -20,12 +20,12 @@ def load_env(path):
 
 load_env(os.path.join(HERE, ".env"))
 SRC = os.path.join(HERE, MOD)
-SERVER = "http://localhost:8080"
+SERVER = os.environ.get("OPENCMS_URL", "http://localhost:8080")
 DAV = f"{SERVER}/webdav/system/modules/{MOD}/"
 VERSION_FILE = os.path.join(HERE, "module-version.txt")
 LOG_FILE = os.path.join(HERE, "dev.log")
 LOCK_PORT = 47321
-CONTAINER = "opencms"
+CONTAINER = os.environ.get("OPENCMS_CONTAINER", "opencms")
 PKG = "/container/webapps/ROOT/WEB-INF/packages/modules"
 USER = os.environ.get("OPENCMS_USER", "Admin")
 PASSWORD = os.environ.get("OPENCMS_PASSWORD")

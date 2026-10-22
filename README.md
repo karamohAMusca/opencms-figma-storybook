@@ -51,22 +51,38 @@ Creare una pipeline efficace di **Figma → Storybook → OpenCms**, in cui:
 
 ## Avvio rapido
 
-```
-copy .env.example .env      # poi imposta le password
-start.bat                   # Docker + OpenCms + sincronizzazione (dev.py)
-```
+Da una macchina nuova, in questo ordine:
 
-OpenCms risponde su http://localhost:8080/system/login. Il primo avvio installa database, moduli e demo e richiede alcuni minuti.
+1. Installa **Docker Desktop** e **Python 3** (Node.js solo per Storybook).
+2. Clona la repo e crea il file `.env`:
+   ```
+   copy .env.example .env
+   ```
+   Compila `DB_PASSWORD` (a piacere al primo avvio, poi deve restare uguale: il volume Docker la conserva) e `OPENCMS_PASSWORD`. Su un'installazione nuova quest'ultima è la password predefinita di Admin dell'immagine [alkacon/opencms-docker](https://hub.docker.com/r/alkacon/opencms-docker); se la cambi in OpenCms, aggiorna anche `.env`.
+3. Avvia tutto:
+   ```
+   start.bat
+   ```
+   Avvia Docker Desktop se è spento, crea i container, aspetta OpenCms, apre il login e lancia `dev.py`. Il primo avvio installa database, moduli e demo (qualche minuto, anche più di 10 con CPU alta); `dev.py` poi installa da solo il modulo `it.progetti.figma` (build, import, riavvio, circa un minuto).
+4. OpenCms risponde su http://localhost:8080/system/login. `dev.py` resta in ascolto: ogni file che salvi nel modulo viene inviato a OpenCms. Non lanciarlo a mano in altri terminali, ne ammette una sola istanza.
 
-Storybook del design Figma:
+Se `dev.py` mostra "OpenCms non risponde...", attende e riprova da solo: non serve riavviarlo.
+
+### Storybook
+
+Del design Figma (porta 6007):
 
 ```
 cd figma-storybook
 npm install
-npm run storybook           # http://localhost:6007
+npm run storybook
 npm run check:figma         # story ↔ manifest
-npm run visual              # story ↔ screenshot Figma (con Storybook acceso)
+npm run visual              # story ↔ screenshot Figma, con Storybook acceso
 ```
+
+`npm run visual` usa Playwright: al primo uso installa Chromium con `npx playwright install chromium`.
+
+Del markup dei JSP del modulo (porta 6006): `cd storybook`, `npm install`, `npm run storybook`.
 
 ## Configurazione
 

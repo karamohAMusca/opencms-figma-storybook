@@ -2,15 +2,15 @@
 import os, time, urllib.error, urllib.request
 from urllib.parse import quote
 
-from .config import AUTH, DAV, SRC
+from .config import AUTH, DAV, SERVER, SRC
 from .log import log
 
 
-def dav(method, rel, data=None, depth=None):
+def dav(method, rel, data=None, depth=None, base=DAV):
     headers = {"Authorization": AUTH}
     if depth is not None:
         headers["Depth"] = depth
-    req = urllib.request.Request(DAV + quote(rel), data=data, method=method, headers=headers)
+    req = urllib.request.Request(base + quote(rel), data=data, method=method, headers=headers)
     try:
         with urllib.request.urlopen(req, timeout=15) as r:
             return r.status
@@ -43,7 +43,8 @@ def delete(rel):
 def wait_until_up():
     """Resta in attesa finché OpenCms risponde (Docker spento, riavvio in corso): dev.py non deve mai uscire per questo."""
     warned = False
-    while not remote_exists(""):
+    # Si sonda la cartella dei moduli, non quella del nostro: su un'installazione nuova il modulo non esiste ancora (404).
+    while dav("PROPFIND", "", depth="0", base=f"{SERVER}/webdav/system/modules/") != 207:
         if not warned:
             log("OpenCms non risponde su localhost:8080 (Docker spento, in avvio o credenziali sbagliate), attendo...")
             warned = True
