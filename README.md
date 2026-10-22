@@ -45,7 +45,7 @@ Creare una pipeline efficace di **Figma → Storybook → OpenCms**, in cui:
 ## Requisiti
 
 - Docker Desktop
-- Python 3
+- Python 3 (provato con 3.12), senza librerie esterne: [requirements.txt](requirements.txt) è vuoto di proposito
 - Node.js (per Storybook)
 - Windows per gli script di avvio `start.ps1` / `start.bat`; il resto è portabile
 
