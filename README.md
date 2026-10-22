@@ -58,12 +58,13 @@ Da una macchina nuova, in questo ordine:
    ```
    copy .env.example .env
    ```
-   Compila `DB_PASSWORD` (a piacere al primo avvio, poi deve restare uguale: il volume Docker la conserva) e `OPENCMS_PASSWORD`. Su un'installazione nuova quest'ultima è la password predefinita di Admin dell'immagine [alkacon/opencms-docker](https://hub.docker.com/r/alkacon/opencms-docker); se la cambi in OpenCms, aggiorna anche `.env`.
+   Compila `DB_PASSWORD` (a piacere al primo avvio, poi deve restare uguale: il volume Docker la conserva) e `OPENCMS_PASSWORD`. Su un'installazione nuova quest'ultima è la password predefinita di Admin dell'immagine [alkacon/opencms-docker](https://hub.docker.com/r/alkacon/opencms-docker), cioè `admin` (con utente `Admin`: verificato su una prova da zero); se la cambi in OpenCms, aggiorna anche `.env`.
 3. Avvia tutto, da PowerShell nella cartella della repo:
    ```
    powershell -ExecutionPolicy Bypass -File start.ps1
    ```
-   (Con la policy predefinita di Windows `.\start.ps1` da solo può essere bloccato; in VS Code c'è anche il task "OpenCms: avvia tutto", che fa la stessa cosa.)
+   (Con la policy predefinita di Windows `.\start.ps1` da solo può essere bloccato.)
+   In alternativa, da VS Code: `Ctrl+Shift+B` (o `Ctrl+Shift+P` → *Tasks: Run Task* → "OpenCms: avvia tutto") lancia lo stesso comando. Il task è anche impostato per partire da solo quando apri la cartella: la prima volta VS Code chiede il permesso; se non lo vuoi, rifiuta o togli `runOn` da `.vscode/tasks.json`.
    Avvia Docker Desktop se è spento, crea i container, aspetta OpenCms, apre il login e lancia `dev.py`. Il primo avvio installa database, moduli e demo (qualche minuto, anche più di 10 con CPU alta: lo script aspetta al massimo 10 minuti, se scade rilancialo, l'installazione prosegue nel container); `dev.py` poi installa da solo il modulo `it.progetti.figma` (build, import, riavvio, circa un minuto).
 4. OpenCms risponde su http://localhost:8080/system/login. `dev.py` resta in ascolto: ogni file che salvi nel modulo viene inviato a OpenCms. Non lanciarlo a mano in altri terminali, ne ammette una sola istanza.
 
