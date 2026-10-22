@@ -10,6 +10,8 @@ Il log di `dev.py` (con l'output completo degli errori) è in `dev.log`.
 
 ## Risolti
 
+- **2026-10-22 · cambio `OPENCMS_PASSWORD` in `.env`: `dev.py` riceve 401 e non sincronizza.** Causa: `.env` contiene la password che `dev.py` usa per accedere, non la imposta in OpenCms, che tiene quella del suo database. Soluzione: la password in `.env` deve coincidere con quella di Admin in OpenCms (si cambia dall'interfaccia di OpenCms, poi si aggiorna `.env`). Provato e scartato: uno script che la cambiava dal `.env` con `setPassword` nella shell di OpenCms; complicava l'avvio senza un vero vantaggio. **Attenzione:** OpenCms blocca l'utente per 15 minuti dopo 5 login falliti (`loginmanager` in `opencms-system.xml`), anche con la password giusta: `dev.py` che riprova di continuo con credenziali sbagliate tiene il blocco attivo. Nota: WebDAV ricorda per un po' le credenziali già accettate, quindi dopo un cambio la vecchia password può ancora dare 207.
+
 - **2026-10-20 · file cancellato che ricompare in OpenCms** (`prova.css`). Causa: due `dev.py` in esecuzione insieme (vecchia versione del codice) che si contendevano i file e rigeneravano `plugins/prova.xml`. Soluzione: fermati i processi, tolti i file orfani in locale e via WebDAV; `dev.py` ora ammette una sola istanza (porta 47321) e rimuove le voci di configurazione senza plugin. **Regola: avviare solo `start.ps1`, mai `dev.py` a mano in altri terminali.**
 
 - **2026-10-20 · `start.ps1`: `docker info` bloccava lo script** con Docker spento, per via di `$ErrorActionPreference = "Stop"` e dello stderr di docker. Soluzione: controllo via `cmd /c "docker info >nul 2>&1"`.

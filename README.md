@@ -95,6 +95,10 @@ Le credenziali e la chiave del file Figma stanno in `.env`, che non è nel repo 
 | `DB_PASSWORD` | password root di MariaDB |
 | `FIGMA_FILE_KEY` | facoltativa: abilita nel pannello Design di Storybook l'embed Figma live. Senza, restano gli screenshot salvati |
 
+### La password di Admin
+
+`OPENCMS_PASSWORD` nel `.env` deve **coincidere** con la password di Admin in OpenCms: `dev.py` la usa per accedere, non la imposta. Per cambiarla, cambiala prima in OpenCms (Admin → Gestione utenti) e poi aggiorna il `.env`. Se non coincidono, `dev.py` riceve 401 e non sincronizza. Attenzione: dopo 5 tentativi falliti OpenCms blocca l'utente per 15 minuti, anche con la password giusta.
+
 ## Stato del progetto
 
 Il design di esempio contiene Button, Input e la schermata Login. Le modifiche inviate da `dev.py` arrivano nel progetto *Offline* di OpenCms: per il sito pubblico vanno pubblicate.
