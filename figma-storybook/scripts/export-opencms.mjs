@@ -56,7 +56,9 @@ function fonts() {
       files.set(`${name}.woff2`, readFileSync(join(dir, 'files', `${name}.woff2`)));
       faces.push(`/* ${name} */\n${block.replace(/src: [^;]+;/, `src: url(../fonts/${name}.woff2) format('woff2');`)}`);
     }
-    files.set(`LICENSE-${imp.split('/')[1]}.txt`, readFileSync(join(dir, 'LICENSE')));
+    // Testo, non binario: Git su Windows (autocrlf) può riscriverlo con CRLF, e il confronto deve ignorare i fine riga
+    const license = readFileSync(join(dir, 'LICENSE'), 'utf8').replace(/\r\n/g, '\n');
+    files.set(`LICENSE-${imp.split('/')[1]}.txt`, license);
   }
   const css = [
     '/*',
