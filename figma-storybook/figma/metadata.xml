@@ -1,4 +1,4 @@
-<!-- get_metadata(fileKey=<fileKey>, nodeId=0:1), 2026-10-16. Output grezzo, non modificare a mano. -->
+<!-- get_metadata(fileKey=<fileKey>, nodeId=0:1), 2026-10-22. Output grezzo, non modificare a mano. -->
 <canvas id="0:1" name="🎨 Design" x="0" y="0" width="0" height="0">
   <frame id="1:22" name="Button" x="0" y="0" width="266" height="94">
     <symbol id="1:18" name="Variant=Primary" x="25" y="25" width="99" height="42" />
@@ -22,4 +22,5 @@
     </frame>
     <text id="1:47" name="Non hai un account? Registrati" x="94" y="687.5" width="202" height="17" />
   </frame>
+  <symbol id="44:10" name="Card" x="712" y="0" width="342" height="368" />
 </canvas>

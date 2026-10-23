@@ -117,6 +117,37 @@ def check_tokens():
         add("FAIL", "token generati", "tokens.css non allineati: lancia python sync_tokens.py")
 
 
+def check_export():
+    """I file del modulo generati da Storybook (export:opencms) devono essere allineati ai sorgenti."""
+    script = ROOT / "figma-storybook" / "scripts" / "export-opencms.mjs"
+    node = shutil.which("node")
+    if not script.exists() or not node:
+        return
+    r = run([node, str(script), "--check"])
+    if r.returncode == 0:
+        add("OK", "export OpenCms", "file del modulo allineati a Storybook")
+    else:
+        add("FAIL", "export OpenCms", "modulo non allineato: lancia npm run export:opencms in figma-storybook")
+    test = ROOT / "figma-storybook" / "scripts" / "test-opencms.mjs"
+    if test.exists():
+        r = run([node, str(test)])
+        last = (r.stdout.strip() or r.stderr.strip()).splitlines()[-1:] or [""]
+        add("OK" if r.returncode == 0 else "FAIL", "JSP = template", last[0][:200])
+
+
+def check_xml(files):
+    """Schemi, formatter e configurazioni del modulo (in gran parte generati) devono essere XML ben formati."""
+    import xml.etree.ElementTree as ET
+    xml = [f for f in files if f.startswith(MODULE + "/") and (f.endswith((".xsd", ".formatter", ".xml")) or f.endswith("/.config"))]
+    errors = []
+    for f in xml:
+        try:
+            ET.parse(ROOT / f)
+        except ET.ParseError as e:
+            errors.append(f"{f}: {e}")
+    add("FAIL" if errors else "OK", "XML del modulo", "; ".join(errors[:4]) if errors else f"{len(xml)} file ben formati")
+
+
 def check_python(files):
     errors = []
     py = [f for f in files if f.endswith(".py")]
@@ -206,6 +237,8 @@ def main():
     check_git(files)
     check_secrets(files)
     check_tokens()
+    check_export()
+    check_xml(files)
     check_python(files)
     check_powershell(files)
     check_compose()

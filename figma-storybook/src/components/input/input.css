@@ -1,6 +1,6 @@
 /* Figma: Input (1:23) — etichetta + campo, gap space/sm */
 
-.ui-input {
+.fx-input {
   box-sizing: border-box;
   display: flex;
   flex-direction: column;
@@ -9,7 +9,7 @@
   font-family: var(--font-family);
 }
 
-.ui-input__label {
+.fx-input__label {
   margin: 0;
   font-size: 13px;
   font-weight: 500;
@@ -17,7 +17,7 @@
   color: var(--text-primary);
 }
 
-.ui-input__field {
+.fx-input__field {
   box-sizing: border-box;
   width: 100%;
   margin: 0;
@@ -30,15 +30,16 @@
   font-weight: 400;
   line-height: var(--font-line-height); /* "normal" di Figma: round(size × 1.21) */
   color: var(--text-primary);
+  box-shadow: none; /* Mercury dà un'ombra ai campi dei form */
 }
 
-.ui-input__field::placeholder {
+.fx-input__field::placeholder {
   color: var(--text-secondary);
   opacity: 1;
 }
 
 /* Non disegnato in Figma: stato focus */
-.ui-input__field:focus {
+.fx-input__field:focus {
   outline: none;
   border-color: var(--brand-primary);
 }

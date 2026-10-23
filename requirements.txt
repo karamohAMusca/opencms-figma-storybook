@@ -1,3 +1,3 @@
 # Dipendenze Python di dev.py, devtools/, build_module.py e sync_tokens.py.
 # Nessuna libreria esterna: usano solo la libreria standard.
-# Provato con Python 3.12. Le dipendenze di Storybook sono in figma-storybook/package.json e storybook/package.json.
+# Provato con Python 3.12. Le dipendenze di Storybook sono in figma-storybook/package.json.

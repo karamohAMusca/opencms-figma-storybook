@@ -44,9 +44,11 @@ def full_update(reason):
     if "the module has been imported" not in out:
         print(out[-3000:])
         log("ERRORE: aggiornamento non riuscito, output completo in dev.log", detail=out)
-        return
+        return False
     open(VERSION_FILE, "w").write(version + "\n")
 
     log("riavvio OpenCms...")
     docker("restart", CONTAINER, check=True, capture_output=True)
-    log(f"{MOD} {version} installato" if wait_for_server() else "ERRORE: OpenCms non risponde dopo il riavvio")
+    up = wait_for_server()
+    log(f"{MOD} {version} installato" if up else "ERRORE: OpenCms non risponde dopo il riavvio")
+    return up

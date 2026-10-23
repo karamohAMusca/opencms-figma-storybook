@@ -44,8 +44,9 @@ for (const node of manifest.components) {
         story: v.story, ref: crop(shot, v.position, v.size), size: v.size, kind: 'component' });
     }
   } else {
+    // `position`: dove inizia il nodo se lo screenshot ha margini (es. l'ombra della Card)
     targets.push({ key: `${node.name}-${node.visualStory}`, label: `${node.name} (${node.nodeId})`, title: node.stories,
-      story: node.visualStory, ref: shot, size: node.size, kind: 'component' });
+      story: node.visualStory, ref: node.position ? crop(shot, node.position, node.size) : shot, size: node.size, kind: 'component' });
   }
 }
 for (const node of manifest.screens) {

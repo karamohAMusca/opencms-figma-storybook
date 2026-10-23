@@ -1,4 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
+<!-- GENERATO da figma-storybook/scripts/export-opencms.mjs: non modificare a mano, cambia i *.opencms.js in figma-storybook/src/ (il blocco AddPlugins lo aggiorna dev.py). -->
 
 <SitemapMasterConfigurations xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="opencms://system/modules/org.opencms.ade.config/schemas/sitemap_master_config.xsd">
   <SitemapMasterConfiguration language="en">
@@ -10,6 +11,17 @@
       </Folder>
       <NamePattern><![CDATA[fx-button_%(number).xml]]></NamePattern>
       <Order><![CDATA[9000]]></Order>
+      <ElementView/>
+      <DetailPagesDisabled>true</DetailPagesDisabled>
+    </ResourceType>
+    <ResourceType>
+      <TypeName><![CDATA[fx-card]]></TypeName>
+      <Disabled><![CDATA[false]]></Disabled>
+      <Folder>
+        <Name><![CDATA[fx-card]]></Name>
+      </Folder>
+      <NamePattern><![CDATA[fx-card_%(number).xml]]></NamePattern>
+      <Order><![CDATA[9020]]></Order>
       <ElementView/>
       <DetailPagesDisabled>true</DetailPagesDisabled>
     </ResourceType>
@@ -32,6 +44,11 @@
       </AddFormatter>
       <AddFormatter>
         <link type="WEAK">
+          <target><![CDATA[/system/modules/it.progetti.figma/formatters/fx-card.formatter]]></target>
+        </link>
+      </AddFormatter>
+      <AddFormatter>
+        <link type="WEAK">
           <target><![CDATA[/system/modules/it.progetti.figma/formatters/fx-login.formatter]]></target>
         </link>
       </AddFormatter>
@@ -45,6 +62,11 @@
       <Plugin>
         <link type="WEAK">
           <target><![CDATA[/system/modules/it.progetti.figma/plugins/components.xml]]></target>
+        </link>
+      </Plugin>
+      <Plugin>
+        <link type="WEAK">
+          <target><![CDATA[/system/modules/it.progetti.figma/plugins/fonts.xml]]></target>
         </link>
       </Plugin>
     </AddPlugins>

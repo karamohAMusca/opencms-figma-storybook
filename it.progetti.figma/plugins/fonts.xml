@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<SitePlugins xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="opencms://system/modules/org.opencms.ade.config/schemas/site_plugin.xsd">
+  <SitePlugin language="en">
+    <NiceName><![CDATA[fonts CSS]]></NiceName>
+    <Description/>
+    <Plugin>
+      <Group><![CDATA[css]]></Group>
+      <Target>
+        <link internal="true" type="WEAK">
+          <target><![CDATA[/system/modules/it.progetti.figma/resources/css/fonts.css]]></target>
+        </link>
+      </Target>
+      <Order><![CDATA[120]]></Order>
+    </Plugin>
+  </SitePlugin>
+</SitePlugins>

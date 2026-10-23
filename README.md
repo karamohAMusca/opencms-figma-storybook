@@ -29,7 +29,6 @@ Creare una pipeline efficace di **Figma → Storybook → OpenCms**, in cui:
 |---|---|
 | [figma-storybook/](figma-storybook/) | Storybook con i componenti ricavati dal Figma (HTML + CSS + JS, senza framework), dati Figma salvati in `figma/`, verifiche `check:figma` e `visual`. [README](figma-storybook/README.md) |
 | [it.progetti.figma/](it.progetti.figma/) | Modulo OpenCms (Mercury): content type, formatter, include, CSS. [README](it.progetti.figma/README.md) |
-| [storybook/](storybook/) | Anteprima Storybook con il markup copiato dai JSP del modulo |
 | [sync_tokens.py](sync_tokens.py) | Genera i `tokens.css` (Storybook e modulo) da `figma-storybook/figma/tokens.json` |
 | [dev.py](dev.py), [devtools/](devtools/) | Sincronizza il modulo con l'OpenCms locale mentre lavori |
 | [build_module.py](build_module.py) | Crea lo zip importabile del modulo |
@@ -40,7 +39,7 @@ Creare una pipeline efficace di **Figma → Storybook → OpenCms**, in cui:
 1. **Token.** Le variabili Figma sono salvate in `figma-storybook/figma/tokens.json`. `python sync_tokens.py` ne ricava `tokens.css` (`brand/primary` → `--brand-primary`) sia per Storybook sia per il modulo OpenCms. I `tokens.css` sono generati: non si modificano a mano.
 2. **Componenti.** `figma/manifest.json` elenca componenti, varianti, proprietà e node-id. Le story leggono il manifest, quindi varianti e proprietà arrivano da Figma. `npm run check:figma` fallisce se una variante non ha la story.
 3. **Verifica.** Con Storybook acceso, `npm run visual` confronta ogni story con lo screenshot Figma e produce un report con le differenze.
-4. **OpenCms.** Button → content type `fx-cta-button`, Login → `fx-login`, Input → include `elements/fx-input.jsp`. `dev.py` invia le modifiche all'OpenCms locale: via WebDAV per i file semplici, con un aggiornamento completo del modulo (build, import, riavvio) quando cambiano schemi, formatter o configurazione.
+4. **OpenCms.** `npm run export:opencms` genera dal template e dai collegamenti di ogni componente i file del modulo: CSS, JSP, schema, formatter, etichette e configurazione. Button → content type `fx-cta-button`, Login → `fx-login`, Input → include `elements/fx-input.jsp`. `dev.py` invia le modifiche all'OpenCms locale: via WebDAV per i file semplici, con un aggiornamento completo del modulo (build, import, riavvio) quando cambiano schemi, formatter o configurazione.
 
 ## Requisiti
 
@@ -83,7 +82,6 @@ npm run visual              # story ↔ screenshot Figma, con Storybook acceso
 
 `npm run visual` usa Playwright: al primo uso installa Chromium con `npx playwright install chromium`.
 
-Del markup dei JSP del modulo (porta 6006): `cd storybook`, `npm install`, `npm run storybook`.
 
 ## Configurazione
 
@@ -101,4 +99,4 @@ Le credenziali e la chiave del file Figma stanno in `.env`, che non è nel repo 
 
 ## Stato del progetto
 
-Il design di esempio contiene Button, Input e la schermata Login. Le modifiche inviate da `dev.py` arrivano nel progetto *Offline* di OpenCms: per il sito pubblico vanno pubblicate.
+Il design di esempio contiene Button, Input, Card e la schermata Login. Le modifiche inviate da `dev.py` arrivano nel progetto *Offline* di OpenCms: per il sito pubblico vanno pubblicate.

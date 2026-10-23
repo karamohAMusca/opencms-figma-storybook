@@ -1,38 +1,31 @@
 /*
- * Componenti dal file Figma "Esempio Claude × Figma".
- * Richiede tokens.css. Classi con prefisso fx- per non collidere con Mercury.
- * Mobile first: i valori base sono quelli del frame 390px.
+ * GENERATO da figma-storybook/scripts/export-opencms.mjs: non modificare a mano, cambia i CSS in figma-storybook/src/.
+ * Richiede tokens.css. Classi con prefisso fx- per non collidere con Mercury. Mobile first.
  */
 
-.fx-button,
-.fx-input,
-.fx-login {
-  font-family: "Inter", system-ui, -apple-system, "Segoe UI", Roboto, sans-serif;
-  box-sizing: border-box;
-}
+/* ---------- src/components/button/button.css ---------- */
 
-.fx-login *,
-.fx-input * {
-  box-sizing: border-box;
-}
-
-/* ---------- Button (Figma 1:22) ---------- */
+/* Figma: Button (1:22) — Primary 1:18, Secondary 1:20 */
 
 .fx-button {
+  box-sizing: border-box;
   display: inline-flex;
   align-items: center;
   justify-content: center;
+  margin: 0;
   padding: 12px var(--space-lg);
   border: 0;
   border-radius: var(--radius-md);
+  font-family: var(--font-family);
   font-size: 15px;
   font-weight: 600;
-  line-height: normal;
+  line-height: var(--font-line-height); /* "normal" di Figma: round(size × 1.21) */
   text-decoration: none;
   white-space: nowrap;
   cursor: pointer;
 }
 
+/* :hover e :focus ripetono i colori: in OpenCms gli stili dei link di Mercury li cambierebbero */
 .fx-button--primary,
 .fx-button--primary:hover,
 .fx-button--primary:focus {
@@ -41,6 +34,7 @@
   text-decoration: none;
 }
 
+/* In Figma il bordo conta nel layout: Secondary è alto 44px, Primary 42px */
 .fx-button--secondary,
 .fx-button--secondary:hover,
 .fx-button--secondary:focus {
@@ -50,34 +44,41 @@
   text-decoration: none;
 }
 
-.fx-button:focus-visible {
-  outline: 2px solid var(--brand-primary);
-  outline-offset: 2px;
-}
-
+/* In Figma il componente è a larghezza automatica; nella card del Login riempie la riga */
 .fx-button--full {
   display: flex;
   width: 100%;
 }
 
-/* ---------- Input (Figma 1:23) ---------- */
+/* Non disegnato in Figma: focus visibile per tastiera */
+.fx-button:focus-visible {
+  outline: 2px solid var(--brand-primary);
+  outline-offset: 2px;
+}
+
+/* ---------- src/components/input/input.css ---------- */
+
+/* Figma: Input (1:23) — etichetta + campo, gap space/sm */
 
 .fx-input {
+  box-sizing: border-box;
   display: flex;
   flex-direction: column;
   gap: var(--space-sm);
-  width: 100%;
+  width: 100%; /* il componente Figma è 326px, nella card riempie la riga */
+  font-family: var(--font-family);
 }
 
 .fx-input__label {
   margin: 0;
   font-size: 13px;
   font-weight: 500;
-  line-height: normal;
+  line-height: var(--font-line-height); /* "normal" di Figma: round(size × 1.21) */
   color: var(--text-primary);
 }
 
 .fx-input__field {
+  box-sizing: border-box;
   width: 100%;
   margin: 0;
   padding: 14px 16px;
@@ -87,9 +88,9 @@
   font-family: inherit;
   font-size: 15px;
   font-weight: 400;
-  line-height: normal;
+  line-height: var(--font-line-height); /* "normal" di Figma: round(size × 1.21) */
   color: var(--text-primary);
-  box-shadow: none;
+  box-shadow: none; /* Mercury dà un'ombra ai campi dei form */
 }
 
 .fx-input__field::placeholder {
@@ -97,18 +98,87 @@
   opacity: 1;
 }
 
+/* Non disegnato in Figma: stato focus */
 .fx-input__field:focus {
   outline: none;
   border-color: var(--brand-primary);
 }
 
-/* ---------- Login – Mobile (Figma 1:27) ---------- */
+/* ---------- src/components/card/card.css ---------- */
+
+/* Figma: Card (44:10) — immagine 192px, corpo con titolo, testo e Button Primary */
+
+.fx-card {
+  box-sizing: border-box;
+  display: flex;
+  flex-direction: column;
+  width: 100%; /* in Figma è 342px; qui prende la larghezza della colonna */
+  overflow: hidden;
+  background: var(--surface-card);
+  border: 1px solid var(--border-default); /* come in Figma il bordo è dentro la misura: contenuto largo 340px */
+  border-radius: var(--radius-lg);
+  box-shadow: var(--shadow-card);
+  font-family: var(--font-family);
+}
+
+.fx-card__image {
+  display: block;
+  width: 100%;
+  max-width: none; /* Mercury limita le immagini con max-width/height */
+  height: 192px;
+  margin: 0;
+  object-fit: cover;
+  background: var(--surface-background); /* colore del segnaposto Figma, visibile mentre l'immagine carica */
+}
+
+.fx-card__body {
+  box-sizing: border-box;
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start; /* il Button resta largo quanto il suo testo, come in Figma */
+  gap: var(--space-md);
+  padding: var(--space-lg);
+}
+
+.fx-card__texts {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-sm);
+  width: 100%;
+}
+
+.fx-card__title {
+  margin: 0;
+  font-family: inherit; /* Mercury dà ai titoli font e spaziatura propri */
+  letter-spacing: normal;
+  font-size: 20px;
+  font-weight: 700;
+  line-height: var(--font-line-height); /* "normal" di Figma: round(size × 1.21) */
+  color: var(--text-primary);
+}
+
+.fx-card__text {
+  margin: 0;
+  font-size: 15px;
+  font-weight: 400;
+  line-height: var(--font-line-height); /* "normal" di Figma: round(size × 1.21) */
+  color: var(--text-secondary);
+}
+
+/* ---------- src/screens/login/login.css ---------- */
+
+/* Figma: Login – Mobile (1:27), frame 390×844. Mobile first: i valori base sono quelli del frame. */
 
 .fx-login {
+  box-sizing: border-box;
   display: flex;
-  justify-content: center;
+  flex-direction: column;
+  justify-content: center; /* in Figma il contenuto è centrato in verticale nel frame */
+  min-height: 100vh;
+  min-height: 100dvh;
   padding: var(--space-xl) var(--space-lg);
   background: var(--surface-background);
+  font-family: var(--font-family);
 }
 
 .fx-login__inner {
@@ -117,7 +187,8 @@
   align-items: center;
   gap: var(--space-xl);
   width: 100%;
-  max-width: 420px;
+  max-width: 400px; /* non in Figma: oltre il mobile la colonna non si allarga */
+  margin: 0 auto;
 }
 
 .fx-login__header {
@@ -140,16 +211,16 @@
   color: var(--text-on-primary);
   font-size: 24px;
   font-weight: 700;
-  line-height: normal;
+  line-height: var(--font-line-height); /* "normal" di Figma: round(size × 1.21) */
 }
 
 .fx-login__title {
   margin: 0;
-  font-family: inherit;
+  font-family: inherit; /* Mercury dà ai titoli font e spaziatura propri */
+  letter-spacing: normal;
   font-size: 28px;
   font-weight: 700;
-  line-height: normal;
-  letter-spacing: normal;
+  line-height: var(--font-line-height); /* "normal" di Figma: round(size × 1.21) */
   color: var(--text-primary);
 }
 
@@ -157,11 +228,12 @@
   margin: 0;
   font-size: 15px;
   font-weight: 400;
-  line-height: normal;
+  line-height: var(--font-line-height); /* "normal" di Figma: round(size × 1.21) */
   color: var(--text-secondary);
 }
 
 .fx-login__card {
+  box-sizing: border-box;
   display: flex;
   flex-direction: column;
   gap: var(--space-md);
@@ -171,14 +243,14 @@
   background: var(--surface-card);
   border: 1px solid var(--border-default);
   border-radius: var(--radius-lg);
-  box-shadow: 0 4px 16px 0 rgba(15, 23, 41, 0.06);
+  box-shadow: var(--shadow-card);
 }
 
 .fx-login__forgot {
   align-self: flex-end;
   font-size: 13px;
   font-weight: 500;
-  line-height: normal;
+  line-height: var(--font-line-height); /* "normal" di Figma: round(size × 1.21) */
   color: var(--brand-primary);
   text-decoration: none;
 }
@@ -187,17 +259,26 @@
   margin: 0;
   font-size: 14px;
   font-weight: 400;
-  line-height: normal;
+  line-height: var(--font-line-height); /* "normal" di Figma: round(size × 1.21) */
   color: var(--text-secondary);
   text-align: center;
 }
 
+/* In Figma "Registrati" ha lo stesso stile del resto della frase */
 .fx-login__footer a {
   color: inherit;
   text-decoration: none;
 }
 
+/* Non disegnato in Figma: hover e focus dei link */
 .fx-login__forgot:hover,
 .fx-login__footer a:hover {
   text-decoration: underline;
+}
+
+.fx-login__forgot:focus-visible,
+.fx-login__footer a:focus-visible {
+  outline: 2px solid var(--brand-primary);
+  outline-offset: 2px;
+  border-radius: 2px;
 }

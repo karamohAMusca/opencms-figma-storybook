@@ -1,0 +1,46 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!-- GENERATO da figma-storybook/scripts/export-opencms.mjs: non modificare a mano, cambia figma-storybook/src/components/card/card.opencms.js. -->
+<xsd:schema xmlns:xsd="http://www.w3.org/2001/XMLSchema" elementFormDefault="qualified">
+
+    <xsd:include schemaLocation="opencms://opencms-xmlcontent.xsd"/>
+
+    <xsd:element name="FxCards" type="OpenCmsFxCards"/>
+
+    <xsd:complexType name="OpenCmsFxCards">
+        <xsd:sequence>
+            <xsd:element name="FxCard" type="OpenCmsFxCard" minOccurs="0" maxOccurs="unbounded"/>
+        </xsd:sequence>
+    </xsd:complexType>
+
+    <xsd:complexType name="OpenCmsFxCard">
+        <xsd:sequence>
+            <xsd:element name="Image" type="OpenCmsVfsFile" minOccurs="0"/>
+            <xsd:element name="ImageAlt" type="OpenCmsString" minOccurs="0"/>
+            <xsd:element name="Title" type="OpenCmsString"/>
+            <xsd:element name="Text" type="OpenCmsString" minOccurs="0"/>
+            <xsd:element name="ButtonText" type="OpenCmsString" minOccurs="0"/>
+            <xsd:element name="ButtonLink" type="OpenCmsVarLink" minOccurs="0"/>
+        </xsd:sequence>
+        <xsd:attribute name="language" type="OpenCmsLocale" use="required"/>
+    </xsd:complexType>
+
+    <xsd:annotation>
+        <xsd:appinfo>
+            <resourcebundles>
+                <propertybundle name="it.progetti.figma.messages"/>
+            </resourcebundles>
+            <mappings>
+                <mapping element="Title" mapto="property:Title"/>
+            </mappings>
+            <defaults>
+                <default element="Title" value="Scopri le novità"/>
+                <default element="Text" value="Accedi alla nuova area riservata per gestire il tuo account e le tue preferenze."/>
+                <default element="ButtonText" value="Scopri di più"/>
+            </defaults>
+            <layouts>
+                <layout element="Image" widget="ImageGalleryWidget"/>
+            </layouts>
+        </xsd:appinfo>
+    </xsd:annotation>
+
+</xsd:schema>

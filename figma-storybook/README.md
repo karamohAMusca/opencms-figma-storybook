@@ -8,7 +8,52 @@ ricavati **solo dal Figma**, in HTML + CSS + JS senza framework, con Storybook.
 | Variabili | `src/tokens.css` (generato da `figma/tokens.json`) | Fondamenta/Token |
 | Button (1:22) | `src/components/button/` | Componenti/Button |
 | Input (1:23) | `src/components/input/` | Componenti/Input |
+| Card (44:10) | `src/components/card/` | Componenti/Card |
 | Login – Mobile (1:27) | `src/screens/login/` | Schermate/Login |
+
+## Export verso OpenCms
+
+Questo Storybook è la fonte dei componenti del modulo OpenCms `it.progetti.figma` (piano in `PIANO.md` nella radice).
+
+```
+npm run export:opencms             # genera i file del modulo
+npm run export:opencms -- --check  # esce con 1 se il modulo non è allineato
+```
+
+Genera:
+
+- `resources/css/components.css`: i CSS dei componenti e delle schermate, nell'ordine di `figma/manifest.json`;
+- i JSP: `formatters/fx-cta-button.jsp`, `elements/fx-input.jsp`, `formatters/fx-login.jsp`;
+- per i componenti con un content type (`type` nel `*.opencms.js`): `schemas/*.xsd` (un elemento per ogni `field`/`link`, con i default dei testi presi dal template), `formatters/*.formatter` (una impostazione `select` per ogni `setting`/`settingIs`), le etichette in `i18n/`, `.config` e `configuration/figma.master.additions.xml`. Di quest'ultima si conserva il blocco `AddPlugins`, che aggiorna `dev.py` quando nasce un CSS.
+
+Per un componente nuovo in OpenCms bastano quindi i suoi file in `src/` (template, opencms, css, stories) e la voce nel manifest: niente XML scritto a mano.
+
+Ogni componente ha quattro file:
+
+| File | Contenuto |
+|---|---|
+| `*.template.js` | markup e proprietà, scritti con i nodi di `src/template.js` (`h`, `prop`, `when`, `choose`, `use`, `cls`, `mod`, `concat`, `opt`): niente funzioni, perché ogni nodo deve avere un equivalente JSP |
+| `*.js` | il componente per Storybook: CSS e `render(template, props)` |
+| `*.opencms.js` | content type (`type`: nome, etichette, cartella, campo titolo), formatter o elemento, e da dove prende i valori il JSP: campi del contenuto (`field`, `link`, `image`, con etichetta e obbligatorietà), impostazioni (`setting`, `settingIs`, con opzioni), parametri di un elemento incluso (`param`), testo JSP (`raw`), costanti. Helper in `src/opencms.js` |
+| `*.css` | stili |
+
+Un componente usato da un altro (`use`) diventa `<cms:include>` se ha un proprio elemento JSP (Input), altrimenti viene espanso nel JSP di chi lo usa (Button nel Login).
+`npm run test:opencms` esegue i JSP generati con un interprete minimo (`scripts/opencms/jsp-sim.mjs`) e confronta l'HTML con quello del template, per i default e per ogni opzione, sì/no e testo facoltativo vuoto: controlla la traduzione, non sostituisce la prova in OpenCms.
+Le regole che servono solo dentro Mercury (colori ripetuti su `:hover`/`:focus` dei link, niente ombra sui campi, font dei titoli) stanno
+nel CSS dei componenti, commentate. Classi con prefisso `fx-`. Con `dev.py` in ascolto, i file generati arrivano in OpenCms da soli.
+
+### Confronto con OpenCms
+
+```
+npm run compare:opencms               # ricrea la pagina di prova e confronta
+npm run compare:opencms -- --deploy   # prima carica il modulo (aggiornamento completo; solo con dev.py spento)
+npm run compare:opencms -- --no-page  # solo il confronto, sulla pagina già pubblicata
+```
+
+Con OpenCms e Storybook accesi, crea in OpenCms la pagina `/fx-test/` (`devtools/testpage.py`): una pagina Mercury vera, con un elemento per ogni caso
+di `scripts/compare-opencms.mjs` (contenuti e impostazioni ricavati dai `*.opencms.js`). La prepara in un progetto OpenCms temporaneo, pubblica solo quello e
+riavvia OpenCms (la shell è un'altra istanza di OpenCms: il server vede i cambi solo dopo il riavvio). Poi fotografa ogni elemento lì e nella sua story,
+allineati al pixel intero, e li confronta (tolleranza 2%, report in `opencms-report/index.html`).
 
 ## Dati Figma (`figma/`)
 

@@ -1,5 +1,5 @@
 {
-  "$comment": "Inventario della pagina 🎨 Design. Struttura da metadata.xml (get_metadata 0:1); proprietà, default e descrizioni da design-context/*.tsx (get_design_context); immagini di riferimento 1x in screenshots/. Confronto visivo: ogni variante col suo ritaglio dello screenshot del set (position + size), i nodi senza varianti con la story 'visualStory'.",
+  "$comment": "Inventario della pagina 🎨 Design. Struttura da metadata.xml (get_metadata 0:1); proprietà, default e descrizioni da design-context/*.tsx (get_design_context); immagini di riferimento 1x in screenshots/. Confronto visivo: ogni variante col suo ritaglio dello screenshot del set (position + size), i nodi senza varianti con la story 'visualStory' (con `position` se lo screenshot ha margini: l'ombra della Card, raggio 16 e scostamento verticale 4, lascia 16px ai lati, 12 sopra e 20 sotto).",
   "file": {
     "name": "Esempio Claude × Figma",
     "page": { "id": "0:1", "name": "🎨 Design" },
@@ -42,6 +42,25 @@
       "screenshot": "screenshots/input-1_23.png",
       "code": "src/components/input/",
       "stories": "Componenti/Input"
+    },
+    {
+      "name": "Card",
+      "kind": "component",
+      "nodeId": "44:10",
+      "size": [342, 368],
+      "position": [16, 12],
+      "description": "Card con immagine, titolo, testo e Button Primary annidato (etichetta modificabile dall'istanza esposta). In OpenCms: content type fx-card.",
+      "variants": [],
+      "properties": {
+        "Title": { "type": "TEXT", "default": "Scopri le novità" },
+        "Text": { "type": "TEXT", "default": "Accedi alla nuova area riservata per gestire il tuo account e le tue preferenze." },
+        "Button label": { "type": "TEXT", "default": "Scopri di più", "source": "istanza esposta Button (1:18), proprietà Label" }
+      },
+      "visualStory": "Default",
+      "designContext": "design-context/card-44_10.tsx",
+      "screenshot": "screenshots/card-44_10.png",
+      "code": "src/components/card/",
+      "stories": "Componenti/Card"
     }
   ],
   "screens": [
