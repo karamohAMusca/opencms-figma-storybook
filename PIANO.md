@@ -67,3 +67,7 @@ Stato: `fatto` / `in corso` / `da fare`.
 - Export: JSP, schema, formatter, etichette e configurazione generati; `dev.py` ha fatto da solo l'aggiornamento completo (1.0.7, `fx-card` id 20003). Nessun XML scritto a mano.
 - Verifica in OpenCms: Card 0,00% con immagine vera caricata nella pagina di prova (SVG 684×384); test JSP = template 25 casi.
 - Corretto lungo la strada: il test JSP ora prova anche i rami con link e immagini senza default; il ritaglio dello screenshot tiene conto dello scostamento dell'ombra (16/12/20 px).
+
+## Dopo le cinque fasi
+
+Il piano per portare l'esportazione in un altro progetto OpenCms (fasi P1…P8, zip e pipeline automatica) è in `piano-portabilita/README.md`.
