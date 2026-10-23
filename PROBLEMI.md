@@ -6,10 +6,11 @@ Il log di `dev.py` (con l'output completo degli errori) è in `dev.log`.
 
 ## Aperti
 
-- **2026-10-20 · `dev.py`: "aggiornamento non riuscito"** durante l'aggiornamento completo per un CSS nuovo (`prova.css`). Causa non nota: l'output dell'errore non era stato salvato. Se si ripresenta, leggere `dev.log`. Probabile stessa causa di `plugins/prova.xml` rimasto online (vedi Risolti, 2026-10-22); se non si ripresenta, chiudere. Stato: aperto.
+Nessuno.
 
 ## Risolti
 
+- **2026-10-20 · `dev.py`: "aggiornamento non riuscito"** durante l'aggiornamento completo per un CSS nuovo (`prova.css`). Causa: `plugins/prova.xml` cancellato in Offline ma mai pubblicato, che impediva a `replaceModule` di togliere la cartella `plugins/` (vedi la voce del 2026-10-22). Chiusa il 2026-10-23: dopo la pubblicazione della cancellazione gli aggiornamenti completi sono riusciti tre volte (1.0.5, 1.0.6, 1.0.7) e non si è ripresentata.
 - **2026-10-22 · aggiornamento completo del modulo che fallisce: `plugins/prova.xml` ancora online.** Nel progetto Offline `prova.xml` risulta cancellato, ma la cancellazione non è mai stata pubblicata: `replaceModule` non riesce a togliere la cartella `plugins/` ("The folder contains the files [.../plugins/prova.xml]") e il modulo online resta a metà (la pagina di prova `/fx-test/` non mostra più gli elementi). Soluzione: pubblicare la cancellazione di `plugins/prova.xml` (Explorer di OpenCms, progetto Offline) e rifare un aggiornamento completo. Risolto pubblicando il progetto Offline con la shell (`publishProjectAndWait`): oltre a `prova.xml` ha pubblicato tre cancellazioni già in sospeso (`.content/section-m/cs_00001.xml`, `cs_00004.xml`, `i18n/it.progetti.figma.messages_de`).
 - **2026-10-22 · pagina di prova senza stili, o elementi vecchi, dopo lavori con la shell di OpenCms.** Causa: `CmsShell` è una seconda istanza di OpenCms sullo stesso database; il server non vede i cambi (cache di risorse e configurazione). Soluzione: dopo la shell si riavvia il container (lo fanno l'aggiornamento completo e `devtools/testpage.py`).
 - **2026-10-22 · due aggiornamenti completi contemporanei.** `npm run compare:opencms -- --deploy` lanciava un aggiornamento completo mentre un `dev.py` in ascolto ne faceva un altro (font nuovi): uno fallisce, il modulo online resta incompleto. Soluzione: `devtools/testpage.py --deploy` si rifiuta se `dev.py` è attivo (porta 47321 occupata) e si ferma se l'aggiornamento non riesce. **Regola: con `dev.py` in ascolto il modulo lo aggiorna lui.**
