@@ -139,6 +139,12 @@ def check_export():
         out = (r.stdout.strip() or r.stderr.strip()).splitlines()
         detail = out[-1] if r.returncode == 0 else "; ".join(l for l in out if l.startswith("FALLITO"))[:200]
         add("OK" if r.returncode == 0 else "FAIL", "estrattore Figma (test:export)", detail)
+    tli = ROOT / "figma-storybook" / "scripts" / "figma" / "test-lint.mjs"
+    if tli.exists():
+        r = run([node, str(tli)])
+        out = (r.stdout.strip() or r.stderr.strip()).splitlines()
+        detail = out[-1] if r.returncode == 0 else "; ".join(l for l in out if l.startswith("FALLITO"))[:200]
+        add("OK" if r.returncode == 0 else "FAIL", "regole del disegno (test:lint)", detail)
     golden = ROOT / "figma-storybook" / "scripts" / "golden.mjs"
     if golden.exists():
         r = run([node, str(golden)])

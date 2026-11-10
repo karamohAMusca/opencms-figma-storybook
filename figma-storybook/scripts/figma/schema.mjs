@@ -42,7 +42,10 @@ function check(value, schema, path, root, errors) {
   return errors;
 }
 
-/** kind: 'component' | 'variables'. */
+export const RULES_SCHEMA = JSON.parse(readFileSync(join(here, 'rules.schema.json'), 'utf8'));
+
+/** kind: 'component' | 'variables' (export del plugin) | 'rules' (rules.json di un componente). */
 export function validate(data, kind) {
+  if (kind === 'rules') return check(data, RULES_SCHEMA.rules, 'rules', RULES_SCHEMA, []);
   return check(data, SCHEMA[kind], kind, SCHEMA, []);
 }

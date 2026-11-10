@@ -1,0 +1,57 @@
+{
+  "$comment": "Formato di src/components/<nome>/<nome>.rules.json: la semantica che Figma non sa esprimere (piano-design-system/GENERATORE.md). Elenco chiuso: una chiave sconosciuta è un errore. Letto da schema.mjs.",
+  "$defs": {
+    "tag": { "enum": ["div", "section", "article", "header", "footer", "h1", "h2", "h3", "h4", "h5", "h6", "p", "span", "a", "button", "img", "label", "input"] },
+    "propName": { "type": "string" },
+    "layer": {
+      "type": "object",
+      "properties": {
+        "tag": { "$ref": "#/$defs/tag" },
+        "props": { "type": "object", "additionalProperties": { "$ref": "#/$defs/propName" } },
+        "optional": { "$ref": "#/$defs/propName" },
+        "textAs": { "enum": ["placeholder", "value"] },
+        "for": { "type": "string" }
+      },
+      "additionalProperties": false
+    }
+  },
+  "rules": {
+    "type": "object",
+    "properties": {
+      "$comment": { "type": "string" },
+      "root": {
+        "type": "object",
+        "properties": {
+          "tag": { "$ref": "#/$defs/tag" },
+          "linkWhen": { "$ref": "#/$defs/propName" }
+        },
+        "additionalProperties": false
+      },
+      "layers": { "type": "object", "additionalProperties": { "$ref": "#/$defs/layer" } },
+      "props": {
+        "type": "object",
+        "additionalProperties": {
+          "type": "object",
+          "properties": {
+            "default": { "type": ["string", "boolean", "number"] },
+            "to": { "type": "string" }
+          },
+          "additionalProperties": false
+        }
+      },
+      "stories": {
+        "type": "object",
+        "additionalProperties": {
+          "type": "object",
+          "properties": {
+            "name": { "type": "string" },
+            "args": { "type": "object" }
+          },
+          "required": ["name"],
+          "additionalProperties": false
+        }
+      }
+    },
+    "additionalProperties": false
+  }
+}

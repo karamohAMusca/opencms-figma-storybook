@@ -12,7 +12,9 @@
     "compare:opencms": "node scripts/compare-opencms.mjs",
     "golden": "node scripts/golden.mjs",
     "figma:import": "node scripts/figma/import.mjs",
-    "test:export": "node scripts/figma/test-export.mjs"
+    "test:export": "node scripts/figma/test-export.mjs",
+    "figma:lint": "node scripts/figma/lint.mjs",
+    "test:lint": "node scripts/figma/test-lint.mjs"
   },
   "devDependencies": {
     "@storybook/addon-designs": "^11.1.4",
