@@ -86,16 +86,54 @@
             "Mode 1": 16
           }
         },
+        "space/md-minus": {
+          "type": "FLOAT",
+          "values": {
+            "Mode 1": 14
+          }
+        },
         "space/sm": {
           "type": "FLOAT",
           "values": {
             "Mode 1": 8
           }
         },
+        "space/sm-plus": {
+          "type": "FLOAT",
+          "values": {
+            "Mode 1": 12
+          }
+        },
         "space/xl": {
           "type": "FLOAT",
           "values": {
             "Mode 1": 32
+          }
+        }
+      }
+    },
+    "Tipografia": {
+      "defaultMode": "Mode 1",
+      "modes": [
+        "Mode 1"
+      ],
+      "variables": {
+        "font/size-lg": {
+          "type": "FLOAT",
+          "values": {
+            "Mode 1": 20
+          }
+        },
+        "font/size-md": {
+          "type": "FLOAT",
+          "values": {
+            "Mode 1": 15
+          }
+        },
+        "font/size-sm": {
+          "type": "FLOAT",
+          "values": {
+            "Mode 1": 13
           }
         }
       }

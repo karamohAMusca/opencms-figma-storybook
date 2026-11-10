@@ -64,7 +64,8 @@
             "unit": "AUTO"
           },
           "size": {
-            "value": 13
+            "value": 13,
+            "var": "font/size-sm"
           },
           "weight": 500
         },
@@ -110,7 +111,8 @@
                 "unit": "AUTO"
               },
               "size": {
-                "value": 15
+                "value": 15,
+                "var": "font/size-md"
               },
               "weight": 400
             },
@@ -134,16 +136,20 @@
           "mode": "HORIZONTAL",
           "padding": {
             "bottom": {
-              "value": 14
+              "value": 14,
+              "var": "space/md-minus"
             },
             "left": {
-              "value": 16
+              "value": 16,
+              "var": "space/md"
             },
             "right": {
-              "value": 16
+              "value": 16,
+              "var": "space/md"
             },
             "top": {
-              "value": 14
+              "value": 14,
+              "var": "space/md-minus"
             }
           }
         },

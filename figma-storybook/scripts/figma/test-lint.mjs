@@ -21,11 +21,14 @@ const lint = (data, extra = {}) => lintComponent(data, { exported: new Set(['but
 const has = (res, level, rule, re) => res.some((r) => r.level === level && r.rule === rule && re.test(r.msg));
 const errors = (res) => res.filter((r) => r.level === 'ERRORE');
 
-/** La Card con il livello di testo già rinominato (correzione C4 di G0): la base corretta per i test. */
+/**
+ * La Card come base dei test, in una forma nota: testo chiamato Text (correzione C4 di G0) e Image con riempimento
+ * immagine. I test creano da soli ogni violazione, così non dipendono da come è il file Figma in questo momento.
+ */
 function card() {
   const c = structuredClone(CARD);
-  const texts = c.tree.children[1].children[0];
-  texts.children[1].name = 'Text';
+  c.tree.children[1].children[0].children[1].name = 'Text';
+  c.tree.children[0].fills = [{ type: 'IMAGE', scaleMode: 'FILL' }];
   return c;
 }
 const node = (c, ...path) => path.reduce((n, i) => n.children[i], c.tree); // Card: 0 Image, 1 Body (0 Texts (0 Title, 1 Text), 1 Button)
@@ -36,8 +39,8 @@ const mutate = (base, fn, extra) => { const c = structuredClone(base); fn(c); re
 
 ok(errors(lint(BUTTON)).length === 0, 'Button vero: nessun errore');
 ok(errors(lint(INPUT)).length === 0, 'Input vero: nessun errore');
-ok(has(lint(CARD), 'ERRORE', 'R-D4', /nome automatico/), 'Card vera: testo con nome automatico (G0, C4)');
-ok(errors(lint(card())).length === 0, 'Card con il testo rinominato: nessun errore');
+ok(errors(lint(CARD)).length === 0, 'Card vera: nessun errore');
+ok(errors(lint(card())).length === 0, 'Card con il testo chiamato Text: nessun errore');
 
 // ---------- R-D1 ----------
 
@@ -50,14 +53,15 @@ ok(has(mutate(card(), (c) => { node(c, 0).rotation = 15; }), 'ERRORE', 'R-D1', /
 ok(has(mutate(BUTTON, (c) => { delete c.variants[0].tree.fills[0].var; }), 'AVVISO', 'R-D2', /colore #4f46e5 non legato/), 'R-D2: colore senza variabile');
 ok(has(mutate(BUTTON, (c) => { c.variants[0].tree.fills[0].var = 'brand/inesistente'; }), 'ERRORE', 'R-D2', /non trovata/), 'R-D2: variabile sconosciuta');
 ok(has(mutate(card(), (c) => { delete c.tree.radius.var; }), 'AVVISO', 'R-D2', /raggio 16/), 'R-D2: raggio senza variabile');
-ok(has(lint(card()), 'AVVISO', 'R-D2', /ombra non legata/), 'R-D2: ombra senza stile');
-ok(has(lint(BUTTON, { strict: true }), 'ERRORE', 'R-D2', /padding top 12/), 'R-D2 con --strict: diventa errore');
+ok(has(mutate(card(), (c) => { delete c.tree.effects.style; }), 'AVVISO', 'R-D2', /ombra non legata/), 'R-D2: ombra senza stile');
+ok(has(mutate(BUTTON, (c) => { delete c.variants[0].tree.layout.padding.top.var; }, { strict: true }), 'ERRORE', 'R-D2', /padding top 12/), 'R-D2 con --strict: diventa errore');
 
 // ---------- R-D3 ----------
 
-ok(has(lint(INPUT), 'AVVISO', 'R-D3', /dimensione del testo 13/), 'R-D3: dimensione senza variabile');
+const noSize = (c) => { delete c.tree.children[0].text.size.var; };
+ok(has(mutate(INPUT, noSize), 'AVVISO', 'R-D3', /dimensione del testo 13/), 'R-D3: dimensione senza variabile');
 ok(has(mutate(INPUT, (c) => { c.tree.children[0].text.font.family = 'Roboto'; }), 'ERRORE', 'R-D3', /Roboto/), 'R-D3: famiglia diversa dai token');
-ok(has(lint(INPUT, { strict: true }), 'ERRORE', 'R-D3', /dimensione del testo 13/), 'R-D3 con --strict: diventa errore');
+ok(has(mutate(INPUT, noSize, { strict: true }), 'ERRORE', 'R-D3', /dimensione del testo 13/), 'R-D3 con --strict: diventa errore');
 
 // ---------- R-D4 ----------
 
@@ -83,7 +87,8 @@ ok(has(mutate(card(), (c) => { node(c, 1, 1).instance.component = 'Badge'; }), '
 // ---------- R-D8 e rules.json ----------
 
 const rules = { root: { tag: 'article' }, layers: { Image: { tag: 'img', props: { src: 'image', alt: 'imageAlt' }, optional: 'image' }, Title: { tag: 'h3' }, Text: { tag: 'p' } }, props: { image: { default: '' }, imageAlt: { default: '' }, buttonHref: { default: '#', to: 'Button.href' } } };
-ok(has(lint(card(), { rules }), 'ERRORE', 'R-D8', /senza riempimento immagine/), 'R-D8: tag img su un livello senza immagine');
+ok(has(mutate(card(), (c) => { node(c, 0).fills = [{ type: 'SOLID', color: '#f8fafc', var: 'surface/background' }]; }, { rules }), 'ERRORE', 'R-D8', /senza riempimento immagine/), 'R-D8: tag img su un livello senza immagine');
+ok(has(mutate(card(), (c) => { node(c, 1, 0, 1).name = node(c, 1, 0, 1).text.characters; }), 'ERRORE', 'R-D4', /nome automatico/), 'R-D4: testo con nome automatico');
 ok(!has(mutate(card(), (c) => { node(c, 0).fills = [{ type: 'IMAGE', scaleMode: 'FILL' }]; }, { rules }), 'ERRORE', 'R-D8', /./), 'R-D8: con riempimento immagine va bene');
 ok(errors(mutate(card(), (c) => { node(c, 0).fills = [{ type: 'IMAGE', scaleMode: 'FILL' }]; }, { rules })).length === 0, 'rules.json corretto: nessun errore');
 ok(has(lint(card(), { rules: { ...rules, extra: 1 } }), 'ERRORE', 'rules', /campo non ammesso "extra"/), 'rules: chiave sconosciuta');

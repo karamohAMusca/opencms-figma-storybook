@@ -287,9 +287,9 @@ Le chiavi ammesse in `rules.json` sono un elenco chiuso, con uno schema: una chi
 
 | # | Fase | Dim. | Stato |
 |---|---|---|---|
-| G0 | Preparazione: telemetria spenta, regole fissate, file Figma sistemato | S | in corso: repo fatto, correzioni in Figma da fare ([G0-FIGMA.md](G0-FIGMA.md)) |
+| G0 | Preparazione: telemetria spenta, regole fissate, file Figma sistemato | S | quasi fatto: restano due decisioni (bordi da 1px, stati Hover/Focus), vedi [G0-FIGMA.md](G0-FIGMA.md) |
 | G1 | Plugin di estrazione `fx-export` e formato del JSON | M | in corso: primo export vero fatto, manca la prova di ripetibilità |
-| G2 | `figma:lint`: le regole del disegno | S | fatto (codice e test); sugli export veri 1 errore da correggere in Figma |
+| G2 | `figma:lint`: le regole del disegno | S | fatto; export veri: 0 errori, 3 avvisi (bordi da 1px) |
 | G3 | `figma:generate`: Button, poi Input, poi Card | L | da fare |
 | G4 | I componenti attuali diventano generati, via i dati dell'MCP | M | da fare |
 | G5 | Prova: variante Tertiary e un componente nuovo, solo con il tool | M | da fare |
@@ -327,7 +327,8 @@ Verifica: gli export di G1 passano (con gli avvisi accettati in G0); ogni prova 
 Stato (2026-11-10):
 - Fatto: `scripts/figma/lint.mjs` (`npm run figma:lint [componente] [-- --strict]`) con R-D1…R-D9, il controllo delle variabili sconosciute e di `rules.json`; schema di `rules.json` in `scripts/figma/rules.schema.json` (elenco chiuso di chiavi e di tag). `npm run test:lint`: 52 controlli, almeno uno per regola, partendo dagli export veri modificati in memoria. Il test ha trovato un difetto del controllo della famiglia del font (cercava il nome anche tra i font di riserva, dove compare "Roboto"), corretto; togliendo una regola dal codice il test fallisce (provato).
 - Sugli export veri: **1 errore, 18 avvisi**, gli stessi di [G0-FIGMA.md](G0-FIGMA.md). L'errore è il testo della Card con il nome automatico (C4): finché non si rinomina in Figma, `figma:lint` esce con 1. Gli avvisi sono i valori non legati a variabili (R-D2, R-D3), accettati fino a G5.
-- `test:lint` è nella skill `check-modifiche`; `figma:lint` ci entra in G6, quando il file Figma sarà sistemato.
+- `test:lint` è nella skill `check-modifiche`; `figma:lint` ci entra in G6.
+- Dopo le correzioni in Figma (G0) e un nuovo export: **0 errori, 3 avvisi** (spessore dei bordi da 1px non legato). I test sono stati resi indipendenti dallo stato del file: ogni violazione la creano da soli (53 controlli).
 
 ### G3 — `figma:generate` · L
 

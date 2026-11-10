@@ -17,3 +17,6 @@ module-version.txt
 .claude/settings.local.json
 .env
 CLAUDE.local.md
+
+# Zip esportati dal plugin fx-export (si importano con figma:import, non si versionano)
+fx-export-*.zip

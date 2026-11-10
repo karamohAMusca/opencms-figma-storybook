@@ -72,7 +72,8 @@
                 "unit": "AUTO"
               },
               "size": {
-                "value": 15
+                "value": 15,
+                "var": "font/size-md"
               },
               "weight": 600
             },
@@ -95,7 +96,8 @@
           "mode": "HORIZONTAL",
           "padding": {
             "bottom": {
-              "value": 12
+              "value": 12,
+              "var": "space/sm-plus"
             },
             "left": {
               "value": 24,
@@ -106,7 +108,8 @@
               "var": "space/lg"
             },
             "top": {
-              "value": 12
+              "value": 12,
+              "var": "space/sm-plus"
             }
           }
         },
@@ -182,7 +185,8 @@
                 "unit": "AUTO"
               },
               "size": {
-                "value": 15
+                "value": 15,
+                "var": "font/size-md"
               },
               "weight": 600
             },
@@ -205,7 +209,8 @@
           "mode": "HORIZONTAL",
           "padding": {
             "bottom": {
-              "value": 12
+              "value": 12,
+              "var": "space/sm-plus"
             },
             "left": {
               "value": 24,
@@ -216,7 +221,8 @@
               "var": "space/lg"
             },
             "top": {
-              "value": 12
+              "value": 12,
+              "var": "space/sm-plus"
             }
           }
         },

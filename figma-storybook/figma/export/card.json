@@ -7,6 +7,18 @@
   },
   "exporter": "1.0.0",
   "properties": {
+    "Show button": {
+      "default": true,
+      "type": "BOOLEAN"
+    },
+    "Show image": {
+      "default": true,
+      "type": "BOOLEAN"
+    },
+    "Show text": {
+      "default": true,
+      "type": "BOOLEAN"
+    },
     "Text": {
       "default": "Accedi alla nuova area riservata per gestire il tuo account e le tue preferenze.",
       "type": "TEXT"
@@ -29,13 +41,15 @@
       {
         "fills": [
           {
-            "color": "#f8fafc",
-            "type": "SOLID",
-            "var": "surface/background"
+            "scaleMode": "FILL",
+            "type": "IMAGE"
           }
         ],
         "name": "Image",
         "nodeId": "44:11",
+        "refs": {
+          "visible": "Show image"
+        },
         "size": {
           "h": "FIXED",
           "height": {
@@ -90,17 +104,19 @@
                     "unit": "AUTO"
                   },
                   "size": {
-                    "value": 20
+                    "value": 20,
+                    "var": "font/size-lg"
                   },
                   "weight": 700
                 },
                 "type": "TEXT"
               },
               {
-                "name": "Accedi alla nuova area riservata per gestire il tuo account e le tue preferenze.",
+                "name": "Text",
                 "nodeId": "44:15",
                 "refs": {
-                  "characters": "Text"
+                  "characters": "Text",
+                  "visible": "Show text"
                 },
                 "size": {
                   "h": "HUG",
@@ -134,7 +150,8 @@
                     "unit": "AUTO"
                   },
                   "size": {
-                    "value": 15
+                    "value": 15,
+                    "var": "font/size-md"
                   },
                   "weight": 400
                 },
@@ -205,7 +222,8 @@
               "mode": "HORIZONTAL",
               "padding": {
                 "bottom": {
-                  "value": 12
+                  "value": 12,
+                  "var": "space/sm-plus"
                 },
                 "left": {
                   "value": 24,
@@ -216,7 +234,8 @@
                   "var": "space/lg"
                 },
                 "top": {
-                  "value": 12
+                  "value": 12,
+                  "var": "space/sm-plus"
                 }
               }
             },
@@ -225,6 +244,9 @@
             "radius": {
               "value": 10,
               "var": "radius/md"
+            },
+            "refs": {
+              "visible": "Show button"
             },
             "size": {
               "h": "HUG",
@@ -295,7 +317,8 @@
           "spread": 0,
           "type": "DROP_SHADOW"
         }
-      ]
+      ],
+      "style": "shadow/card"
     },
     "fills": [
       {
