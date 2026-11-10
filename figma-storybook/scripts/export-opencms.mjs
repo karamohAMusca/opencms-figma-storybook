@@ -23,7 +23,8 @@ function componentsCss() {
   const parts = [];
   for (const node of [...manifest.components, ...manifest.screens]) {
     const dir = join(root, node.code);
-    const files = existsSync(dir) ? readdirSync(dir).filter((f) => f.endsWith('.css')).sort() : [];
+    // *.extra.css: ingresso del generatore (G3), già dentro il CSS generato; qui non va contato due volte
+    const files = existsSync(dir) ? readdirSync(dir).filter((f) => f.endsWith('.css') && !f.endsWith('.extra.css')).sort() : [];
     if (!files.length) throw new Error(`${node.name} (${node.nodeId}): nessun CSS in ${node.code}`);
     for (const f of files) {
       const css = readFileSync(join(dir, f), 'utf8').replace(/\r\n/g, '\n').trim();

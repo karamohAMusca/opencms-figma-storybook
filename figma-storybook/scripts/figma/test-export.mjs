@@ -187,7 +187,7 @@ const scriptsDir = new URL('.', import.meta.url);
 for (const f of readdirSync(scriptsDir)) {
   const src = readFileSync(new URL(f, scriptsDir), 'utf8');
   const imports = [...src.matchAll(/^import .* from '([^']+)'/gm)].map((m) => m[1]);
-  const external = imports.filter((i) => !i.startsWith('node:') && !i.startsWith('./'));
+  const external = imports.filter((i) => !i.startsWith('node:') && !i.startsWith('.'));
   ok(external.length === 0, `scripts/figma/${f}: solo libreria standard di Node${external.length ? ` (importa ${external.join(', ')})` : ''}`);
   const net = src.match(/\bfrom 'node:(http|https|net|dns|tls|dgram|child_process)'|\bfetch\(/);
   ok(!net || f === 'test-export.mjs', `scripts/figma/${f}: nessuna rete${net ? ` (trovato "${net[0]}")` : ''}`);

@@ -1,0 +1,17 @@
+{
+  "$comment": "Semantica della Card che Figma non esprime: tag, link del bottone annidato, story di prova. L'immagine della story Default è un SVG del colore surface/background, come l'immagine segnaposto in Figma. Scritto a mano.",
+  "root": { "tag": "article" },
+  "layers": {
+    "Title": { "tag": "h3" },
+    "Text": { "tag": "p", "optional": "text" },
+    "Button": { "optional": "buttonLabel" }
+  },
+  "props": {
+    "buttonHref": { "default": "#", "to": "Button.href" }
+  },
+  "stories": {
+    "Default": { "name": "Default", "args": { "image": "data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='1' height='1'%3E%3Crect width='1' height='1' fill='%23f8fafc'/%3E%3C/svg%3E" } },
+    "SenzaImmagine": { "name": "Senza immagine", "args": { "showImage": false } },
+    "SenzaBottone": { "name": "Senza bottone", "args": { "showButton": false } }
+  }
+}

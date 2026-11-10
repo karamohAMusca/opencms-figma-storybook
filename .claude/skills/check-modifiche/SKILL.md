@@ -26,6 +26,7 @@ Solo libreria standard, non stampa mai i valori di `.env`. Stampa una riga per c
 | JSP = template | `test-opencms.mjs`: i JSP generati producono lo stesso HTML dei template di Storybook |
 | estrattore Figma | `npm run test:export`: il plugin `figma-export/` su un Figma simulato dà sempre gli stessi byte, rispetta lo schema, non usa rete né dipendenze |
 | regole del disegno | `npm run test:lint`: `figma:lint` riconosce ogni violazione delle regole R-D1…R-D9 e di `rules.json` |
+| generatore Figma | `npm run test:generator`: tabelle di mappatura, rifiuti attesi, stessi byte a ogni generazione, `src/generated/` allineato agli export |
 | impronta dei generati | `golden.mjs` (`npm run golden`): i file del modulo e `tokens.css` coincidono con l'impronta in `figma-storybook/golden.json`. Se il cambiamento è voluto (fasi che cambiano l'output), `npm run golden -- --update` nello stesso commit, con il motivo nelle note della fase |
 | XML del modulo | schemi, formatter e configurazioni del modulo sono XML ben formati |
 | sintassi | Python (tutti i `.py` tracciati) e PowerShell (`start.ps1`, con avviso per caratteri non ASCII: PowerShell 5.1 legge UTF-8 senza BOM come ANSI) |

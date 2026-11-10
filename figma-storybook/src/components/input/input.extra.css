@@ -1,0 +1,10 @@
+/* Non disegnato in Figma: colore del testo scritto e stato focus */
+
+.fx-input__field {
+  color: var(--text-primary);
+}
+
+.fx-input__field:focus {
+  outline: none;
+  border-color: var(--brand-primary);
+}

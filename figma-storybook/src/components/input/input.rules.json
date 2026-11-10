@@ -1,0 +1,14 @@
+{
+  "$comment": "Semantica dell'Input che Figma non esprime: etichetta collegata al campo, Field come <input> con il testo come placeholder, attributi del campo vero. Scritto a mano.",
+  "layers": {
+    "Label": { "tag": "label", "for": "Field" },
+    "Field": { "tag": "input", "textAs": "placeholder", "props": { "type": "type", "name": "name", "autocomplete": "autocomplete", "required": "required" } }
+  },
+  "props": {
+    "type": { "default": "text" },
+    "name": {},
+    "id": { "default": "" },
+    "autocomplete": {},
+    "required": { "default": false }
+  }
+}

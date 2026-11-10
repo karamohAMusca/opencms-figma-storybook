@@ -9,6 +9,7 @@ import { join, dirname } from 'node:path';
 import { fileURLToPath } from 'node:url';
 import { loadPlugin } from './plugin.mjs';
 import { validate } from './schema.mjs';
+import { camel } from './generate.mjs';
 
 const root = join(dirname(fileURLToPath(import.meta.url)), '..', '..');
 const { slug } = loadPlugin();
@@ -157,7 +158,14 @@ export function lintComponent(data, ctx) {
     const layers = new Map();
     const index = (n) => { if (!layers.has(n.name)) layers.set(n.name, n); (n.children ?? []).forEach(index); };
     trees.forEach(index);
-    const propNames = new Set([...Object.keys(r.props ?? {}), ...Object.keys(props)]);
+    // Nomi delle proprietà come li usa il generatore: Figma in camelCase, testi delle istanze esposte, immagini
+    const propNames = new Set([...Object.keys(r.props ?? {}), ...Object.keys(props).map(camel)]);
+    const collect = (n) => {
+      if (n.type === 'INSTANCE' && n.instance.exposed) for (const [p, v] of Object.entries(n.instance.properties)) if (typeof v === 'string') propNames.add(camel(`${n.name} ${p}`));
+      if (Array.isArray(n.fills) && n.fills.some((f) => f.type === 'IMAGE')) { propNames.add(camel(n.name)); propNames.add(camel(`${n.name} alt`)); }
+      (n.children ?? []).forEach(collect);
+    };
+    trees.forEach(collect);
     for (const [layer, def] of Object.entries(r.layers ?? {})) {
       const where = `${slug(name)}.rules.json › layers › ${layer}`;
       const n = layers.get(layer);

@@ -23,11 +23,13 @@
         "type": "object",
         "properties": {
           "tag": { "$ref": "#/$defs/tag" },
-          "linkWhen": { "$ref": "#/$defs/propName" }
+          "linkWhen": { "$ref": "#/$defs/propName" },
+          "props": { "type": "object", "additionalProperties": { "$ref": "#/$defs/propName" } }
         },
         "additionalProperties": false
       },
       "layers": { "type": "object", "additionalProperties": { "$ref": "#/$defs/layer" } },
+      "modifiers": { "type": "object", "additionalProperties": { "$ref": "#/$defs/propName" } },
       "props": {
         "type": "object",
         "additionalProperties": {

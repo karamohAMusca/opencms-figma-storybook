@@ -121,7 +121,7 @@ for (const [fn, re, name] of r9) ok(has(mutate(card(), fn), 'ERRORE', 'R-D9', re
 
 for (const f of readdirSync(dirname(fileURLToPath(import.meta.url))).filter((f) => f.endsWith('.mjs'))) {
   const src = readFileSync(join(dirname(fileURLToPath(import.meta.url)), f), 'utf8');
-  const external = [...src.matchAll(/^import .* from '([^']+)'/gm)].map((m) => m[1]).filter((i) => !i.startsWith('node:') && !i.startsWith('./'));
+  const external = [...src.matchAll(/^import .* from '([^']+)'/gm)].map((m) => m[1]).filter((i) => !i.startsWith('node:') && !i.startsWith('.'));
   ok(external.length === 0, `${f}: solo libreria standard di Node`);
 }
 

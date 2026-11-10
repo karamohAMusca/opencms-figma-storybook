@@ -290,7 +290,7 @@ Le chiavi ammesse in `rules.json` sono un elenco chiuso, con uno schema: una chi
 | G0 | Preparazione: telemetria spenta, regole fissate, file Figma sistemato | S | quasi fatto: restano due decisioni (bordi da 1px, stati Hover/Focus), vedi [G0-FIGMA.md](G0-FIGMA.md) |
 | G1 | Plugin di estrazione `fx-export` e formato del JSON | M | in corso: primo export vero fatto, manca la prova di ripetibilità |
 | G2 | `figma:lint`: le regole del disegno | S | fatto; export veri: 0 errori, 3 avvisi (bordi da 1px) |
-| G3 | `figma:generate`: Button, poi Input, poi Card | L | da fare |
+| G3 | `figma:generate`: Button, poi Input, poi Card | L | fatto (in `src/generated/`, accanto ai componenti attuali) |
 | G4 | I componenti attuali diventano generati, via i dati dell'MCP | M | da fare |
 | G5 | Prova: variante Tertiary e un componente nuovo, solo con il tool | M | da fare |
 | G6 | Un comando solo e i controlli nella skill | S | da fare |
@@ -341,6 +341,15 @@ Si scrive `scripts/figma/generate.mjs` con le tabelle come dati, un componente a
 Il generatore scrive in una cartella di prova; i file di oggi restano dove sono.
 
 Verifica: `test:generator` passa; per ogni componente l'HTML generato coincide con quello di oggi per tutti i casi di `test:opencms`, salvo differenze elencate e accettate; `visual` entro il 2%.
+
+Stato (2026-11-10): fatto.
+- `scripts/figma/generate.mjs` (`npm run figma:generate [componente] [-- --check]`): tabelle di mappatura come dati, ordine fisso delle proprietà CSS, tabella dei tag con le correzioni per Mercury, CSS delle varianti per differenza, `rules.json` ed `extra.css` dei componenti. Scrive in `src/generated/` (story "Generati/…" in Storybook), più `tokens.css` dalle variabili di `variables.json` e dai `styles` di `tokens.json`. Regola: i numeri delle variabili sono misure in px.
+- `rules.json` ed `extra.css` scritti per Button, Input e Card in `src/components/<nome>/`. Aggiunte allo schema di `rules.json`: `root.props` (attributi della radice) e `modifiers` (classi da proprietà, come `fx-button--full`); implementata la chiave `optional`.
+- Regola nuova (deterministica): un frame con un solo livello di testo, non citato in `rules.json`, porta il testo direttamente dentro di sé (come il Button: `<button>Accedi</button>`).
+- **Confronto HTML** con i componenti attuali (`npm run figma:compare-html`, ordine degli attributi ignorato): 22 casi su 26 uguali; le 4 differenze sono volute: `type=""` vuoto non viene più scritto (Button, Input) e la Card ha le proprietà nuove di Figma `showText` / `showButton`.
+- **Confronto visivo** (`npm run visual -- --export`: story generate ↔ screenshot del plugin composti su bianco): Button Primary 1,92%, Secondary 0,74%, Card 0,76%, Input 1,38%; i componenti attuali restano com'erano (1,90 / 0,72 / 1,09 / 1,30 / Login 0,66%).
+- `npm run test:generator`: 66 controlli (nomi, ogni riga delle tabelle, rifiuti, CSS delle varianti, determinismo anche con le chiavi in ordine diverso, `src/generated/` allineato). Ha trovato un difetto (varianti con il testo rinominato non segnalate), corretto; cambiando una riga di tabella il test fallisce (provato). Nella skill `check-modifiche`.
+- Allineato `figma:lint` ai nomi delle proprietà del generatore (camelCase, testi delle istanze esposte, immagini).
 
 ### G4 — I componenti diventano generati · M
 
