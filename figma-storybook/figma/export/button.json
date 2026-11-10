@@ -1,0 +1,259 @@
+{
+  "component": {
+    "description": "Bottone principale. Varianti Primary e Secondary; la proprietà Label imposta il testo.",
+    "kind": "COMPONENT_SET",
+    "name": "Button",
+    "nodeId": "1:22"
+  },
+  "exporter": "1.0.0",
+  "properties": {
+    "Label": {
+      "default": "Accedi",
+      "type": "TEXT"
+    },
+    "Variant": {
+      "default": "Primary",
+      "options": [
+        "Primary",
+        "Secondary"
+      ],
+      "type": "VARIANT"
+    }
+  },
+  "schema": 1,
+  "variants": [
+    {
+      "name": "Variant=Primary",
+      "nodeId": "1:18",
+      "render": [
+        0,
+        0,
+        99,
+        42
+      ],
+      "screenshot": "button.primary.png",
+      "tree": {
+        "children": [
+          {
+            "name": "Label",
+            "nodeId": "1:19",
+            "refs": {
+              "characters": "Label"
+            },
+            "size": {
+              "h": "HUG",
+              "height": {
+                "value": 18
+              },
+              "w": "HUG",
+              "width": {
+                "value": 51
+              }
+            },
+            "text": {
+              "align": "LEFT",
+              "characters": "Accedi",
+              "fills": [
+                {
+                  "color": "#ffffff",
+                  "type": "SOLID",
+                  "var": "text/on-primary"
+                }
+              ],
+              "font": {
+                "family": "Inter",
+                "style": "Semi Bold"
+              },
+              "letterSpacing": {
+                "unit": "PERCENT",
+                "value": 0
+              },
+              "lineHeight": {
+                "unit": "AUTO"
+              },
+              "size": {
+                "value": 15
+              },
+              "weight": 600
+            },
+            "type": "TEXT"
+          }
+        ],
+        "fills": [
+          {
+            "color": "#4f46e5",
+            "type": "SOLID",
+            "var": "brand/primary"
+          }
+        ],
+        "layout": {
+          "cross": "CENTER",
+          "gap": {
+            "value": 0
+          },
+          "main": "CENTER",
+          "mode": "HORIZONTAL",
+          "padding": {
+            "bottom": {
+              "value": 12
+            },
+            "left": {
+              "value": 24,
+              "var": "space/lg"
+            },
+            "right": {
+              "value": 24,
+              "var": "space/lg"
+            },
+            "top": {
+              "value": 12
+            }
+          }
+        },
+        "name": "Variant=Primary",
+        "nodeId": "1:18",
+        "radius": {
+          "value": 10,
+          "var": "radius/md"
+        },
+        "size": {
+          "h": "HUG",
+          "height": {
+            "value": 42
+          },
+          "w": "HUG",
+          "width": {
+            "value": 99
+          }
+        },
+        "type": "COMPONENT"
+      },
+      "values": {
+        "Variant": "Primary"
+      }
+    },
+    {
+      "name": "Variant=Secondary",
+      "nodeId": "1:20",
+      "render": [
+        0,
+        0,
+        101,
+        44
+      ],
+      "screenshot": "button.secondary.png",
+      "tree": {
+        "children": [
+          {
+            "name": "Label",
+            "nodeId": "1:21",
+            "refs": {
+              "characters": "Label"
+            },
+            "size": {
+              "h": "HUG",
+              "height": {
+                "value": 18
+              },
+              "w": "HUG",
+              "width": {
+                "value": 51
+              }
+            },
+            "text": {
+              "align": "LEFT",
+              "characters": "Accedi",
+              "fills": [
+                {
+                  "color": "#0f172a",
+                  "type": "SOLID",
+                  "var": "text/primary"
+                }
+              ],
+              "font": {
+                "family": "Inter",
+                "style": "Semi Bold"
+              },
+              "letterSpacing": {
+                "unit": "PERCENT",
+                "value": 0
+              },
+              "lineHeight": {
+                "unit": "AUTO"
+              },
+              "size": {
+                "value": 15
+              },
+              "weight": 600
+            },
+            "type": "TEXT"
+          }
+        ],
+        "fills": [
+          {
+            "color": "#ffffff",
+            "type": "SOLID",
+            "var": "surface/card"
+          }
+        ],
+        "layout": {
+          "cross": "CENTER",
+          "gap": {
+            "value": 0
+          },
+          "main": "CENTER",
+          "mode": "HORIZONTAL",
+          "padding": {
+            "bottom": {
+              "value": 12
+            },
+            "left": {
+              "value": 24,
+              "var": "space/lg"
+            },
+            "right": {
+              "value": 24,
+              "var": "space/lg"
+            },
+            "top": {
+              "value": 12
+            }
+          }
+        },
+        "name": "Variant=Secondary",
+        "nodeId": "1:20",
+        "radius": {
+          "value": 10,
+          "var": "radius/md"
+        },
+        "size": {
+          "h": "HUG",
+          "height": {
+            "value": 44
+          },
+          "w": "HUG",
+          "width": {
+            "value": 101
+          }
+        },
+        "stroke": {
+          "align": "INSIDE",
+          "paints": [
+            {
+              "color": "#e2e8f0",
+              "type": "SOLID",
+              "var": "border/default"
+            }
+          ],
+          "weight": {
+            "value": 1
+          }
+        },
+        "type": "COMPONENT"
+      },
+      "values": {
+        "Variant": "Secondary"
+      }
+    }
+  ]
+}

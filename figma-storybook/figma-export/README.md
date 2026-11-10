@@ -10,6 +10,18 @@ Primo passo del generatore Figma → Storybook ([piano-design-system/GENERATORE.
 
 Il plugin compare in **Plugins → Development → fx-export**. Lo vedi solo tu, non si pubblica. Figma legge i file da questa cartella a ogni avvio: dopo un `git pull` usa la versione nuova.
 
+## Permessi sul file Figma
+
+Figma esegue i plugin solo per chi ha **accesso in modifica** al file (anche se questo plugin legge e basta). Con la sola lettura:
+
+1. **Il designer del cliente esporta e consegna lo zip** (consigliato con dati sensibili): installa il plugin da questo repo, ne controlla il codice (quattro file, senza rete), esporta e manda solo gli zip. Chi riceve non accede al file.
+2. **Copia del file nelle proprie bozze**, dove si ha la modifica: solo se il proprietario permette ai lettori di copiare, e con il suo consenso, perché la copia resta nell'account Figma di chi la fa.
+3. **Accesso in modifica** (posto Full), anche solo per il tempo dell'esportazione.
+
+Non si usa la REST API: con la sola lettura funzionerebbe, ma i nomi delle variabili si leggono solo sul piano Enterprise e servirebbe un token di accesso al file.
+
+Gli export contengono testi e descrizioni del disegno: con il file di un cliente **non vanno committati in un repo pubblico**.
+
 ## Uso
 
 1. Nel file Figma seleziona **un componente** o **un set di varianti** (non una singola variante, non un'istanza).

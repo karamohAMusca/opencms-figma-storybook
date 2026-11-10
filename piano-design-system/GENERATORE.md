@@ -288,7 +288,7 @@ Le chiavi ammesse in `rules.json` sono un elenco chiuso, con uno schema: una chi
 | # | Fase | Dim. | Stato |
 |---|---|---|---|
 | G0 | Preparazione: telemetria spenta, regole fissate, file Figma sistemato | S | in corso: repo fatto, correzioni in Figma da fare ([G0-FIGMA.md](G0-FIGMA.md)) |
-| G1 | Plugin di estrazione `fx-export` e formato del JSON | M | in corso: codice e test offline fatti, prova sul file Figma vero da fare |
+| G1 | Plugin di estrazione `fx-export` e formato del JSON | M | in corso: primo export vero fatto, manca la prova di ripetibilità |
 | G2 | `figma:lint`: le regole del disegno | S | da fare |
 | G3 | `figma:generate`: Button, poi Input, poi Card | L | da fare |
 | G4 | I componenti attuali diventano generati, via i dati dell'MCP | M | da fare |
@@ -315,7 +315,8 @@ Rischio: arrotondamenti diversi tra due esecuzioni (si risolvono nella normalizz
 
 Stato (2026-11-10):
 - Fatto: `figma-storybook/figma-export/` (manifest senza rete, `code.js`, `ui.html`, `schema.json`, `VERSION`, README); un solo zip per esportazione (senza compressione, data fissa) invece di più download; `npm run figma:import -- <zip>` (CRC, nomi ammessi, schema, forma canonica); `npm run test:export`, 43 controlli su un Figma simulato: stessi byte con chiavi in ordine diverso, schema, zip in andata e ritorno, errori attesi, niente rete né dipendenze. Il test fallisce se si toglie l'ordinamento delle chiavi, se si aggiunge un campo, se compare `fetch` nel plugin (provato).
-- Da fare, a mano in Figma: installare il plugin, esportare Button, Input, Card, importare gli zip, ripetere l'esportazione (anche da un secondo computer) e confrontare. Il plugin non è ancora stato provato sul file vero: la Plugin API reale può differire dal Figma simulato su dettagli (per esempio campi assenti su alcuni tipi di nodo); ogni differenza si corregge nel codice e si aggiunge al test.
+- Fatto sul file vero (2026-11-10): plugin installato, Button, Input e Card esportati e importati in `figma-storybook/figma/export/` senza errori e senza correzioni al codice. I JSON rispettano lo schema e contengono ciò che serve al generatore: variabili legate per nome, proprietà, istanza annidata esposta (Button nella Card), margini dell'ombra (`render` della Card: -16, -12, 374, 400, come nel vecchio manifest). `test:export` (55 controlli) ora verifica anche gli export salvati: schema, forma canonica, LF, screenshot presenti. Quello che l'export ha mostrato sul file Figma è in [G0-FIGMA.md](G0-FIGMA.md).
+- Da fare: la prova di ripetibilità. Con gli export committati, si esportano di nuovo Button, Input e Card (meglio da un secondo computer) e si importano: `git status` deve restare pulito. Se un file cambia, `git diff` mostra cosa: si corregge la normalizzazione e si aggiunge il caso al test.
 
 ### G2 — `figma:lint` · S
 

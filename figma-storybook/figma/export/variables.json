@@ -1,0 +1,106 @@
+{
+  "collections": {
+    "Colori": {
+      "defaultMode": "Light",
+      "modes": [
+        "Light"
+      ],
+      "variables": {
+        "border/default": {
+          "type": "COLOR",
+          "values": {
+            "Light": "#e2e8f0"
+          }
+        },
+        "brand/primary": {
+          "type": "COLOR",
+          "values": {
+            "Light": "#4f46e5"
+          }
+        },
+        "brand/primary-hover": {
+          "type": "COLOR",
+          "values": {
+            "Light": "#4338ca"
+          }
+        },
+        "surface/background": {
+          "type": "COLOR",
+          "values": {
+            "Light": "#f8fafc"
+          }
+        },
+        "surface/card": {
+          "type": "COLOR",
+          "values": {
+            "Light": "#ffffff"
+          }
+        },
+        "text/on-primary": {
+          "type": "COLOR",
+          "values": {
+            "Light": "#ffffff"
+          }
+        },
+        "text/primary": {
+          "type": "COLOR",
+          "values": {
+            "Light": "#0f172a"
+          }
+        },
+        "text/secondary": {
+          "type": "COLOR",
+          "values": {
+            "Light": "#64748b"
+          }
+        }
+      }
+    },
+    "Spaziature": {
+      "defaultMode": "Mode 1",
+      "modes": [
+        "Mode 1"
+      ],
+      "variables": {
+        "radius/lg": {
+          "type": "FLOAT",
+          "values": {
+            "Mode 1": 16
+          }
+        },
+        "radius/md": {
+          "type": "FLOAT",
+          "values": {
+            "Mode 1": 10
+          }
+        },
+        "space/lg": {
+          "type": "FLOAT",
+          "values": {
+            "Mode 1": 24
+          }
+        },
+        "space/md": {
+          "type": "FLOAT",
+          "values": {
+            "Mode 1": 16
+          }
+        },
+        "space/sm": {
+          "type": "FLOAT",
+          "values": {
+            "Mode 1": 8
+          }
+        },
+        "space/xl": {
+          "type": "FLOAT",
+          "values": {
+            "Mode 1": 32
+          }
+        }
+      }
+    }
+  },
+  "exporter": "1.0.0",
+  "schema": 1
+}

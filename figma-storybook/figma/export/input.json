@@ -1,0 +1,220 @@
+{
+  "component": {
+    "description": "Campo di testo con etichetta. Proprietà: Label, Placeholder.",
+    "kind": "COMPONENT",
+    "name": "Input",
+    "nodeId": "1:23"
+  },
+  "exporter": "1.0.0",
+  "properties": {
+    "Label": {
+      "default": "Email",
+      "type": "TEXT"
+    },
+    "Placeholder": {
+      "default": "nome@esempio.it",
+      "type": "TEXT"
+    }
+  },
+  "render": [
+    0,
+    0,
+    326,
+    72
+  ],
+  "schema": 1,
+  "screenshot": "input.png",
+  "tree": {
+    "children": [
+      {
+        "name": "Label",
+        "nodeId": "1:24",
+        "refs": {
+          "characters": "Label"
+        },
+        "size": {
+          "h": "HUG",
+          "height": {
+            "value": 16
+          },
+          "w": "HUG",
+          "width": {
+            "value": 34
+          }
+        },
+        "text": {
+          "align": "LEFT",
+          "characters": "Email",
+          "fills": [
+            {
+              "color": "#0f172a",
+              "type": "SOLID",
+              "var": "text/primary"
+            }
+          ],
+          "font": {
+            "family": "Inter",
+            "style": "Medium"
+          },
+          "letterSpacing": {
+            "unit": "PERCENT",
+            "value": 0
+          },
+          "lineHeight": {
+            "unit": "AUTO"
+          },
+          "size": {
+            "value": 13
+          },
+          "weight": 500
+        },
+        "type": "TEXT"
+      },
+      {
+        "children": [
+          {
+            "name": "Placeholder",
+            "nodeId": "1:26",
+            "refs": {
+              "characters": "Placeholder"
+            },
+            "size": {
+              "h": "HUG",
+              "height": {
+                "value": 18
+              },
+              "w": "HUG",
+              "width": {
+                "value": 127
+              }
+            },
+            "text": {
+              "align": "LEFT",
+              "characters": "nome@esempio.it",
+              "fills": [
+                {
+                  "color": "#64748b",
+                  "type": "SOLID",
+                  "var": "text/secondary"
+                }
+              ],
+              "font": {
+                "family": "Inter",
+                "style": "Regular"
+              },
+              "letterSpacing": {
+                "unit": "PERCENT",
+                "value": 0
+              },
+              "lineHeight": {
+                "unit": "AUTO"
+              },
+              "size": {
+                "value": 15
+              },
+              "weight": 400
+            },
+            "type": "TEXT"
+          }
+        ],
+        "clip": true,
+        "fills": [
+          {
+            "color": "#ffffff",
+            "type": "SOLID",
+            "var": "surface/card"
+          }
+        ],
+        "layout": {
+          "cross": "MIN",
+          "gap": {
+            "value": 0
+          },
+          "main": "MIN",
+          "mode": "HORIZONTAL",
+          "padding": {
+            "bottom": {
+              "value": 14
+            },
+            "left": {
+              "value": 16
+            },
+            "right": {
+              "value": 16
+            },
+            "top": {
+              "value": 14
+            }
+          }
+        },
+        "name": "Field",
+        "nodeId": "1:25",
+        "radius": {
+          "value": 10,
+          "var": "radius/md"
+        },
+        "size": {
+          "h": "HUG",
+          "height": {
+            "value": 48
+          },
+          "w": "FILL",
+          "width": {
+            "value": 326
+          }
+        },
+        "stroke": {
+          "align": "INSIDE",
+          "paints": [
+            {
+              "color": "#e2e8f0",
+              "type": "SOLID",
+              "var": "border/default"
+            }
+          ],
+          "weight": {
+            "value": 1
+          }
+        },
+        "type": "FRAME"
+      }
+    ],
+    "layout": {
+      "cross": "MIN",
+      "gap": {
+        "value": 8,
+        "var": "space/sm"
+      },
+      "main": "MIN",
+      "mode": "VERTICAL",
+      "padding": {
+        "bottom": {
+          "value": 0
+        },
+        "left": {
+          "value": 0
+        },
+        "right": {
+          "value": 0
+        },
+        "top": {
+          "value": 0
+        }
+      }
+    },
+    "name": "Input",
+    "nodeId": "1:23",
+    "size": {
+      "h": "HUG",
+      "height": {
+        "value": 72
+      },
+      "w": "FIXED",
+      "width": {
+        "value": 326
+      }
+    },
+    "type": "COMPONENT"
+  },
+  "variants": []
+}

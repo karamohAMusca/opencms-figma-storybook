@@ -1,0 +1,361 @@
+{
+  "component": {
+    "description": "Card con immagine, titolo, testo e Button Primary annidato (etichetta modificabile dall'istanza esposta). In OpenCms: content type fx-card.",
+    "kind": "COMPONENT",
+    "name": "Card",
+    "nodeId": "44:10"
+  },
+  "exporter": "1.0.0",
+  "properties": {
+    "Text": {
+      "default": "Accedi alla nuova area riservata per gestire il tuo account e le tue preferenze.",
+      "type": "TEXT"
+    },
+    "Title": {
+      "default": "Scopri le novità",
+      "type": "TEXT"
+    }
+  },
+  "render": [
+    -16,
+    -12,
+    374,
+    400
+  ],
+  "schema": 1,
+  "screenshot": "card.png",
+  "tree": {
+    "children": [
+      {
+        "fills": [
+          {
+            "color": "#f8fafc",
+            "type": "SOLID",
+            "var": "surface/background"
+          }
+        ],
+        "name": "Image",
+        "nodeId": "44:11",
+        "size": {
+          "h": "FIXED",
+          "height": {
+            "value": 192
+          },
+          "w": "FILL",
+          "width": {
+            "value": 340
+          }
+        },
+        "type": "RECTANGLE"
+      },
+      {
+        "children": [
+          {
+            "children": [
+              {
+                "name": "Title",
+                "nodeId": "44:14",
+                "refs": {
+                  "characters": "Title"
+                },
+                "size": {
+                  "h": "HUG",
+                  "height": {
+                    "value": 24
+                  },
+                  "w": "FILL",
+                  "width": {
+                    "value": 292
+                  }
+                },
+                "text": {
+                  "align": "LEFT",
+                  "characters": "Scopri le novità",
+                  "fills": [
+                    {
+                      "color": "#0f172a",
+                      "type": "SOLID",
+                      "var": "text/primary"
+                    }
+                  ],
+                  "font": {
+                    "family": "Inter",
+                    "style": "Bold"
+                  },
+                  "letterSpacing": {
+                    "unit": "PERCENT",
+                    "value": 0
+                  },
+                  "lineHeight": {
+                    "unit": "AUTO"
+                  },
+                  "size": {
+                    "value": 20
+                  },
+                  "weight": 700
+                },
+                "type": "TEXT"
+              },
+              {
+                "name": "Accedi alla nuova area riservata per gestire il tuo account e le tue preferenze.",
+                "nodeId": "44:15",
+                "refs": {
+                  "characters": "Text"
+                },
+                "size": {
+                  "h": "HUG",
+                  "height": {
+                    "value": 36
+                  },
+                  "w": "FILL",
+                  "width": {
+                    "value": 292
+                  }
+                },
+                "text": {
+                  "align": "LEFT",
+                  "characters": "Accedi alla nuova area riservata per gestire il tuo account e le tue preferenze.",
+                  "fills": [
+                    {
+                      "color": "#64748b",
+                      "type": "SOLID",
+                      "var": "text/secondary"
+                    }
+                  ],
+                  "font": {
+                    "family": "Inter",
+                    "style": "Regular"
+                  },
+                  "letterSpacing": {
+                    "unit": "PERCENT",
+                    "value": 0
+                  },
+                  "lineHeight": {
+                    "unit": "AUTO"
+                  },
+                  "size": {
+                    "value": 15
+                  },
+                  "weight": 400
+                },
+                "type": "TEXT"
+              }
+            ],
+            "clip": true,
+            "layout": {
+              "cross": "MIN",
+              "gap": {
+                "value": 8,
+                "var": "space/sm"
+              },
+              "main": "MIN",
+              "mode": "VERTICAL",
+              "padding": {
+                "bottom": {
+                  "value": 0
+                },
+                "left": {
+                  "value": 0
+                },
+                "right": {
+                  "value": 0
+                },
+                "top": {
+                  "value": 0
+                }
+              }
+            },
+            "name": "Texts",
+            "nodeId": "44:13",
+            "size": {
+              "h": "HUG",
+              "height": {
+                "value": 68
+              },
+              "w": "FILL",
+              "width": {
+                "value": 292
+              }
+            },
+            "type": "FRAME"
+          },
+          {
+            "fills": [
+              {
+                "color": "#4f46e5",
+                "type": "SOLID",
+                "var": "brand/primary"
+              }
+            ],
+            "instance": {
+              "component": "Button",
+              "componentNodeId": "1:22",
+              "exposed": true,
+              "properties": {
+                "Label": "Scopri di più",
+                "Variant": "Primary"
+              }
+            },
+            "layout": {
+              "cross": "CENTER",
+              "gap": {
+                "value": 0
+              },
+              "main": "CENTER",
+              "mode": "HORIZONTAL",
+              "padding": {
+                "bottom": {
+                  "value": 12
+                },
+                "left": {
+                  "value": 24,
+                  "var": "space/lg"
+                },
+                "right": {
+                  "value": 24,
+                  "var": "space/lg"
+                },
+                "top": {
+                  "value": 12
+                }
+              }
+            },
+            "name": "Button",
+            "nodeId": "44:16",
+            "radius": {
+              "value": 10,
+              "var": "radius/md"
+            },
+            "size": {
+              "h": "HUG",
+              "height": {
+                "value": 42
+              },
+              "w": "HUG",
+              "width": {
+                "value": 138
+              }
+            },
+            "type": "INSTANCE"
+          }
+        ],
+        "clip": true,
+        "layout": {
+          "cross": "MIN",
+          "gap": {
+            "value": 16,
+            "var": "space/md"
+          },
+          "main": "MIN",
+          "mode": "VERTICAL",
+          "padding": {
+            "bottom": {
+              "value": 24,
+              "var": "space/lg"
+            },
+            "left": {
+              "value": 24,
+              "var": "space/lg"
+            },
+            "right": {
+              "value": 24,
+              "var": "space/lg"
+            },
+            "top": {
+              "value": 24,
+              "var": "space/lg"
+            }
+          }
+        },
+        "name": "Body",
+        "nodeId": "44:12",
+        "size": {
+          "h": "HUG",
+          "height": {
+            "value": 174
+          },
+          "w": "FILL",
+          "width": {
+            "value": 340
+          }
+        },
+        "type": "FRAME"
+      }
+    ],
+    "clip": true,
+    "effects": {
+      "items": [
+        {
+          "color": "rgba(15, 23, 41, 0.06)",
+          "offset": {
+            "x": 0,
+            "y": 4
+          },
+          "radius": 16,
+          "spread": 0,
+          "type": "DROP_SHADOW"
+        }
+      ]
+    },
+    "fills": [
+      {
+        "color": "#ffffff",
+        "type": "SOLID",
+        "var": "surface/card"
+      }
+    ],
+    "layout": {
+      "cross": "MIN",
+      "gap": {
+        "value": 0
+      },
+      "main": "MIN",
+      "mode": "VERTICAL",
+      "padding": {
+        "bottom": {
+          "value": 0
+        },
+        "left": {
+          "value": 0
+        },
+        "right": {
+          "value": 0
+        },
+        "top": {
+          "value": 0
+        }
+      }
+    },
+    "name": "Card",
+    "nodeId": "44:10",
+    "radius": {
+      "value": 16,
+      "var": "radius/lg"
+    },
+    "size": {
+      "h": "HUG",
+      "height": {
+        "value": 368
+      },
+      "w": "FIXED",
+      "width": {
+        "value": 342
+      }
+    },
+    "stroke": {
+      "align": "INSIDE",
+      "paints": [
+        {
+          "color": "#e2e8f0",
+          "type": "SOLID",
+          "var": "border/default"
+        }
+      ],
+      "weight": {
+        "value": 1
+      }
+    },
+    "type": "COMPONENT"
+  },
+  "variants": []
+}

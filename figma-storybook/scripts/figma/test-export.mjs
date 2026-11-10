@@ -158,6 +158,21 @@ try {
   rmSync(dir, { recursive: true, force: true });
 }
 
+// ---------- export salvati in figma/export/ (dal file Figma vero) ----------
+
+const savedDir = new URL('../../figma/export/', import.meta.url);
+let saved = [];
+try { saved = readdirSync(savedDir); } catch { /* nessun export ancora */ }
+for (const f of saved.filter((n) => n.endsWith('.json'))) {
+  const text = readFileSync(new URL(f, savedDir), 'utf8');
+  const data = JSON.parse(text);
+  const errors = validate(data, f === 'variables.json' ? 'variables' : 'component');
+  ok(errors.length === 0, `figma/export/${f}: schema (${errors.slice(0, 3).join('; ')})`);
+  ok(P.stringify(data) === text, `figma/export/${f}: forma canonica e LF`);
+  const shots = [data.screenshot, ...(data.variants ?? []).map((v) => v.screenshot)].filter(Boolean);
+  for (const s of shots) ok(saved.includes(s), `figma/export/${f}: manca lo screenshot ${s}`);
+}
+
 // ---------- niente rete, niente dipendenze ----------
 
 const FORBIDDEN = /\b(fetch|XMLHttpRequest|WebSocket|EventSource|sendBeacon|importScripts)\b|\beval\s*\(|new Function\s*\(|<script[^>]+src=|<link[^>]+href=|https?:\/\//;
