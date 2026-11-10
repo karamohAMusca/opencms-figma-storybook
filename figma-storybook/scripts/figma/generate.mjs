@@ -261,6 +261,8 @@ export function generateComponent(id, data, ctx) {
 
     const cls = classOf(n, isRoot);
     const decl = { ...lookCss(n, where), ...sizeCss(n, parentMode, where) };
+    // Regola fissa: la radice dichiara il font dei token, così il componente non dipende da quello della pagina che lo ospita
+    if (isRoot) decl['font-family'] = 'var(--font-family)';
     // Un elemento senza figli (input) non usa l'auto layout del frame da cui nasce: restano padding e aspetto
     if (lr.textAs) for (const k of ['display', 'flex-direction', 'justify-content', 'align-items', 'gap']) delete decl[k];
     // La regola del livello va prima di quelle dei figli: si prenota il posto e si riempie dopo

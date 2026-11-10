@@ -101,6 +101,9 @@ const b = gen(BUTTON, { root: { tag: 'button' } });
 const css = b.files['button.css'];
 ok(/\.fx-button--secondary \{\n {2}background: var\(--surface-card\);\n {2}border: 1px solid var\(--border-default\);\n {2}color: var\(--text-primary\);\n\}/.test(css), 'variante: solo le dichiarazioni diverse dalla predefinita');
 ok(!/\.fx-button--primary/.test(css), 'variante predefinita: nessuna regola in più');
+const CARD = JSON.parse(readFileSync(join(root, 'figma', 'export', 'card.json'), 'utf8'));
+const cardCss = generateComponent('card', CARD, { exports: new Map([['button', BUTTON], ['card', CARD]]), rules: null, extraCss: null, hash: '0'.repeat(64) }).files['card.css'];
+ok(/^\.fx-card \{[^}]*font-family: var\(--font-family\);/m.test(cardCss), 'radice: font dei token anche senza testo diretto');
 ok(b.files['button.template.js'].includes("mod('fx-button--', prop('variant'))"), 'variante: classe modificatore');
 
 // ---------- determinismo ----------

@@ -66,6 +66,7 @@
   border: 1px solid var(--border-default);
   border-radius: var(--radius-lg);
   box-shadow: var(--shadow-card);
+  font-family: var(--font-family);
 }
 
 .fx-card__image {
@@ -129,6 +130,7 @@
   align-items: flex-start;
   gap: var(--space-sm);
   width: 100%;
+  font-family: var(--font-family);
 }
 
 .fx-input__label {
