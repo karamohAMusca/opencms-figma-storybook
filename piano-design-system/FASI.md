@@ -10,6 +10,13 @@ Ogni fase parte dal risultato verificato della precedente, salvo F5 (indipendent
 
 Verifica: `golden` passa su `develop` e fallisce se si cambia un byte di un file generato (lo si prova una volta con una modifica di prova).
 
+**Fatta il 2026-11-10.**
+
+- `figma-storybook/scripts/golden.mjs` (`npm run golden`), impronta in `figma-storybook/golden.json`: 30 file, cioè tutti i file del modulo tranne `README.md` (JSP, schemi, formatter, etichette, `.config`, configurazione master, plugin, CSS, font) più `figma-storybook/src/tokens.css`. I testi si confrontano con fine riga LF, così `core.autocrlf` di Windows non conta.
+- Provato: un byte aggiunto a `components.css` → `CAMBIATO`, esce con 1; un file tolto e uno aggiunto → `MANCANTE` e `NUOVO`; lo stesso file con fine riga CRLF → passa. Ripristinati i file, di nuovo verde.
+- Controllo aggiunto alla skill `check-modifiche` ("impronta dei generati").
+- Cancellati gli zip da 1.0.0 a 1.0.6 in `dist/` e `dev.log` (file locali). Tenuto `dist/it.progetti.figma_1.0.7.zip`, la versione installata; `module-version.txt` resta perché `dev.py` ci legge la versione corrente.
+
 ## F1 — Un solo file di configurazione · M
 
 Era P1. Si introduce `ds.config.json`, letto sia dagli script Node sia da quelli Python, e si sostituiscono con le sue voci le costanti elencate nei capitoli 1, 2, 6 e 8 di [ACCOPPIAMENTI.md](ACCOPPIAMENTI.md). Rispetto a P1, la configurazione nasce già con **più moduli e più temi**, anche se per ora c'è un modulo e un tema solo.

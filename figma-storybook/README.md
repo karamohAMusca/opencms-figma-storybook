@@ -39,6 +39,7 @@ Ogni componente ha quattro file:
 
 Un componente usato da un altro (`use`) diventa `<cms:include>` se ha un proprio elemento JSP (Input), altrimenti viene espanso nel JSP di chi lo usa (Button nel Login).
 `npm run test:opencms` esegue i JSP generati con un interprete minimo (`scripts/opencms/jsp-sim.mjs`) e confronta l'HTML con quello del template, per i default e per ogni opzione, sì/no e testo facoltativo vuoto: controlla la traduzione, non sostituisce la prova in OpenCms.
+`npm run golden` confronta l'impronta (SHA-256, fine riga ignorati) dei file del modulo e di `src/tokens.css` con quella salvata in `golden.json`: fallisce se un file generato cambia, manca o si aggiunge. Se il cambiamento è voluto, `npm run golden -- --update` nello stesso commit (vedi `piano-design-system/`).
 Le regole che servono solo dentro Mercury (colori ripetuti su `:hover`/`:focus` dei link, niente ombra sui campi, font dei titoli) stanno
 nel CSS dei componenti, commentate. Classi con prefisso `fx-`. Con `dev.py` in ascolto, i file generati arrivano in OpenCms da soli.
 

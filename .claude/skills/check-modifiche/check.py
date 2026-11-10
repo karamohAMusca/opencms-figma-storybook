@@ -133,6 +133,12 @@ def check_export():
         r = run([node, str(test)])
         last = (r.stdout.strip() or r.stderr.strip()).splitlines()[-1:] or [""]
         add("OK" if r.returncode == 0 else "FAIL", "JSP = template", last[0][:200])
+    golden = ROOT / "figma-storybook" / "scripts" / "golden.mjs"
+    if golden.exists():
+        r = run([node, str(golden)])
+        out = (r.stdout.strip() or r.stderr.strip()).splitlines()
+        detail = out[-1] if r.returncode == 0 else "; ".join(l for l in out if l.strip())[:200]
+        add("OK" if r.returncode == 0 else "FAIL", "impronta dei generati", detail)
 
 
 def check_xml(files):

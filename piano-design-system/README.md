@@ -9,7 +9,7 @@ Obiettivo: un insieme di **moduli "design system"** per OpenCms in cui CSS, JS e
 
 Questo piano segue `PIANO.md` (fasi 1-5, fatte il 2026-10-22: la pipeline Figma → Storybook → OpenCms funziona su un modulo e un tema). Sostituisce il piano di portabilità del 2026-10-23, che non era iniziato. Le sue fasi utili (P1-P4, parte di P5 e P6) sono riprese qui come fasi di base. Le fasi si chiamano **F0…F12** per non confonderle con quelle di `PIANO.md`.
 
-Stato: `da fare` / `in corso` / `fatto`. Definito il 2026-11-10, nessuna fase iniziata.
+Stato: `da fare` / `in corso` / `fatto`. Definito il 2026-11-10. Fatta F0 (2026-11-10).
 
 ## Cosa c'è in questa cartella
 
@@ -45,7 +45,7 @@ Stato: `da fare` / `in corso` / `fatto`. Definito il 2026-11-10, nessuna fase in
 
 | # | Filone | Fase | Dim. | Stato |
 |---|---|---|---|---|
-| F0 | Base | Ancora di non regressione e pulizia | S | da fare |
+| F0 | Base | Ancora di non regressione e pulizia | S | fatto |
 | F1 | Base | Un solo file di configurazione, pronto per più moduli e temi | M | da fare |
 | F2 | Temi | Tutte le variabili Figma, token per tema, tema scelto in Storybook | M | da fare |
 | F3 | Base | Registro dei tipi di campo, componenti trovati dai loro file | M | da fare |
