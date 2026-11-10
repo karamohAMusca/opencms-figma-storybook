@@ -1,0 +1,46 @@
+<!-- fx-export: finestra del plugin. Nessuna risorsa esterna, nessuna chiamata di rete: riceve lo zip da code.js e lo salva. -->
+<style>
+  body { font: 13px/1.4 system-ui, sans-serif; margin: 16px; color: #0f172a; }
+  button { font: inherit; padding: 8px 16px; border: 0; border-radius: 6px; background: #4f46e5; color: #fff; cursor: pointer; }
+  button:disabled { opacity: 0.5; cursor: default; }
+  #sel { color: #64748b; margin: 0 0 12px; }
+  #out { margin-top: 12px; white-space: pre-wrap; }
+  .err { color: #b91c1c; }
+</style>
+<p><strong>fx-export</strong>: esporta il componente selezionato per il generatore (JSON, PNG, variabili).</p>
+<p id="sel"></p>
+<button id="go">Esporta</button>
+<div id="out"></div>
+<script>
+  var go = document.getElementById('go');
+  var out = document.getElementById('out');
+  go.onclick = function () {
+    go.disabled = true;
+    out.className = '';
+    out.textContent = 'Esportazione…';
+    parent.postMessage({ pluginMessage: { type: 'export' } }, '*');
+  };
+  onmessage = function (event) {
+    var msg = event.data.pluginMessage;
+    if (!msg) return;
+    if (msg.type === 'selection') {
+      document.getElementById('sel').textContent = 'Selezione: ' + msg.text;
+    } else if (msg.type === 'zip') {
+      var url = URL.createObjectURL(new Blob([msg.bytes], { type: 'application/zip' }));
+      var a = document.createElement('a');
+      a.href = url;
+      a.download = msg.name;
+      document.body.appendChild(a);
+      a.click();
+      a.remove();
+      setTimeout(function () { URL.revokeObjectURL(url); }, 1000);
+      out.textContent = msg.name + '\n' + msg.files.map(function (f) { return '  ' + f; }).join('\n') +
+        '\n\nPoi, in figma-storybook: npm run figma:import -- <percorso dello zip>';
+      go.disabled = false;
+    } else if (msg.type === 'error') {
+      out.className = 'err';
+      out.textContent = msg.message;
+      go.disabled = false;
+    }
+  };
+</script>

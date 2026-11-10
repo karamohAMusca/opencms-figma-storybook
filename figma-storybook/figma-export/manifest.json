@@ -1,0 +1,13 @@
+{
+  "name": "fx-export",
+  "id": "fx-export-dev",
+  "api": "1.0.0",
+  "main": "code.js",
+  "ui": "ui.html",
+  "editorType": ["figma"],
+  "documentAccess": "dynamic-page",
+  "networkAccess": {
+    "allowedDomains": ["none"],
+    "reasoning": "Estrattore locale: legge il file aperto e consegna uno zip a chi lo lancia. Nessun dato esce da Figma."
+  }
+}

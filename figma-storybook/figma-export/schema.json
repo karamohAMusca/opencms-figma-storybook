@@ -1,0 +1,261 @@
+{
+  "$comment": "Formato degli export di fx-export (schema 1). Sottoinsieme di JSON Schema letto da scripts/figma/schema.mjs: type, enum, const, properties, required, additionalProperties, items, anyOf, $ref. Un campo nuovo richiede una versione nuova dello schema.",
+  "$defs": {
+    "value": {
+      "type": "object",
+      "properties": { "value": { "type": "number" }, "var": { "type": "string" } },
+      "required": ["value"],
+      "additionalProperties": false
+    },
+    "mixed": { "const": "MIXED" },
+    "paint": {
+      "type": "object",
+      "properties": {
+        "type": { "type": "string" },
+        "color": { "type": "string" },
+        "var": { "type": "string" },
+        "scaleMode": { "type": "string" }
+      },
+      "required": ["type"],
+      "additionalProperties": false
+    },
+    "paints": { "anyOf": [{ "$ref": "#/$defs/mixed" }, { "type": "array", "items": { "$ref": "#/$defs/paint" } }] },
+    "sizing": { "enum": ["FIXED", "HUG", "FILL"] },
+    "node": {
+      "type": "object",
+      "properties": {
+        "name": { "type": "string" },
+        "type": { "type": "string" },
+        "nodeId": { "type": "string" },
+        "visible": { "const": false },
+        "refs": { "type": "object", "additionalProperties": { "type": "string" } },
+        "positioning": { "const": "ABSOLUTE" },
+        "rotation": { "type": "number" },
+        "mask": { "const": true },
+        "blend": { "type": "string" },
+        "opacity": { "type": "number" },
+        "clip": { "const": true },
+        "size": {
+          "type": "object",
+          "properties": {
+            "w": { "$ref": "#/$defs/sizing" },
+            "h": { "$ref": "#/$defs/sizing" },
+            "width": { "$ref": "#/$defs/value" },
+            "height": { "$ref": "#/$defs/value" }
+          },
+          "required": ["w", "h", "width", "height"],
+          "additionalProperties": false
+        },
+        "layout": {
+          "type": "object",
+          "properties": {
+            "mode": { "enum": ["NONE", "HORIZONTAL", "VERTICAL", "GRID"] },
+            "wrap": { "const": true },
+            "gap": { "$ref": "#/$defs/value" },
+            "padding": {
+              "type": "object",
+              "properties": {
+                "top": { "$ref": "#/$defs/value" },
+                "right": { "$ref": "#/$defs/value" },
+                "bottom": { "$ref": "#/$defs/value" },
+                "left": { "$ref": "#/$defs/value" }
+              },
+              "required": ["top", "right", "bottom", "left"],
+              "additionalProperties": false
+            },
+            "main": { "type": "string" },
+            "cross": { "type": "string" }
+          },
+          "required": ["mode"],
+          "additionalProperties": false
+        },
+        "fills": { "$ref": "#/$defs/paints" },
+        "stroke": {
+          "type": "object",
+          "properties": {
+            "paints": { "$ref": "#/$defs/paints" },
+            "weight": {
+              "anyOf": [
+                { "$ref": "#/$defs/value" },
+                { "type": "object", "properties": { "mixed": { "type": "array", "items": { "type": "number" } } }, "required": ["mixed"], "additionalProperties": false }
+              ]
+            },
+            "align": { "type": "string" }
+          },
+          "required": ["paints", "weight", "align"],
+          "additionalProperties": false
+        },
+        "radius": {
+          "anyOf": [
+            { "$ref": "#/$defs/value" },
+            { "type": "object", "properties": { "corners": { "type": "array", "items": { "$ref": "#/$defs/value" } } }, "required": ["corners"], "additionalProperties": false }
+          ]
+        },
+        "effects": {
+          "type": "object",
+          "properties": {
+            "items": {
+              "type": "array",
+              "items": {
+                "type": "object",
+                "properties": {
+                  "type": { "type": "string" },
+                  "radius": { "type": "number" },
+                  "color": { "type": "string" },
+                  "offset": { "type": "object", "properties": { "x": { "type": "number" }, "y": { "type": "number" } }, "required": ["x", "y"], "additionalProperties": false },
+                  "spread": { "type": "number" }
+                },
+                "required": ["type", "radius"],
+                "additionalProperties": false
+              }
+            },
+            "style": { "type": "string" }
+          },
+          "required": ["items"],
+          "additionalProperties": false
+        },
+        "text": {
+          "type": "object",
+          "properties": {
+            "characters": { "type": "string" },
+            "font": {
+              "type": "object",
+              "properties": { "family": { "type": "string" }, "style": { "type": "string" } },
+              "required": ["family", "style"],
+              "additionalProperties": false
+            },
+            "weight": { "anyOf": [{ "type": "number" }, { "$ref": "#/$defs/mixed" }] },
+            "size": { "anyOf": [{ "$ref": "#/$defs/value" }, { "$ref": "#/$defs/mixed" }] },
+            "lineHeight": {
+              "anyOf": [
+                { "$ref": "#/$defs/mixed" },
+                { "type": "object", "properties": { "unit": { "type": "string" }, "value": { "type": "number" } }, "required": ["unit"], "additionalProperties": false }
+              ]
+            },
+            "letterSpacing": {
+              "anyOf": [
+                { "$ref": "#/$defs/mixed" },
+                { "type": "object", "properties": { "unit": { "type": "string" }, "value": { "type": "number" } }, "required": ["unit", "value"], "additionalProperties": false }
+              ]
+            },
+            "align": { "type": "string" },
+            "case": { "type": "string" },
+            "decoration": { "type": "string" },
+            "style": { "type": "string" },
+            "fills": { "$ref": "#/$defs/paints" }
+          },
+          "required": ["characters", "font", "weight", "size", "lineHeight", "letterSpacing", "align", "fills"],
+          "additionalProperties": false
+        },
+        "instance": {
+          "type": "object",
+          "properties": {
+            "component": { "type": "string" },
+            "componentNodeId": { "type": "string" },
+            "exposed": { "const": true },
+            "properties": { "type": "object", "additionalProperties": { "type": ["string", "boolean"] } }
+          },
+          "required": ["component", "properties"],
+          "additionalProperties": false
+        },
+        "children": { "type": "array", "items": { "$ref": "#/$defs/node" } }
+      },
+      "required": ["name", "type", "nodeId", "size"],
+      "additionalProperties": false
+    },
+    "bounds": { "type": "array", "items": { "type": "number" } }
+  },
+  "component": {
+    "type": "object",
+    "properties": {
+      "exporter": { "type": "string" },
+      "schema": { "const": 1 },
+      "component": {
+        "type": "object",
+        "properties": {
+          "name": { "type": "string" },
+          "nodeId": { "type": "string" },
+          "kind": { "enum": ["COMPONENT", "COMPONENT_SET"] },
+          "description": { "type": "string" }
+        },
+        "required": ["name", "nodeId", "kind"],
+        "additionalProperties": false
+      },
+      "properties": {
+        "type": "object",
+        "additionalProperties": {
+          "type": "object",
+          "properties": {
+            "type": { "enum": ["VARIANT", "TEXT", "BOOLEAN", "INSTANCE_SWAP", "SLOT"] },
+            "default": { "type": ["string", "boolean"] },
+            "options": { "type": "array", "items": { "type": "string" } }
+          },
+          "required": ["type"],
+          "additionalProperties": false
+        }
+      },
+      "variants": {
+        "type": "array",
+        "items": {
+          "type": "object",
+          "properties": {
+            "name": { "type": "string" },
+            "nodeId": { "type": "string" },
+            "values": { "type": "object", "additionalProperties": { "type": "string" } },
+            "render": { "$ref": "#/$defs/bounds" },
+            "screenshot": { "type": "string" },
+            "tree": { "$ref": "#/$defs/node" }
+          },
+          "required": ["name", "nodeId", "values", "render", "screenshot", "tree"],
+          "additionalProperties": false
+        }
+      },
+      "render": { "$ref": "#/$defs/bounds" },
+      "screenshot": { "type": "string" },
+      "tree": { "$ref": "#/$defs/node" }
+    },
+    "required": ["exporter", "schema", "component", "properties", "variants"],
+    "additionalProperties": false
+  },
+  "variables": {
+    "type": "object",
+    "properties": {
+      "exporter": { "type": "string" },
+      "schema": { "const": 1 },
+      "collections": {
+        "type": "object",
+        "additionalProperties": {
+          "type": "object",
+          "properties": {
+            "defaultMode": { "type": "string" },
+            "modes": { "type": "array", "items": { "type": "string" } },
+            "variables": {
+              "type": "object",
+              "additionalProperties": {
+                "type": "object",
+                "properties": {
+                  "type": { "enum": ["COLOR", "FLOAT", "STRING", "BOOLEAN"] },
+                  "values": {
+                    "type": "object",
+                    "additionalProperties": {
+                      "anyOf": [
+                        { "type": ["string", "number", "boolean"] },
+                        { "type": "object", "properties": { "alias": { "type": "string" } }, "required": ["alias"], "additionalProperties": false }
+                      ]
+                    }
+                  }
+                },
+                "required": ["type", "values"],
+                "additionalProperties": false
+              }
+            }
+          },
+          "required": ["defaultMode", "modes", "variables"],
+          "additionalProperties": false
+        }
+      }
+    },
+    "required": ["exporter", "schema", "collections"],
+    "additionalProperties": false
+  }
+}
