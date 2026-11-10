@@ -1,6 +1,10 @@
 # Generatore Figma → Storybook (piano-design-system/GENERATORE.md): fine riga LF fissi, così i file sono
-# identici byte per byte su ogni macchina, qualunque sia core.autocrlf. Le immagini restano binarie.
+# identici byte per byte su ogni macchina, qualunque sia core.autocrlf. Le immagini restano binarie
+# (la riga *.png è l'ultima: vale anche dentro le cartelle sopra).
 figma-storybook/figma/export/** text eol=lf
 figma-storybook/figma-export/** text eol=lf
 figma-storybook/scripts/figma/** text eol=lf
+figma-storybook/src/generated/** text eol=lf
+figma-storybook/src/components/** text eol=lf
+*.svg text eol=lf
 *.png binary
