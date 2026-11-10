@@ -11,6 +11,67 @@
   },
   "components": [
     {
+      "name": "Badge",
+      "kind": "component_set",
+      "nodeId": "51:19",
+      "size": [
+        57,
+        24
+      ],
+      "description": "Etichetta breve. Varianti Brand e Neutral; la proprietà Label imposta il testo.",
+      "variants": [
+        {
+          "name": "Variant=Brand",
+          "nodeId": "51:15",
+          "size": [
+            57,
+            24
+          ],
+          "render": [
+            0,
+            0,
+            57,
+            24
+          ],
+          "screenshot": "export/badge.brand.png",
+          "story": "Brand"
+        },
+        {
+          "name": "Variant=Neutral",
+          "nodeId": "51:17",
+          "size": [
+            59,
+            26
+          ],
+          "render": [
+            0,
+            0,
+            59,
+            26
+          ],
+          "screenshot": "export/badge.neutral.png",
+          "story": "Neutral"
+        }
+      ],
+      "properties": {
+        "Label": {
+          "type": "TEXT",
+          "default": "Nuovo"
+        },
+        "Variant": {
+          "type": "VARIANT",
+          "default": "Brand",
+          "options": [
+            "Brand",
+            "Neutral"
+          ]
+        }
+      },
+      "screenshot": "export/badge.brand.png",
+      "code": "src/components/badge/",
+      "stories": "Componenti/Badge"
+    },
+    {
       "name": "Button",
       "kind": "component_set",
       "nodeId": "1:22",
@@ -51,6 +112,22 @@
           ],
           "screenshot": "export/button.secondary.png",
           "story": "Secondary"
+        },
+        {
+          "name": "Variant=Tertiary",
+          "nodeId": "51:13",
+          "size": [
+            99,
+            42
+          ],
+          "render": [
+            0,
+            0,
+            99,
+            42
+          ],
+          "screenshot": "export/button.tertiary.png",
+          "story": "Tertiary"
         }
       ],
       "properties": {
@@ -63,7 +140,8 @@
           "default": "Primary",
           "options": [
             "Primary",
-            "Secondary"
+            "Secondary",
+            "Tertiary"
           ]
         }
       },

@@ -36,7 +36,7 @@ File di un componente (`src/components/<nome>/`):
 | `*.template.js` | **generato** (`figma:generate`) | markup e proprietà, scritti con i nodi di `src/template.js` (`h`, `prop`, `when`, `choose`, `use`, `cls`, `mod`, `concat`, `opt`): niente funzioni, perché ogni nodo deve avere un equivalente JSP |
 | `*.css` | **generato** | stili, dalle tabelle del generatore; in coda il contenuto di `*.extra.css` |
 | `*.js`, `*.stories.js` | **generato** | il componente per Storybook (`render(template, props)`) e le story (`figmaMeta`, `figmaVariant`) |
-| `*.rules.json` | a mano | la semantica che Figma non sa esprimere: tag HTML, link, attributi, proprietà in più, story di prova (schema in `scripts/figma/rules.schema.json`) |
+| `*.rules.json` | a mano | la semantica che Figma non sa esprimere: tag HTML, link, attributi, proprietà in più, story di prova, eventuali eccezioni dichiarate al confronto visivo (`visual`: soglia e motivo) (schema in `scripts/figma/rules.schema.json`) |
 | `*.extra.css` | a mano, facoltativo | ciò che non si disegna in Figma (focus, larghezza piena) |
 | `*.opencms.js` | a mano | content type (`type`: nome, etichette, cartella, campo titolo), formatter o elemento, e da dove prende i valori il JSP: campi del contenuto (`field`, `link`, `image`, con etichetta e obbligatorietà), impostazioni (`setting`, `settingIs`, con opzioni), parametri di un elemento incluso (`param`), testo JSP (`raw`), costanti. Helper in `src/opencms.js` |
 

@@ -78,7 +78,8 @@ ok(has(mutate(card(), (c) => { delete node(c, 1, 0, 0).refs; }), 'AVVISO', 'R-D5
 
 ok(has(mutate(BUTTON, (c) => { c.properties.State = { type: 'VARIANT', default: 'Default', options: ['Default', 'Pressed'] }; }), 'ERRORE', 'R-D6', /Pressed/), 'R-D6: valore di State non ammesso');
 ok(has(mutate(BUTTON, (c) => { c.properties.Variant.options = ['Primary', 'primary']; }), 'ERRORE', 'R-D6', /stessa classe/), 'R-D6: opzioni con la stessa classe');
-ok(has(mutate(BUTTON, (c) => { c.variants.pop(); }), 'AVVISO', 'R-D6', /1 varianti disegnate su 2/), 'R-D6: combinazione mancante');
+const nv = BUTTON.variants.length; // il test non dipende da quante varianti ha oggi il Button in Figma
+ok(has(mutate(BUTTON, (c) => { c.variants.pop(); }), 'AVVISO', 'R-D6', new RegExp(`${nv - 1} varianti disegnate su ${nv}`)), 'R-D6: combinazione mancante');
 
 // ---------- R-D7 ----------
 
@@ -94,6 +95,8 @@ ok(errors(mutate(card(), (c) => { node(c, 0).fills = [{ type: 'IMAGE', scaleMode
 ok(has(lint(card(), { rules: { ...rules, extra: 1 } }), 'ERRORE', 'rules', /campo non ammesso "extra"/), 'rules: chiave sconosciuta');
 ok(has(lint(card(), { rules: { layers: { Titolo: { tag: 'h3' } } } }), 'ERRORE', 'rules', /"Titolo" non trovato/), 'rules: livello rinominato in Figma');
 ok(has(lint(card(), { rules: { layers: { Title: { tag: 'marquee' } } } }), 'ERRORE', 'rules', /marquee/), 'rules: tag non ammesso');
+ok(has(lint(card(), { rules: { visual: { Default: { tolerance: 0.1 } } } }), 'ERRORE', 'rules', /manca "reason"/), 'rules: eccezione visiva senza motivo');
+ok(errors(lint(card(), { rules: { visual: { Default: { tolerance: 0.03, reason: 'prova' } } } })).length === 0, 'rules: eccezione visiva con soglia e motivo');
 ok(has(lint(INPUT, { rules: { layers: { Label: { tag: 'label', textAs: 'placeholder' } } } }), 'ERRORE', 'rules', /textAs vale solo/), 'rules: textAs fuori da input');
 ok(has(lint(BUTTON, { rules: { root: { tag: 'button', linkWhen: 'url' } } }), 'ERRORE', 'rules', /linkWhen/), 'rules: linkWhen su proprietà inesistente');
 ok(has(lint(card(), { rules: { props: { x: { to: 'Title.href' } } } }), 'ERRORE', 'rules', /non è un'istanza/), 'rules: to verso un livello che non è un\'istanza');

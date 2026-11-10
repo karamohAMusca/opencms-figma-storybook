@@ -41,6 +41,19 @@
           "additionalProperties": false
         }
       },
+      "visual": {
+        "$comment": "Eccezioni dichiarate al confronto visivo (npm run visual), per story: soglia e motivo obbligatori.",
+        "type": "object",
+        "additionalProperties": {
+          "type": "object",
+          "properties": {
+            "tolerance": { "type": "number" },
+            "reason": { "type": "string" }
+          },
+          "required": ["tolerance", "reason"],
+          "additionalProperties": false
+        }
+      },
       "stories": {
         "type": "object",
         "additionalProperties": {

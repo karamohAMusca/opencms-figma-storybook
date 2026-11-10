@@ -25,7 +25,7 @@
       <DisplayName><![CDATA[Variante]]></DisplayName>
       <Widget><![CDATA[select]]></Widget>
       <Default><![CDATA[primary]]></Default>
-      <WidgetConfig><![CDATA[primary:Primary|secondary:Secondary]]></WidgetConfig>
+      <WidgetConfig><![CDATA[primary:Primary|secondary:Secondary|tertiary:Tertiary]]></WidgetConfig>
     </Setting>
     <Setting>
       <PropertyName><![CDATA[width]]></PropertyName>

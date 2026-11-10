@@ -1,0 +1,12 @@
+{
+  "$comment": "Semantica del Badge che Figma non esprime: è un'etichetta dentro il testo, quindi <span>. Scritto a mano.",
+  "root": {
+    "tag": "span"
+  },
+  "visual": {
+    "Brand": {
+      "tolerance": 0.06,
+      "reason": "testo bianco su brand/primary in un componente di 57×24 px: forma e misura uguali a Figma, cambiano solo i bordi delle lettere (Inter di @fontsource un filo più stretto di quello di Figma, come nel Button Primary)"
+    }
+  }
+}

@@ -90,6 +90,9 @@ throws(() => gen({ ...BUTTON, properties: { ...BUTTON.properties, Size: { type: 
 const different = structuredClone(BUTTON);
 different.variants[1].tree.children[0].name = 'Altro';
 throws(() => gen(different), /stessi livelli/, 'varianti con livelli diversi');
+const unbound = structuredClone(BUTTON);
+delete unbound.variants[1].tree.children[0].refs;
+throws(() => gen(unbound), /collegamenti alle proprietà diversi/, 'varianti con il testo non legato alla stessa proprietà');
 const imgOnDiv = structuredClone(BUTTON);
 imgOnDiv.variants[0].tree.children[0].type = 'RECTANGLE';
 imgOnDiv.variants[0].tree.children[0].fills = [{ type: 'IMAGE', scaleMode: 'FILL' }];

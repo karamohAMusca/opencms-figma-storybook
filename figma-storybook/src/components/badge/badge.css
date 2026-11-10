@@ -1,0 +1,25 @@
+/* GENERATO da figma/export/badge.json (sha256 3bae6ae5b4dac06c) con figma:generate 1.0.0: non modificare a mano */
+
+.fx-badge {
+  box-sizing: border-box;
+  display: inline-flex;
+  justify-content: center;
+  align-items: center;
+  margin: 0;
+  padding: var(--space-xs) var(--space-sm);
+  background: var(--brand-primary);
+  border-radius: var(--radius-full);
+  font-family: var(--font-family);
+  font-size: var(--font-size-sm);
+  font-weight: 600;
+  line-height: var(--font-line-height);
+  letter-spacing: normal;
+  color: var(--text-on-primary);
+  white-space: nowrap;
+}
+
+.fx-badge--neutral {
+  background: var(--surface-background);
+  border: 1px solid var(--border-default);
+  color: var(--text-secondary);
+}

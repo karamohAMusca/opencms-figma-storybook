@@ -1,4 +1,4 @@
-// GENERATO da figma/export/button.json (sha256 d851e51af60ee28c) con figma:generate 1.0.0: non modificare a mano
+// GENERATO da figma/export/button.json (sha256 9be490341256d55d) con figma:generate 1.0.0: non modificare a mano
 import { h, prop, when, choose, cls, mod, opt } from '../../template.js';
 
 /** Figma: Button (1:22). */
@@ -7,7 +7,7 @@ export default {
   figma: '1:22',
   props: {
     label: { default: 'Accedi' },
-    variant: { options: ['primary', 'secondary'], default: 'primary' },
+    variant: { options: ['primary', 'secondary', 'tertiary'], default: 'primary' },
     href: {},
     type: { default: 'button' },
     fullWidth: { default: false },

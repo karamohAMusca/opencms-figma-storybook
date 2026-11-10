@@ -1,0 +1,265 @@
+{
+  "component": {
+    "description": "Etichetta breve. Varianti Brand e Neutral; la proprietà Label imposta il testo.",
+    "kind": "COMPONENT_SET",
+    "name": "Badge",
+    "nodeId": "51:19"
+  },
+  "exporter": "1.0.0",
+  "properties": {
+    "Label": {
+      "default": "Nuovo",
+      "type": "TEXT"
+    },
+    "Variant": {
+      "default": "Brand",
+      "options": [
+        "Brand",
+        "Neutral"
+      ],
+      "type": "VARIANT"
+    }
+  },
+  "schema": 1,
+  "variants": [
+    {
+      "name": "Variant=Brand",
+      "nodeId": "51:15",
+      "render": [
+        0,
+        0,
+        57,
+        24
+      ],
+      "screenshot": "badge.brand.png",
+      "tree": {
+        "children": [
+          {
+            "name": "Label",
+            "nodeId": "51:16",
+            "refs": {
+              "characters": "Label"
+            },
+            "size": {
+              "h": "HUG",
+              "height": {
+                "value": 16
+              },
+              "w": "HUG",
+              "width": {
+                "value": 41
+              }
+            },
+            "text": {
+              "align": "LEFT",
+              "characters": "Nuovo",
+              "fills": [
+                {
+                  "color": "#ffffff",
+                  "type": "SOLID",
+                  "var": "text/on-primary"
+                }
+              ],
+              "font": {
+                "family": "Inter",
+                "style": "Semi Bold"
+              },
+              "letterSpacing": {
+                "unit": "PERCENT",
+                "value": 0
+              },
+              "lineHeight": {
+                "unit": "AUTO"
+              },
+              "size": {
+                "value": 13,
+                "var": "font/size-sm"
+              },
+              "weight": 600
+            },
+            "type": "TEXT"
+          }
+        ],
+        "fills": [
+          {
+            "color": "#4f46e5",
+            "type": "SOLID",
+            "var": "brand/primary"
+          }
+        ],
+        "layout": {
+          "cross": "CENTER",
+          "gap": {
+            "value": 0
+          },
+          "main": "CENTER",
+          "mode": "HORIZONTAL",
+          "padding": {
+            "bottom": {
+              "value": 4,
+              "var": "space/xs"
+            },
+            "left": {
+              "value": 8,
+              "var": "space/sm"
+            },
+            "right": {
+              "value": 8,
+              "var": "space/sm"
+            },
+            "top": {
+              "value": 4,
+              "var": "space/xs"
+            }
+          }
+        },
+        "name": "Variant=Brand",
+        "nodeId": "51:15",
+        "radius": {
+          "value": 999,
+          "var": "radius/full"
+        },
+        "size": {
+          "h": "HUG",
+          "height": {
+            "value": 24
+          },
+          "w": "HUG",
+          "width": {
+            "value": 57
+          }
+        },
+        "type": "COMPONENT"
+      },
+      "values": {
+        "Variant": "Brand"
+      }
+    },
+    {
+      "name": "Variant=Neutral",
+      "nodeId": "51:17",
+      "render": [
+        0,
+        0,
+        59,
+        26
+      ],
+      "screenshot": "badge.neutral.png",
+      "tree": {
+        "children": [
+          {
+            "name": "Label",
+            "nodeId": "51:18",
+            "refs": {
+              "characters": "Label"
+            },
+            "size": {
+              "h": "HUG",
+              "height": {
+                "value": 16
+              },
+              "w": "HUG",
+              "width": {
+                "value": 41
+              }
+            },
+            "text": {
+              "align": "LEFT",
+              "characters": "Nuovo",
+              "fills": [
+                {
+                  "color": "#64748b",
+                  "type": "SOLID",
+                  "var": "text/secondary"
+                }
+              ],
+              "font": {
+                "family": "Inter",
+                "style": "Semi Bold"
+              },
+              "letterSpacing": {
+                "unit": "PERCENT",
+                "value": 0
+              },
+              "lineHeight": {
+                "unit": "AUTO"
+              },
+              "size": {
+                "value": 13,
+                "var": "font/size-sm"
+              },
+              "weight": 600
+            },
+            "type": "TEXT"
+          }
+        ],
+        "fills": [
+          {
+            "color": "#f8fafc",
+            "type": "SOLID",
+            "var": "surface/background"
+          }
+        ],
+        "layout": {
+          "cross": "CENTER",
+          "gap": {
+            "value": 0
+          },
+          "main": "CENTER",
+          "mode": "HORIZONTAL",
+          "padding": {
+            "bottom": {
+              "value": 4,
+              "var": "space/xs"
+            },
+            "left": {
+              "value": 8,
+              "var": "space/sm"
+            },
+            "right": {
+              "value": 8,
+              "var": "space/sm"
+            },
+            "top": {
+              "value": 4,
+              "var": "space/xs"
+            }
+          }
+        },
+        "name": "Variant=Neutral",
+        "nodeId": "51:17",
+        "radius": {
+          "value": 999,
+          "var": "radius/full"
+        },
+        "size": {
+          "h": "HUG",
+          "height": {
+            "value": 26
+          },
+          "w": "HUG",
+          "width": {
+            "value": 59
+          }
+        },
+        "stroke": {
+          "align": "INSIDE",
+          "paints": [
+            {
+              "color": "#e2e8f0",
+              "type": "SOLID",
+              "var": "border/default"
+            }
+          ],
+          "weight": {
+            "value": 1
+          }
+        },
+        "type": "COMPONENT"
+      },
+      "values": {
+        "Variant": "Neutral"
+      }
+    }
+  ]
+}

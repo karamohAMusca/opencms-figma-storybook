@@ -31,6 +31,13 @@ export function setting(name, { options, default: def, label = name }) {
   return { kind: 'setting', name, label, options, default: def, out: `\${${expr}}`, test: [] };
 }
 
+/**
+ * Opzioni di una proprietà a scelta del template ({ valore: Etichetta }): con il template generato da Figma, una variante
+ * nuova (per esempio Tertiary) arriva nelle impostazioni di OpenCms senza toccare il *.opencms.js.
+ */
+export const optionsOf = (component, prop) =>
+  Object.fromEntries(component.props[prop].options.map((o) => [o, o.charAt(0).toUpperCase() + o.slice(1)]));
+
 /** Impostazione a scelta usata come sì/no: vera se vale `on`. */
 export const settingIs = (name, on, { options, default: def, label = name }) =>
   ({ kind: 'settingIs', name, on, label, options, default: def, out: '', test: [`cms.element.settings.${name} eq '${on}'`] });

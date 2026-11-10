@@ -15,7 +15,8 @@
       "default": "Primary",
       "options": [
         "Primary",
-        "Secondary"
+        "Secondary",
+        "Tertiary"
       ],
       "type": "VARIANT"
     }
@@ -259,6 +260,112 @@
       },
       "values": {
         "Variant": "Secondary"
+      }
+    },
+    {
+      "name": "Variant=Tertiary",
+      "nodeId": "51:13",
+      "render": [
+        0,
+        0,
+        99,
+        42
+      ],
+      "screenshot": "button.tertiary.png",
+      "tree": {
+        "children": [
+          {
+            "name": "Label",
+            "nodeId": "51:14",
+            "refs": {
+              "characters": "Label"
+            },
+            "size": {
+              "h": "HUG",
+              "height": {
+                "value": 18
+              },
+              "w": "HUG",
+              "width": {
+                "value": 51
+              }
+            },
+            "text": {
+              "align": "LEFT",
+              "characters": "Accedi",
+              "fills": [
+                {
+                  "color": "#4f46e5",
+                  "type": "SOLID",
+                  "var": "brand/primary"
+                }
+              ],
+              "font": {
+                "family": "Inter",
+                "style": "Semi Bold"
+              },
+              "letterSpacing": {
+                "unit": "PERCENT",
+                "value": 0
+              },
+              "lineHeight": {
+                "unit": "AUTO"
+              },
+              "size": {
+                "value": 15,
+                "var": "font/size-md"
+              },
+              "weight": 600
+            },
+            "type": "TEXT"
+          }
+        ],
+        "layout": {
+          "cross": "CENTER",
+          "gap": {
+            "value": 0
+          },
+          "main": "CENTER",
+          "mode": "HORIZONTAL",
+          "padding": {
+            "bottom": {
+              "value": 12,
+              "var": "space/sm-plus"
+            },
+            "left": {
+              "value": 24,
+              "var": "space/lg"
+            },
+            "right": {
+              "value": 24,
+              "var": "space/lg"
+            },
+            "top": {
+              "value": 12,
+              "var": "space/sm-plus"
+            }
+          }
+        },
+        "name": "Variant=Tertiary",
+        "nodeId": "51:13",
+        "radius": {
+          "value": 10,
+          "var": "radius/md"
+        },
+        "size": {
+          "h": "HUG",
+          "height": {
+            "value": 42
+          },
+          "w": "HUG",
+          "width": {
+            "value": 99
+          }
+        },
+        "type": "COMPONENT"
+      },
+      "values": {
+        "Variant": "Tertiary"
       }
     }
   ]

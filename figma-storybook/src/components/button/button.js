@@ -1,4 +1,4 @@
-// GENERATO da figma/export/button.json (sha256 d851e51af60ee28c) con figma:generate 1.0.0: non modificare a mano
+// GENERATO da figma/export/button.json (sha256 9be490341256d55d) con figma:generate 1.0.0: non modificare a mano
 import { render } from '../../template.js';
 import button from './button.template.js';
 import './button.css';

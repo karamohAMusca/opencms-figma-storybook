@@ -270,7 +270,7 @@ Button: `{ "root": { "tag": "button", "linkWhen": "href" }, "props": { "href": {
 
 Input: il livello `Field` diventa `input` e il suo testo diventa l'attributo `placeholder` (con il colore del testo su `::placeholder`): `{ "layers": { "Label": { "tag": "label", "for": "Field" }, "Field": { "tag": "input", "textAs": "placeholder" } }, "props": { "type": { "default": "text" }, "name": {}, "required": { "default": false } } }`.
 
-Le chiavi ammesse in `rules.json` sono un elenco chiuso, con uno schema: una chiave sconosciuta è un errore.
+Le chiavi ammesse in `rules.json` sono un elenco chiuso, con uno schema: una chiave sconosciuta è un errore. Oltre a quelle sopra: `modifiers` (classi da proprietà), `root.props` (attributi della radice), `stories` (story di prova, anche con `width`) e `visual` (eccezioni dichiarate al confronto visivo: soglia e motivo per story).
 
 ## Come si verifica
 
@@ -292,7 +292,7 @@ Le chiavi ammesse in `rules.json` sono un elenco chiuso, con uno schema: una chi
 | G2 | `figma:lint`: le regole del disegno | S | fatto; export veri: 0 errori, 3 avvisi (bordi da 1px) |
 | G3 | `figma:generate`: Button, poi Input, poi Card | L | fatto (in `src/generated/`, accanto ai componenti attuali) |
 | G4 | I componenti attuali diventano generati, via i dati dell'MCP | M | fatto |
-| G5 | Prova: variante Tertiary e un componente nuovo, solo con il tool | M | da fare |
+| G5 | Prova: variante Tertiary e un componente nuovo, solo con il tool | M | fatto lato Storybook (OpenCms del Badge rimandato) |
 | G6 | Un comando solo e i controlli nella skill | S | da fare |
 
 ### G0 — Preparazione · S
@@ -378,6 +378,14 @@ Stato (2026-11-10): fatto.
 Da qui gli avvisi R-D2 e R-D3 diventano errori.
 
 Verifica: entrambi passano tutte le verifiche; ogni intervento a mano non previsto diventa una regola nuova (nelle tabelle, con la sua prova) o un difetto del tool.
+
+Stato (2026-11-10), concentrato sul generatore Figma → Storybook (la parte OpenCms del Badge è rimandata):
+- **Figma** (file di prova, via MCP su richiesta): variante `Tertiary` del Button (senza sfondo né bordo, testo `brand/primary`) e componente nuovo `Badge` (varianti `Brand`, `Neutral`, proprietà `Label`), con le variabili nuove `space/xs` (4) e `radius/full` (999).
+- **Tertiary**: dopo l'export nessun file scritto a mano è cambiato. Un solo intervento, fatto prima dell'export e una volta per tutte: le opzioni della variante in OpenCms ora vengono dal template (`optionsOf` in `src/opencms.js`, usato da `button.opencms.js`), e infatti JSP e formatter del Button hanno ricevuto `tertiary` da soli.
+- **Difetto del disegno trovato**: clonando la variante via MCP, il testo della Tertiary aveva perso il legame con la proprietà `Label`. `figma:lint` lo segnalava solo come avviso (R-D5) e il generatore non controllava i legami: **regola nuova**, varianti con collegamenti alle proprietà diversi dalla predefinita sono un errore del generatore (con test). Corretto in Figma e riesportato.
+- **Badge**: un solo file scritto a mano, `badge.rules.json` (`root.tag: span`). Template di una riga, CSS solo con variabili, story e manifest generati, `check:figma` ok.
+- **Confronto visivo**: Button Tertiary 0,26%, Badge Neutral 1,24%, gli altri invariati; **Badge Brand 5,63%**: forma e misura uguali (57×24), cambiano i bordi delle lettere bianche sul viola e una colonna sul lato destro (il testo nel browser è un filo più stretto, come nel Button Primary). Su un componente così piccolo pochi pixel superano il 2%. **Deciso: eccezione dichiarata.** La chiave nuova `visual` di `rules.json` dà per una story soglia e motivo, entrambi obbligatori (`visual.Brand`: 6%, con il motivo); `npm run visual` la applica e la stampa accanto al risultato e nel report; tutti gli altri restano al 2%.
+- Test: `test:generator` 75, `test:lint` 55 (reso indipendente dal numero di varianti del Button), `test:export` 70; `golden` aggiornata (48 file).
 
 ### G6 — Un comando solo · S
 

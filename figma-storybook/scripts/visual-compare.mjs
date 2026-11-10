@@ -12,7 +12,7 @@
 //   scostamento dello screenshot rispetto al componente (ombre), la misura del componente viene dal suo albero;
 // - schermate (Login, da figma/manifest.json): screenshot in figma/screenshots/ ↔ story `visualStory`, con viewport grande
 //   quanto il frame.
-import { readFileSync, writeFileSync, mkdirSync, rmSync, readdirSync } from 'node:fs';
+import { readFileSync, writeFileSync, mkdirSync, rmSync, readdirSync, existsSync } from 'node:fs';
 import { join, dirname } from 'node:path';
 import { fileURLToPath } from 'node:url';
 import { chromium } from 'playwright';
@@ -46,6 +46,8 @@ const targets = [];
 {
   const dir = join(root, 'figma', 'export');
   const pascal = (s) => s.replace(/(^|[\s-]+)(\w)/g, (_, __, c) => c.toUpperCase());
+  // Eccezioni dichiarate: `visual` nel rules.json del componente, per story, con soglia e motivo (scritti a mano)
+  const rulesOf = (id) => { const p = join(root, 'src', 'components', id, `${id}.rules.json`); return existsSync(p) ? JSON.parse(readFileSync(p, 'utf8')) : {}; };
   for (const f of readdirSync(dir).filter((f) => f.endsWith('.json') && f !== 'variables.json').sort()) {
     const data = JSON.parse(readFileSync(join(dir, f), 'utf8'));
     const name = data.component.name;
@@ -55,7 +57,8 @@ const targets = [];
     for (const it of items) {
       targets.push({ key: `${name}-${it.story}`, label: `${name} / ${it.label} (${it.nodeId})`, title: `Componenti/${pascal(name)}`, story: it.story,
         ref: onWhite(PNG.sync.read(readFileSync(join(dir, it.shot)))), size: [it.render[2], it.render[3]], offset: [it.render[0], it.render[1]],
-        nodeSize: [it.tree.size.width.value, it.tree.size.height.value], kind: 'component', bg: WHITE });
+        nodeSize: [it.tree.size.width.value, it.tree.size.height.value], kind: 'component', bg: WHITE,
+        exception: rulesOf(f.replace(/\.json$/, '')).visual?.[it.story] });
     }
   }
 }
@@ -123,7 +126,8 @@ for (const t of targets) {
   // 1px di scarto è ammesso: la larghezza del testo varia di frazioni di pixel tra il motore di Figma e Chromium
   const [ew, eh] = t.nodeSize ?? [w, h];
   const sizeOk = Math.abs(actualSize[0] - ew) <= 1 && Math.abs(actualSize[1] - eh) <= 1;
-  results.push({ ...t, id, changed, ratio, actualSize, sizeOk, pass: ratio <= TOLERANCE && sizeOk });
+  const limit = t.exception ? t.exception.tolerance : TOLERANCE;
+  results.push({ ...t, id, changed, ratio, actualSize, sizeOk, limit, pass: ratio <= limit && sizeOk });
 }
 await browser.close();
 
@@ -133,12 +137,14 @@ const pct = (r) => `${(r * 100).toFixed(2)}%`;
 for (const r of results) {
   if (r.error) console.log(`ERRORE  ${r.label}: ${r.error}`);
   else console.log(`${r.pass ? 'ok    ' : 'DIVERSO'}  ${r.label}  ${pct(r.ratio)} pixel diversi` +
+    (r.exception ? `  · eccezione dichiarata (soglia ${pct(r.limit)}): ${r.exception.reason}` : '') +
     (r.sizeOk ? '' : `  · misura story ${r.actualSize.join('×')} invece di ${r.size.join('×')}`));
 }
 
 const rows = results.map((r) => r.error
   ? `<tr><td>${r.label}</td><td colspan="4" class="ko">${r.error}</td></tr>`
   : `<tr><td>${r.label}<br><small>${r.id}</small><br><b class="${r.pass ? 'ok' : 'ko'}">${pct(r.ratio)}</b>` +
+    `${r.exception ? `<br><small>eccezione dichiarata: soglia ${pct(r.limit)}, ${r.exception.reason}</small>` : ''}` +
     `${r.sizeOk ? '' : `<br><span class="ko">story ${r.actualSize.join('×')} ≠ Figma ${r.size.join('×')}</span>`}</td>` +
     ['figma', 'story', 'diff'].map((k) => `<td><img src="${r.key}-${k}.png"></td>`).join('') + '</tr>');
 writeFileSync(join(OUT, 'index.html'), `<!doctype html><meta charset="utf-8"><title>Confronto visivo Figma ↔ Storybook</title>

@@ -1,4 +1,4 @@
-/* GENERATO da figma/export/variables.json (sha256 85b56b5f426c83da) e figma/tokens.json (styles) con figma:generate 1.0.0: non modificare a mano */
+/* GENERATO da figma/export/variables.json (sha256 97161acb930ad854) e figma/tokens.json (styles) con figma:generate 1.0.0: non modificare a mano */
 
 :root {
   /* Colori (Light) */
@@ -11,6 +11,7 @@
   --text-primary: #0f172a;
   --text-secondary: #64748b;
   /* Spaziature (Mode 1) */
+  --radius-full: 999px;
   --radius-lg: 16px;
   --radius-md: 10px;
   --space-lg: 24px;
@@ -19,6 +20,7 @@
   --space-sm: 8px;
   --space-sm-plus: 12px;
   --space-xl: 32px;
+  --space-xs: 4px;
   /* Tipografia (Mode 1) */
   --font-size-lg: 20px;
   --font-size-md: 15px;

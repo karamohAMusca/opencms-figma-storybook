@@ -3,9 +3,37 @@
  * Richiede tokens.css. Classi con prefisso fx- per non collidere con Mercury. Mobile first.
  */
 
+/* ---------- src/components/badge/badge.css ---------- */
+
+/* GENERATO da figma/export/badge.json (sha256 3bae6ae5b4dac06c) con figma:generate 1.0.0: non modificare a mano */
+
+.fx-badge {
+  box-sizing: border-box;
+  display: inline-flex;
+  justify-content: center;
+  align-items: center;
+  margin: 0;
+  padding: var(--space-xs) var(--space-sm);
+  background: var(--brand-primary);
+  border-radius: var(--radius-full);
+  font-family: var(--font-family);
+  font-size: var(--font-size-sm);
+  font-weight: 600;
+  line-height: var(--font-line-height);
+  letter-spacing: normal;
+  color: var(--text-on-primary);
+  white-space: nowrap;
+}
+
+.fx-badge--neutral {
+  background: var(--surface-background);
+  border: 1px solid var(--border-default);
+  color: var(--text-secondary);
+}
+
 /* ---------- src/components/button/button.css ---------- */
 
-/* GENERATO da figma/export/button.json (sha256 d851e51af60ee28c) con figma:generate 1.0.0: non modificare a mano */
+/* GENERATO da figma/export/button.json (sha256 9be490341256d55d) con figma:generate 1.0.0: non modificare a mano */
 
 .fx-button,
 .fx-button:hover,
@@ -35,6 +63,13 @@
   background: var(--surface-card);
   border: 1px solid var(--border-default);
   color: var(--text-primary);
+}
+
+.fx-button--tertiary,
+.fx-button--tertiary:hover,
+.fx-button--tertiary:focus {
+  background: initial;
+  color: var(--brand-primary);
 }
 
 /* ---------- button.extra.css (scritto a mano) ---------- */

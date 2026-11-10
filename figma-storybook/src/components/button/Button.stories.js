@@ -1,4 +1,4 @@
-// GENERATO da figma/export/button.json (sha256 d851e51af60ee28c) con figma:generate 1.0.0: non modificare a mano
+// GENERATO da figma/export/button.json (sha256 9be490341256d55d) con figma:generate 1.0.0: non modificare a mano
 import { el } from '../../el.js';
 import { figmaMeta, figmaVariant } from '../../figma.js';
 import { Button } from './button.js';
@@ -25,5 +25,6 @@ export default {
 
 export const Primary = figmaVariant('Button', 'Primary');
 export const Secondary = figmaVariant('Button', 'Secondary');
+export const Tertiary = figmaVariant('Button', 'Tertiary');
 export const FullWidth = { name: 'Full width', args: {"fullWidth":true}, render: (args) => el('div', { style: 'width:292px' }, Button(args)) };
 export const AsLink = { name: 'Come link', args: {"variant":"secondary","label":"Continua con Google","href":"#"} };

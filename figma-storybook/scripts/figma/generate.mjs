@@ -360,7 +360,12 @@ export function generateComponent(id, data, ctx) {
     const walk = (a, b, parentMode, isRoot, path) => {
       const where = `${path.join(' › ')} [${o.value}]`;
       if ((!isRoot && a.name !== b.name) || a.type !== b.type || (a.children?.length ?? 0) !== (b.children?.length ?? 0)) fail(where, 'le varianti devono avere gli stessi livelli');
-      (a.children ?? []).forEach((c, i) => { if (c.name !== b.children[i].name || c.type !== b.children[i].type) fail(`${where} › ${c.name}`, 'le varianti devono avere gli stessi livelli'); });
+      (a.children ?? []).forEach((c, i) => {
+        const d = b.children[i];
+        if (c.name !== d.name || c.type !== d.type) fail(`${where} › ${c.name}`, 'le varianti devono avere gli stessi livelli');
+        // Il markup è uno solo per tutte le varianti: i collegamenti alle proprietà devono coincidere
+        if (JSON.stringify(c.refs ?? {}) !== JSON.stringify(d.refs ?? {})) fail(`${where} › ${c.name}`, `collegamenti alle proprietà diversi dalla variante predefinita (${JSON.stringify(c.refs ?? {})} ≠ ${JSON.stringify(d.refs ?? {})})`);
+      });
       if (a.type === 'INSTANCE') return;
       const calc = (n) => {
         const kids = n.children ?? [];
