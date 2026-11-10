@@ -23,10 +23,13 @@ Era P1. Si introduce `ds.config.json`, letto sia dagli script Node sia da quelli
 
 | Voce | Valore di oggi |
 |---|---|
-| `prefix` | `fx` (o quello scelto con D1) |
+| `prefix` | `fx` (D1: resta) |
 | `languages` | `["it", "en"]` |
-| `modules.core` | `{ "name": "it.progetti.figma", "dir": "../it.progetti.figma", "typeIdStart": 20001 }` |
-| `modules.themes` | `{ "default": { "name": "it.progetti.figma", "dir": "../it.progetti.figma" } }`: per ora lo stesso modulo del core |
+| `organization` | `nz.organizzazione` (segnaposto di D1: il nome vero si cambia qui) |
+| `modules.core` | `{ "name": "it.progetti.figma", "dir": "../it.progetti.figma", "typeIdStart": 20001 }`: da F6 `<organization>.module.ds` |
+| `modules.themes` | `{ "default": { "name": "it.progetti.figma", "dir": "../it.progetti.figma" } }`: per ora lo stesso modulo del core; da F6 `<organization>.module.theme.<nome>` |
+| `modules.examples` | assente fino a F6, poi `<organization>.module.examples` |
+| `paths` | dove vanno JSP, CSS, JS, schemi, formatter, etichette nel modulo: oggi `formatters/`, `elements/`, `resources/css/`; da F6 `resources/jsp/`, `resources/css/`, `resources/js/` (D1) |
 | `mercury` | `containerTypes: ["element", "m-element"]`, `formatterRank: 1000` |
 | `storybook.url` | `http://localhost:6007` |
 | `fonts.imports` | letti da `src/index.css` |
@@ -35,11 +38,11 @@ Cosa si tocca: `build_module.py`, `devtools/config.py`, `sync_tokens.py`, `expor
 
 Verifica: `golden` identico; `test:opencms`, `check:figma`, `visual` e la skill `check-modifiche` passano; cambiando il prefisso nella configurazione cambiano i file generati (prova su una copia, poi si scarta).
 
-Rischio: il prefisso è anche nei CSS dei componenti, scritti a mano. Qui si rende configurabile ciò che il motore genera (formatter, contenitore, chiavi). Se con D1 si cambia prefisso, la sostituzione nei CSS si fa una volta, in F6, insieme alla divisione dei moduli.
+Rischio: il prefisso è anche nei CSS dei componenti, scritti a mano. Qui si rende configurabile ciò che il motore genera (formatter, contenitore, chiavi). Con D1 il prefisso resta `fx-`: i CSS dei componenti non cambiano.
 
 ## F2 — Tutte le variabili Figma, token per tema · M
 
-**Lettura da Figma.** Con una sola chiamata `use_figma` si leggono **tutte** le collezioni di variabili, con tutti i mode (un mode = un tema, secondo D2), e si salvano in `figma/tokens.json` in un formato nuovo:
+**Lettura da Figma.** Con il plugin di estrazione di G1 ([GENERATORE.md](GENERATORE.md)), senza AI, si leggono **tutte** le collezioni di variabili, con tutti i mode (un mode = un tema, secondo D2), e si salvano in `figma/tokens.json` in un formato nuovo:
 
 ```json
 {
@@ -105,7 +108,7 @@ La forma finale è in [STRUTTURA.md](STRUTTURA.md). In breve:
 - **un modulo per tema**: token, font, eventuali immagini e icone del tema, il plugin del sito che lo attiva.
 - **esempi**: la schermata Login (ex `fx-login`, ora composizione di componenti), la pagina di prova `/fx-test/`, contenuti di esempio. Non si installa in produzione.
 
-L'export scrive in più cartelle di modulo secondo la configurazione; `dev.py` e `build_module.py` gestiscono più moduli (un aggiornamento completo per modulo, mai due insieme: la regola di `PROBLEMI.md` resta). `compare:opencms` gira **per ogni tema**: installa core e tema, attiva il tema nella pagina di prova, confronta con le story di quel tema. Se con D1 cambiano nomi o prefisso, la sostituzione si fa qui, una volta.
+L'export scrive in più cartelle di modulo secondo la configurazione; `dev.py` e `build_module.py` gestiscono più moduli (un aggiornamento completo per modulo, mai due insieme: la regola di `PROBLEMI.md` resta). `compare:opencms` gira **per ogni tema**: installa core e tema, attiva il tema nella pagina di prova, confronta con le story di quel tema. Qui i moduli prendono i nomi di D1 (`nz.organizzazione.module.ds`, `.theme.<nome>`, `.examples`), e i JSP passano in `resources/jsp/`: tutto in una volta.
 
 Cosa si tocca: export, `build_module.py`, `devtools/` (watcher, aggiornamento completo, pagina di prova, registrazione dei CSS), `compare-opencms.mjs`, configurazione master, README del modulo, `CLAUDE.md`.
 
@@ -130,6 +133,8 @@ Verifica: `compare:opencms` entro il 2% con i file minificati, per ogni tema; un
 
 ## F8 — Generatore Figma → Storybook · L
 
+> **Sostituita il 2026-11-10** da G0-G4 di [GENERATORE.md](GENERATORE.md), che la fa prima di F1 e in modo deterministico (script fisso sulla Plugin API invece del design context, semantica in `rules.json`). Il testo sotto resta come storia della prima versione.
+
 È lo "strumento automatico" della precondizione. Due passi separati, così il generatore funziona anche senza Figma raggiungibile:
 
 1. **Lettura** (`figma:pull <node-id>`, secondo D5): legge da Figma metadata, design context, screenshot per ogni tema e la voce del manifest, e li salva in `figma/`. Con l'MCP la esegue Claude con le stesse chiamate della Card; con la REST API uno script.
@@ -147,6 +152,8 @@ Rischio: il design context di Figma è codice React/Tailwind indicativo. Il gene
 
 ## F9 — Prova: un componente nuovo solo con il generatore · M
 
+> **Sostituita il 2026-11-10** da G5 di [GENERATORE.md](GENERATORE.md).
+
 Come la Card in `PIANO.md`, ma con lo strumento: un componente nuovo (per esempio Alert o Badge, con almeno due varianti e un campo di un tipo nuovo di F3) disegnato in Figma con le variabili esistenti, portato con `figma:pull` e `figma:scaffold`, rifinito, esportato, provato in OpenCms con tutti i temi.
 
 Criteri di riuscita: nessun file del motore modificato per questo componente; nessun XML o JSP scritto a mano; `visual` e `compare:opencms` entro il 2% in ogni tema; il tempo e i ritocchi necessari sono annotati (servono per la documentazione e per migliorare il generatore).
@@ -162,7 +169,7 @@ Lo Storybook diventa la fonte della documentazione, così da non mantenerla in d
 
 Lo Storybook si pubblica (D7) con `build-storybook`.
 
-Verifica: ogni componente ha la sua pagina con la tabella OpenCms generata; uno sviluppatore che non conosce il progetto aggiunge un componente seguendo solo lo Storybook (prova con una persona o con una sessione di Claude senza contesto).
+Verifica: ogni componente ha la sua pagina con la tabella OpenCms generata; uno sviluppatore che non conosce il progetto aggiunge un componente seguendo solo lo Storybook (prova con una persona che non ha lavorato al progetto).
 
 ## F11 — Versioni e rilasci dei moduli · M
 
