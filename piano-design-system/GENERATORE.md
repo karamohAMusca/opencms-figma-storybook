@@ -287,7 +287,7 @@ Le chiavi ammesse in `rules.json` sono un elenco chiuso, con uno schema: una chi
 
 | # | Fase | Dim. | Stato |
 |---|---|---|---|
-| G0 | Preparazione: telemetria spenta, regole fissate, file Figma sistemato | S | da fare |
+| G0 | Preparazione: telemetria spenta, regole fissate, file Figma sistemato | S | in corso: repo fatto, correzioni in Figma da fare ([G0-FIGMA.md](G0-FIGMA.md)) |
 | G1 | Plugin di estrazione `fx-export` e formato del JSON | M | da fare |
 | G2 | `figma:lint`: le regole del disegno | S | da fare |
 | G3 | `figma:generate`: Button, poi Input, poi Card | L | da fare |
@@ -302,6 +302,8 @@ Le chiavi ammesse in `rules.json` sono un elenco chiuso, con uno schema: una chi
 - Elenco delle correzioni da fare in Figma, ricavato dai dati già salvati (sezione "Com'è oggi"): variabili per `font-size` 13/15/20 e per i padding 12, 14, 16; proprietà BOOLEAN per immagine, testo e bottone della Card; riempimento immagine sul livello `Image`; eventualmente la variante `State` del Button e dell'Input. Le correzioni le fa il designer in Figma.
 
 Verifica: telemetria spenta (controllo nella skill); l'elenco delle correzioni esiste e ogni voce è fatta o accettata come avviso, per scritto.
+
+Stato (2026-11-10): telemetria e controllo delle versioni di Storybook spenti e verificati; elenco delle correzioni in [G0-FIGMA.md](G0-FIGMA.md), da fare in Figma.
 
 ### G1 — Plugin di estrazione · M
 

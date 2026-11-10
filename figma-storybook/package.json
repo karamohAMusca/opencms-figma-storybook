@@ -3,7 +3,7 @@
   "private": true,
   "type": "module",
   "scripts": {
-    "storybook": "storybook dev -p 6007",
+    "storybook": "storybook dev -p 6007 --no-version-updates",
     "build-storybook": "storybook build",
     "check:figma": "node scripts/check-figma.mjs",
     "visual": "node scripts/visual-compare.mjs",

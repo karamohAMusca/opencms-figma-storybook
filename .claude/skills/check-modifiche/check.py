@@ -206,6 +206,20 @@ def check_module():
         add("WARN", "module-types.json", "modificato: gli id dei content type devono restare stabili, controlla il diff")
 
 
+def check_telemetry():
+    """Storybook non deve inviare dati d'uso (requisito per dati sensibili, piano-design-system/GENERATORE.md)."""
+    text = read_text("figma-storybook/.storybook/main.js")
+    if text is None:
+        return
+    pkg = read_text("figma-storybook/package.json") or ""
+    problems = []
+    if re.search(r"disableTelemetry\s*:\s*true", text) is None:
+        problems.append("manca core: { disableTelemetry: true } in .storybook/main.js")
+    if "storybook dev" in pkg and "--no-version-updates" not in pkg:
+        problems.append("manca --no-version-updates nello script storybook (controllo online delle versioni)")
+    add("FAIL" if problems else "OK", "telemetria Storybook", "; ".join(problems) if problems else "spenta, nessun controllo delle versioni")
+
+
 def check_storybook():
     sb = ROOT / "figma-storybook"
     npm = shutil.which("npm")
@@ -249,6 +263,7 @@ def main():
     check_powershell(files)
     check_compose()
     check_module()
+    check_telemetry()
     check_storybook()
     check_docs(files)
 
