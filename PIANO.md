@@ -70,4 +70,4 @@ Stato: `fatto` / `in corso` / `da fare`.
 
 ## Dopo le cinque fasi
 
-Il piano per portare l'esportazione in un altro progetto OpenCms (fasi P1…P8, zip e pipeline automatica) è in `piano-portabilita/README.md`.
+Il piano successivo, il Design System (moduli core e temi, minificazione per tema, generatore Figma → Storybook, documentazione su Confluence, versioni), è in `piano-design-system/README.md`. Sostituisce il piano di portabilità del 2026-10-23, che non era iniziato: le sue fasi utili sono riprese lì.
