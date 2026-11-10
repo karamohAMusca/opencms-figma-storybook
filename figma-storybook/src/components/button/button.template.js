@@ -1,24 +1,20 @@
-import { h, prop, when, choose, cls, mod } from '../../template.js';
+// GENERATO da figma/export/button.json (sha256 d851e51af60ee28c) con figma:generate 1.0.0: non modificare a mano
+import { h, prop, when, choose, cls, mod, opt } from '../../template.js';
 
-const classes = cls('fx-button', mod('fx-button--', prop('variant')), when(prop('fullWidth'), 'fx-button--full'));
-
-/**
- * Figma: Button (1:22). Proprietà Figma: Variant (Primary | Secondary), Label.
- * Con `href` diventa un link, altrimenti un <button>.
- */
+/** Figma: Button (1:22). */
 export default {
   name: 'Button',
   figma: '1:22',
   props: {
     label: { default: 'Accedi' },
     variant: { options: ['primary', 'secondary'], default: 'primary' },
-    fullWidth: { default: false },
     href: {},
     type: { default: 'button' },
+    fullWidth: { default: false },
     onClick: {},
   },
   template: choose(prop('href'),
-    h('a', { class: classes, href: prop('href'), onClick: prop('onClick') }, prop('label')),
-    h('button', { class: classes, type: prop('type'), onClick: prop('onClick') }, prop('label')),
+    h('a', { class: cls('fx-button', mod('fx-button--', prop('variant')), when(prop('fullWidth'), 'fx-button--full')), href: prop('href'), onClick: opt(prop('onClick')) }, prop('label')),
+    h('button', { class: cls('fx-button', mod('fx-button--', prop('variant')), when(prop('fullWidth'), 'fx-button--full')), type: opt(prop('type')), onClick: opt(prop('onClick')) }, prop('label')),
   ),
 };

@@ -31,7 +31,9 @@ export const figmaUrl = (nodeId) =>
 function design(nodeId, screenshot, label) {
   const tabs = figmaUrl(nodeId) ? [{ name: `Figma ${label}`, type: 'figma', url: figmaUrl(nodeId) }] : [];
   if (screenshot) {
-    tabs.push({ name: 'Screenshot', type: 'image', url: `./figma-screenshots/${screenshot.replace(/^screenshots\//, '')}`, scale: 1 });
+    // Componenti: screenshot del plugin fx-export (figma/export/); schermate: figma/screenshots/
+    const url = screenshot.startsWith('export/') ? `./figma-export/${screenshot.slice(7)}` : `./figma-screenshots/${screenshot.replace(/^screenshots\//, '')}`;
+    tabs.push({ name: 'Screenshot', type: 'image', url, scale: 1 });
   }
   return tabs;
 }
@@ -48,7 +50,7 @@ export function figmaMeta(name) {
     argTypes[arg] = {
       description: `Proprietà Figma "${prop}"`,
       table: { category: 'Figma' },
-      ...(variant ? { control: 'inline-radio', options: def.options.map(optionValue) } : { control: 'text' }),
+      ...(variant ? { control: 'inline-radio', options: def.options.map(optionValue) } : def.type === 'BOOLEAN' ? { control: 'boolean' } : { control: 'text' }),
     };
   }
   const [w, h] = n.size;

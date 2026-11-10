@@ -11,7 +11,7 @@ Componenti OpenCms (template Mercury) generati dal file Figma "Esempio Claude ×
 
 Quasi tutto il modulo è **generato** da `npm run export:opencms` in `figma-storybook/`, a partire da template e collegamenti dei componenti (`*.template.js`, `*.opencms.js`): JSP (`formatters/*.jsp`, `elements/fx-input.jsp`), schemi (`schemas/*.xsd`), formatter (`formatters/*.formatter`), etichette (`i18n/`), `.config` e `configuration/figma.master.additions.xml` (tranne il blocco `AddPlugins`, che aggiorna `dev.py`). Non modificarli a mano: per vederli e provarli c'è lo Storybook in `figma-storybook/`.
 
-CSS: `resources/css/tokens.css` (variabili Figma, **generato** da `python sync_tokens.py` a partire da `figma-storybook/figma/tokens.json`: non modificarlo a mano) e `resources/css/components.css` (classi `fx-`, **generato** da `npm run export:opencms` in `figma-storybook/` unendo i CSS dei componenti di Storybook: non modificarlo a mano),
+CSS: `resources/css/tokens.css` (variabili Figma, **generato** da `npm run figma:generate` in `figma-storybook/` a partire dalle variabili esportate da Figma: non modificarlo a mano) e `resources/css/components.css` (classi `fx-`, **generato** da `npm run export:opencms` in `figma-storybook/` unendo i CSS dei componenti di Storybook: non modificarlo a mano),
 caricati su tutte le pagine come plugin Mercury del gruppo `css` (`plugins/*.xml`, registrati in `configuration/figma.master.additions.xml`).
 
 ## Sviluppo in locale

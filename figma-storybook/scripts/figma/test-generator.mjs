@@ -2,7 +2,7 @@
 // Uso: npm run test:generator
 // Verifica: determinismo (stessi byte a ogni esecuzione e con le chiavi dei JSON in ordine diverso), una prova per
 // ogni riga delle tabelle di mappatura, i rifiuti attesi (ciò che le tabelle non prevedono è un errore) e che i file
-// in src/generated/ siano allineati agli export.
+// generati (componenti, token, manifest) siano allineati agli export.
 import { readFileSync, existsSync } from 'node:fs';
 import { join, dirname } from 'node:path';
 import { fileURLToPath } from 'node:url';
@@ -114,11 +114,11 @@ const r2 = gen(reverseKeys(BUTTON), { root: { tag: 'button', linkWhen: 'href' },
 ok(r1.files['button.css'] === r2.files['button.css'], 'chiavi in ordine diverso: stesso CSS');
 ok(Object.values(g1).every((c) => !c.includes('\r') && c.endsWith('\n')), 'file con LF e a capo finale');
 
-// ---------- src/generated allineato agli export ----------
+// ---------- file generati (componenti, token, manifest) allineati agli export ----------
 
 for (const [rel, content] of Object.entries(g1)) {
-  const p = join(root, 'src', 'generated', rel);
-  ok(existsSync(p) && readFileSync(p, 'utf8').replace(/\r\n/g, '\n') === content, `src/generated/${rel} allineato (npm run figma:generate)`);
+  const p = join(root, rel);
+  ok(existsSync(p) && readFileSync(p, 'utf8').replace(/\r\n/g, '\n') === content, `${rel} allineato (npm run figma:generate)`);
 }
 
 console.log(failed ? `\n${failed} falliti, ${passed} riusciti` : `ok: ${passed} controlli`);

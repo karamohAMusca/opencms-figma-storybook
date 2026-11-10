@@ -5,164 +5,174 @@
 
 /* ---------- src/components/button/button.css ---------- */
 
-/* Figma: Button (1:22) — Primary 1:18, Secondary 1:20 */
+/* GENERATO da figma/export/button.json (sha256 d851e51af60ee28c) con figma:generate 1.0.0: non modificare a mano */
 
-.fx-button {
+.fx-button,
+.fx-button:hover,
+.fx-button:focus {
   box-sizing: border-box;
   display: inline-flex;
-  align-items: center;
   justify-content: center;
+  align-items: center;
   margin: 0;
-  padding: 12px var(--space-lg);
+  padding: var(--space-sm-plus) var(--space-lg);
+  background: var(--brand-primary);
   border: 0;
   border-radius: var(--radius-md);
   font-family: var(--font-family);
-  font-size: 15px;
+  font-size: var(--font-size-md);
   font-weight: 600;
-  line-height: var(--font-line-height); /* "normal" di Figma: round(size × 1.21) */
+  line-height: var(--font-line-height);
+  color: var(--text-on-primary);
   text-decoration: none;
   white-space: nowrap;
   cursor: pointer;
 }
 
-/* :hover e :focus ripetono i colori: in OpenCms gli stili dei link di Mercury li cambierebbero */
-.fx-button--primary,
-.fx-button--primary:hover,
-.fx-button--primary:focus {
-  background: var(--brand-primary);
-  color: var(--text-on-primary);
-  text-decoration: none;
-}
-
-/* In Figma il bordo conta nel layout: Secondary è alto 44px, Primary 42px */
 .fx-button--secondary,
 .fx-button--secondary:hover,
 .fx-button--secondary:focus {
   background: var(--surface-card);
   border: 1px solid var(--border-default);
   color: var(--text-primary);
-  text-decoration: none;
 }
 
-/* In Figma il componente è a larghezza automatica; nella card del Login riempie la riga */
+/* ---------- button.extra.css (scritto a mano) ---------- */
+
+/* Non disegnato in Figma: larghezza piena (usata dal Login) e focus visibile da tastiera */
+
 .fx-button--full {
   display: flex;
   width: 100%;
 }
 
-/* Non disegnato in Figma: focus visibile per tastiera */
 .fx-button:focus-visible {
   outline: 2px solid var(--brand-primary);
   outline-offset: 2px;
 }
 
-/* ---------- src/components/input/input.css ---------- */
-
-/* Figma: Input (1:23) — etichetta + campo, gap space/sm */
-
-.fx-input {
-  box-sizing: border-box;
-  display: flex;
-  flex-direction: column;
-  gap: var(--space-sm);
-  width: 100%; /* il componente Figma è 326px, nella card riempie la riga */
-  font-family: var(--font-family);
-}
-
-.fx-input__label {
-  margin: 0;
-  font-size: 13px;
-  font-weight: 500;
-  line-height: var(--font-line-height); /* "normal" di Figma: round(size × 1.21) */
-  color: var(--text-primary);
-}
-
-.fx-input__field {
-  box-sizing: border-box;
-  width: 100%;
-  margin: 0;
-  padding: 14px 16px;
-  background: var(--surface-card);
-  border: 1px solid var(--border-default);
-  border-radius: var(--radius-md);
-  font-family: inherit;
-  font-size: 15px;
-  font-weight: 400;
-  line-height: var(--font-line-height); /* "normal" di Figma: round(size × 1.21) */
-  color: var(--text-primary);
-  box-shadow: none; /* Mercury dà un'ombra ai campi dei form */
-}
-
-.fx-input__field::placeholder {
-  color: var(--text-secondary);
-  opacity: 1;
-}
-
-/* Non disegnato in Figma: stato focus */
-.fx-input__field:focus {
-  outline: none;
-  border-color: var(--brand-primary);
-}
-
 /* ---------- src/components/card/card.css ---------- */
 
-/* Figma: Card (44:10) — immagine 192px, corpo con titolo, testo e Button Primary */
+/* GENERATO da figma/export/card.json (sha256 6a12a9ec94666f70) con figma:generate 1.0.0: non modificare a mano */
 
 .fx-card {
   box-sizing: border-box;
   display: flex;
   flex-direction: column;
-  width: 100%; /* in Figma è 342px; qui prende la larghezza della colonna */
+  align-items: flex-start;
+  width: 100%;
   overflow: hidden;
   background: var(--surface-card);
-  border: 1px solid var(--border-default); /* come in Figma il bordo è dentro la misura: contenuto largo 340px */
+  border: 1px solid var(--border-default);
   border-radius: var(--radius-lg);
   box-shadow: var(--shadow-card);
-  font-family: var(--font-family);
 }
 
 .fx-card__image {
   display: block;
   width: 100%;
-  max-width: none; /* Mercury limita le immagini con max-width/height */
+  max-width: none;
   height: 192px;
   margin: 0;
   object-fit: cover;
-  background: var(--surface-background); /* colore del segnaposto Figma, visibile mentre l'immagine carica */
 }
 
 .fx-card__body {
   box-sizing: border-box;
   display: flex;
   flex-direction: column;
-  align-items: flex-start; /* il Button resta largo quanto il suo testo, come in Figma */
+  align-items: flex-start;
   gap: var(--space-md);
+  width: 100%;
   padding: var(--space-lg);
+  overflow: hidden;
 }
 
 .fx-card__texts {
   display: flex;
   flex-direction: column;
+  align-items: flex-start;
   gap: var(--space-sm);
   width: 100%;
+  overflow: hidden;
 }
 
 .fx-card__title {
+  width: 100%;
   margin: 0;
-  font-family: inherit; /* Mercury dà ai titoli font e spaziatura propri */
-  letter-spacing: normal;
-  font-size: 20px;
+  font-family: var(--font-family);
+  font-size: var(--font-size-lg);
   font-weight: 700;
-  line-height: var(--font-line-height); /* "normal" di Figma: round(size × 1.21) */
+  line-height: var(--font-line-height);
+  letter-spacing: normal;
   color: var(--text-primary);
 }
 
 .fx-card__text {
+  width: 100%;
   margin: 0;
-  font-size: 15px;
+  font-family: var(--font-family);
+  font-size: var(--font-size-md);
   font-weight: 400;
-  line-height: var(--font-line-height); /* "normal" di Figma: round(size × 1.21) */
+  line-height: var(--font-line-height);
+  letter-spacing: normal;
   color: var(--text-secondary);
+}
+
+/* ---------- src/components/input/input.css ---------- */
+
+/* GENERATO da figma/export/input.json (sha256 7353b69354ee3115) con figma:generate 1.0.0: non modificare a mano */
+
+.fx-input {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  gap: var(--space-sm);
+  width: 100%;
+}
+
+.fx-input__label {
+  margin: 0;
+  font-family: var(--font-family);
+  font-size: var(--font-size-sm);
+  font-weight: 500;
+  line-height: var(--font-line-height);
+  color: var(--text-primary);
+  white-space: nowrap;
+}
+
+.fx-input__field {
+  box-sizing: border-box;
+  width: 100%;
+  margin: 0;
+  padding: var(--space-md-minus) var(--space-md);
+  overflow: hidden;
+  background: var(--surface-card);
+  border: 1px solid var(--border-default);
+  border-radius: var(--radius-md);
+  box-shadow: none;
+  font-family: var(--font-family);
+  font-size: var(--font-size-md);
+  font-weight: 400;
+  line-height: var(--font-line-height);
+}
+
+.fx-input__field::placeholder {
+  opacity: 1;
+  color: var(--text-secondary);
+}
+
+/* ---------- input.extra.css (scritto a mano) ---------- */
+
+/* Non disegnato in Figma: colore del testo scritto e stato focus */
+
+.fx-input__field {
+  color: var(--text-primary);
+}
+
+.fx-input__field:focus {
+  outline: none;
+  border-color: var(--brand-primary);
 }
 
 /* ---------- src/screens/login/login.css ---------- */

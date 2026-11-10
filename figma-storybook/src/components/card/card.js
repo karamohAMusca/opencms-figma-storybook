@@ -1,7 +1,8 @@
+// GENERATO da figma/export/card.json (sha256 6a12a9ec94666f70) con figma:generate 1.0.0: non modificare a mano
 import { render } from '../../template.js';
 import card from './card.template.js';
 import '../button/button.css';
 import './card.css';
 
-/** Figma: Card (44:10). Markup in card.template.js, da cui viene anche il JSP di OpenCms. */
+/** Figma: Card (44:10). I token CSS arrivano da src/index.css. */
 export const Card = (props) => render(card, props);

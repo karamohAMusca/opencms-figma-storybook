@@ -1,5 +1,6 @@
 // Impronta dei file generati (fase F0 di piano-design-system/): l'ancora contro le regressioni.
-// Confronta lo SHA-256 di ogni file del modulo it.progetti.figma (tranne README.md) e di src/tokens.css
+// Confronta lo SHA-256 di ogni file del modulo it.progetti.figma (tranne README.md), di src/tokens.css, dei file generati
+// dal generatore Figma (componenti con intestazione GENERATO, figma/manifest.json, figma/tokens.json)
 // con quello salvato in golden.json. Testi confrontati con fine riga LF, così il checkout su Windows non conta.
 // Uso: npm run golden                (esce con 1 se un file è cambiato, mancante o nuovo)
 //      npm run golden -- --update    (riscrive golden.json: solo nelle fasi che cambiano l'output, scrivendo il motivo nelle note della fase)
@@ -23,7 +24,9 @@ const walk = (dir) =>
     return SKIP.has(name) && dir.endsWith('it.progetti.figma') ? [] : [path];
   });
 
-const files = [...walk(join(repo, 'it.progetti.figma')), join(root, 'src', 'tokens.css')];
+// Generati dal generatore Figma (G4): componenti con l'intestazione GENERATO, manifest e token
+const generated = walk(join(root, 'src', 'components')).filter((p) => /^(\/\/|\/\*) GENERATO da figma\/export\//.test(readFileSync(p, 'utf8')));
+const files = [...walk(join(repo, 'it.progetti.figma')), join(root, 'src', 'tokens.css'), join(root, 'figma', 'manifest.json'), join(root, 'figma', 'tokens.json'), ...generated];
 
 const hash = (path) => {
   const raw = readFileSync(path);

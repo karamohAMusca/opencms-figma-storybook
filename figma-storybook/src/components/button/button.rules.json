@@ -1,11 +1,41 @@
 {
   "$comment": "Semantica del Button che Figma non esprime: <a> se c'è href, altrimenti <button>; attributi e modificatore di larghezza piena. Scritto a mano (piano-design-system/GENERATORE.md).",
-  "root": { "tag": "button", "linkWhen": "href", "props": { "type": "type", "onClick": "onClick" } },
-  "modifiers": { "full": "fullWidth" },
+  "root": {
+    "tag": "button",
+    "linkWhen": "href",
+    "props": {
+      "type": "type",
+      "onClick": "onClick"
+    }
+  },
+  "modifiers": {
+    "full": "fullWidth"
+  },
   "props": {
     "href": {},
-    "type": { "default": "button" },
-    "fullWidth": { "default": false },
+    "type": {
+      "default": "button"
+    },
+    "fullWidth": {
+      "default": false
+    },
     "onClick": {}
+  },
+  "stories": {
+    "FullWidth": {
+      "name": "Full width",
+      "args": {
+        "fullWidth": true
+      },
+      "width": 292
+    },
+    "AsLink": {
+      "name": "Come link",
+      "args": {
+        "variant": "secondary",
+        "label": "Continua con Google",
+        "href": "#"
+      }
+    }
   }
 }

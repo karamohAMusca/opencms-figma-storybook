@@ -16,8 +16,7 @@
     "figma:lint": "node scripts/figma/lint.mjs",
     "test:lint": "node scripts/figma/test-lint.mjs",
     "figma:generate": "node scripts/figma/generate.mjs",
-    "test:generator": "node scripts/figma/test-generator.mjs",
-    "figma:compare-html": "node scripts/figma/compare-html.mjs"
+    "test:generator": "node scripts/figma/test-generator.mjs"
   },
   "devDependencies": {
     "@storybook/addon-designs": "^11.1.4",

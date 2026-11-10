@@ -21,7 +21,7 @@ Solo libreria standard, non stampa mai i valori di `.env`. Stampa una riga per c
 |---|---|
 | file da non versionare | niente `dist/`, `dev.log`, `module-version.txt`, `.env`, `CLAUDE.local.md`, `node_modules`, `__pycache__`, zip tra i file tracciati |
 | segreti | token noti (GitHub, Figma, chiavi API, chiavi private), valori di `OPENCMS_PASSWORD`, `DB_PASSWORD`, `FIGMA_FILE_KEY` assenti da file e cronologia; percorsi con nome utente (WARN) |
-| token generati | `python sync_tokens.py --check`: i `tokens.css` sono allineati a `tokens.json` |
+| generati da Figma | `npm run figma:generate -- --check`: componenti, `tokens.css` (Storybook e modulo), `tokens.json` (`variables`) e `manifest.json` (`components`) sono allineati agli export del plugin |
 | export OpenCms | `export-opencms.mjs --check`: i file del modulo generati da Storybook (`components.css`, JSP) sono allineati ai sorgenti |
 | JSP = template | `test-opencms.mjs`: i JSP generati producono lo stesso HTML dei template di Storybook |
 | estrattore Figma | `npm run test:export`: il plugin `figma-export/` su un Figma simulato dà sempre gli stessi byte, rispetta lo schema, non usa rete né dipendenze |

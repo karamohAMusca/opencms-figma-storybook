@@ -46,7 +46,7 @@ Stato: `da fare` / `in corso` / `fatto`. Definito il 2026-11-10. Fatta F0 (2026-
 
 Si parte dal **generatore Figma → Storybook**, un tool deterministico e **senza AI** (nessun MCP, nessun modello, nessuna rete): [GENERATORE.md](GENERATORE.md), fasi **G0-G6**. Prende il posto di F8 e F9 e si fa **prima** di F1-F12. Le altre fasi restano valide e ripartono dopo G6, con un'eccezione: F2 (token per tema) userà l'estrattore di G1 per leggere le variabili.
 
-Ordine: F0 (fatta) → **G0 (in corso) → G1 → G2 → G3 → G4 → G5 → G6** → F1 → F2 → … → F12.
+Ordine: F0 (fatta) → **G0 → G1 → G2 → G3 → G4 → G5 → G6** → F1 → F2 → … → F12. Stato (2026-11-10): G2, G3, G4 fatte; G0 e G1 quasi (decisioni sui bordi e sugli stati, prova di ripetibilità dell'export); G4 attende `compare:opencms`.
 
 ## Le fasi in una riga
 

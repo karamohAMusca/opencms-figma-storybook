@@ -29,14 +29,13 @@ Creare una pipeline efficace di **Figma → Storybook → OpenCms**, in cui:
 |---|---|
 | [figma-storybook/](figma-storybook/) | Storybook con i componenti ricavati dal Figma (HTML + CSS + JS, senza framework), dati Figma salvati in `figma/`, verifiche `check:figma` e `visual`. [README](figma-storybook/README.md) |
 | [it.progetti.figma/](it.progetti.figma/) | Modulo OpenCms (Mercury): content type, formatter, include, CSS. [README](it.progetti.figma/README.md) |
-| [sync_tokens.py](sync_tokens.py) | Genera i `tokens.css` (Storybook e modulo) da `figma-storybook/figma/tokens.json` |
 | [dev.py](dev.py), [devtools/](devtools/) | Sincronizza il modulo con l'OpenCms locale mentre lavori |
 | [build_module.py](build_module.py) | Crea lo zip importabile del modulo |
 | [docker/](docker/), [start.ps1](start.ps1) | OpenCms 22 e MariaDB in locale con Docker |
 
 ## Come funziona
 
-1. **Token.** Le variabili Figma sono salvate in `figma-storybook/figma/tokens.json`. `python sync_tokens.py` ne ricava `tokens.css` (`brand/primary` → `--brand-primary`) sia per Storybook sia per il modulo OpenCms. I `tokens.css` sono generati: non si modificano a mano.
+1. **Da Figma, senza AI.** Il plugin `fx-export` (in `figma-storybook/figma-export/`, nessun accesso alla rete) esporta componenti e variabili; `npm run figma:import` li porta in `figma-storybook/figma/export/`, `npm run figma:lint` controlla le regole del disegno e `npm run figma:generate` genera componenti, token (`brand/primary` → `--brand-primary`, Storybook e modulo OpenCms) e manifest. Tutto deterministico: vedi `piano-design-system/GENERATORE.md`.
 2. **Componenti.** `figma/manifest.json` elenca componenti, varianti, proprietà e node-id. Le story leggono il manifest, quindi varianti e proprietà arrivano da Figma. `npm run check:figma` fallisce se una variante non ha la story.
 3. **Verifica.** Con Storybook acceso, `npm run visual` confronta ogni story con lo screenshot Figma e produce un report con le differenze.
 4. **OpenCms.** `npm run export:opencms` genera dal template e dai collegamenti di ogni componente i file del modulo: CSS, JSP, schema, formatter, etichette e configurazione. Button → content type `fx-cta-button`, Login → `fx-login`, Input → include `elements/fx-input.jsp`. `dev.py` invia le modifiche all'OpenCms locale: via WebDAV per i file semplici, con un aggiornamento completo del modulo (build, import, riavvio) quando cambiano schemi, formatter o configurazione.

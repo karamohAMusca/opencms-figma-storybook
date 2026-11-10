@@ -108,13 +108,17 @@ def check_secrets(files):
 
 
 def check_tokens():
-    if not (ROOT / "sync_tokens.py").exists():
+    """Componenti, token e manifest generati da Figma (figma:generate) allineati agli export del plugin."""
+    script = ROOT / "figma-storybook" / "scripts" / "figma" / "generate.mjs"
+    node = shutil.which("node")
+    if not script.exists() or not node:
         return
-    r = run([sys.executable, "sync_tokens.py", "--check"])
+    r = run([node, str(script), "--check"])
     if r.returncode == 0:
-        add("OK", "token generati", "tokens.css allineati a tokens.json")
+        add("OK", "generati da Figma", "componenti, tokens.css e manifest allineati agli export")
     else:
-        add("FAIL", "token generati", "tokens.css non allineati: lancia python sync_tokens.py")
+        stale = [l.split()[0] for l in (r.stdout + r.stderr).splitlines() if "NON allineato" in l or l.startswith("ERRORE")]
+        add("FAIL", "generati da Figma", "non allineati, lancia npm run figma:generate: " + ", ".join(stale)[:160])
 
 
 def check_export():

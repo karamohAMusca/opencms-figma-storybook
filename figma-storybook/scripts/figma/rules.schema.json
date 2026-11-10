@@ -47,7 +47,8 @@
           "type": "object",
           "properties": {
             "name": { "type": "string" },
-            "args": { "type": "object" }
+            "args": { "type": "object" },
+            "width": { "type": "number" }
           },
           "required": ["name"],
           "additionalProperties": false

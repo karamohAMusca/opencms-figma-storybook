@@ -1,11 +1,12 @@
 // Generatore Figma → Storybook (piano-design-system/GENERATORE.md, G3). Deterministico, senza AI, senza rete,
 // solo libreria standard di Node.
 //
-// Uso: npm run figma:generate [componente] [-- --out <cartella>] [-- --check]
-// Legge figma/export/<componente>.json, figma/export/variables.json, figma/tokens.json (parte `styles`) e, se ci sono,
-// src/components/<componente>/<componente>.rules.json e <componente>.extra.css. Scrive in --out (default src/generated/):
-//   tokens.css                       variabili Figma (mode predefinito) + valori `styles` di tokens.json
-//   <componente>/<componente>.template.js, .css, .js, <Nome>.stories.js
+// Uso: npm run figma:generate [componente] [-- --check]
+// Legge figma/export/<componente>.json, figma/export/variables.json, figma/tokens.json (parte `styles`), figma/manifest.json
+// (parte `screens`) e, se ci sono, src/components/<componente>/<componente>.rules.json e <componente>.extra.css. Scrive:
+//   src/components/<componente>/<componente>.template.js, .css, .js, <Nome>.stories.js
+//   src/tokens.css e it.progetti.figma/resources/css/tokens.css   variabili Figma (mode predefinito) + `styles`
+//   figma/tokens.json (parte `variables`) e figma/manifest.json (parte `components`)
 // Ogni scelta viene dalle tabelle di questo file: ciò che le tabelle non prevedono è un errore, non una supposizione.
 // Con --check non scrive niente ed esce con 1 se un file non coincide con quello che genererebbe.
 import { readFileSync, writeFileSync, mkdirSync, existsSync, readdirSync } from 'node:fs';
@@ -408,39 +409,56 @@ export function generateComponent(id, data, ctx) {
   ].join('\n') + (ctx.extraCss ? `\n/* ---------- ${id}.extra.css (scritto a mano) ---------- */\n\n${ctx.extraCss.replace(/\r\n/g, '\n').trim()}\n` : '');
 
   const Name = pascal(name);
+  const ident = comp.replace(/-(\w)/g, (_, c) => c.toUpperCase());
   const js = [
     `// ${header}`,
     "import { render } from '../../template.js';",
-    `import ${comp.replace(/-(\w)/g, (_, c) => c.toUpperCase())} from './${id}.template.js';`,
-    "import '../tokens.css';",
+    `import ${ident} from './${id}.template.js';`,
     ...deps.map((d) => `import '../${d}/${d}.css';`),
     `import './${id}.css';`,
     '',
-    `export const ${Name} = (props) => render(${comp.replace(/-(\w)/g, (_, c) => c.toUpperCase())}, props);`,
+    `/** Figma: ${name} (${data.component.nodeId}). I token CSS arrivano da src/index.css. */`,
+    `export const ${Name} = (props) => render(${ident}, props);`,
     '',
   ].join('\n');
 
+  // Story: proprietà e varianti Figma da figma/manifest.json (figmaMeta, figmaVariant), le altre qui sotto
   const width = tree.size.w === 'FIXED' ? tree.size.width.value : null;
-  const argTypes = variantProps.map(([p, d]) => `    ${camel(p)}: { control: 'inline-radio', options: [${d.options.map((o) => q(slug(o))).join(', ')}] },`);
+  const wrap = (w) => `(args) => el('div', { style: 'width:${num(w)}px' }, ${Name}(args))`;
+  const figmaArgs = new Set(Object.keys(props).map(camel));
+  const extra = Object.entries(storyArgs).filter(([k]) => !figmaArgs.has(k));
   const stories = [];
-  if (data.variants.length) {
-    const [vp, vdef] = variantProps[0];
-    for (const o of vdef.options) stories.push(`export const ${pascal(o)} = { args: { ${camel(vp)}: ${q(slug(o))} } };`);
-  } else stories.push(`export const Default = ${rules.stories?.Default ? `{ args: ${JSON.stringify(rules.stories.Default.args ?? {})} }` : '{}'};`);
-  for (const [k, s] of Object.entries(rules.stories ?? {})) if (k !== 'Default') stories.push(`export const ${k} = { name: ${q(s.name)}, args: ${JSON.stringify(s.args ?? {})} };`);
+  if (data.variants.length) for (const o of variantProps[0][1].options) stories.push(`export const ${pascal(o)} = figmaVariant(${q(name)}, ${q(pascal(o))});`);
+  else stories.push(`export const Default = ${rules.stories?.Default ? `{ args: ${JSON.stringify(rules.stories.Default.args ?? {})} }` : '{}'};`);
+  let needEl = Boolean(width);
+  for (const [k, st] of Object.entries(rules.stories ?? {})) {
+    if (k === 'Default') continue;
+    const body = [`name: ${q(st.name)}`, `args: ${JSON.stringify(st.args ?? {})}`];
+    if (st.width) { body.push(`render: ${wrap(st.width)}`); needEl = true; }
+    stories.push(`export const ${k} = { ${body.join(', ')} };`);
+  }
   const storiesSrc = [
     `// ${header}`,
-    ...(width ? ["import { el } from '../../el.js';"] : []),
+    ...(needEl ? ["import { el } from '../../el.js';"] : []),
+    `import { figmaMeta${data.variants.length ? ', figmaVariant' : ''} } from '../../figma.js';`,
     `import { ${Name} } from './${id}.js';`,
     '',
-    `/** Figma: ${name} (${data.component.nodeId}). */`,
+    `const figma = figmaMeta(${q(name)});`,
+    '',
+    `// Figma: ${name} (${data.component.nodeId}). Proprietà e varianti da figma/manifest.json, generato dall'export;`,
+    '// la descrizione in Docs è quella del componente Figma (figmaMeta).',
     'export default {',
-    `  title: ${q(`Generati/${name}`)},`,
-    width ? `  render: (args) => el('div', { style: 'width:${num(width)}px' }, ${Name}(args)),` : `  render: (args) => ${Name}(args),`,
+    `  title: ${q(`Componenti/${Name}`)},`,
+    width ? `  render: ${wrap(width)},` : `  render: (args) => ${Name}(args),`,
+    '  parameters: figma.parameters,',
     '  args: {',
-    ...Object.entries(storyArgs).map(([k, v]) => `    ${k}: ${lit(v)},`),
+    '    ...figma.args,',
+    ...extra.map(([k, v]) => `    ${k}: ${lit(v)},`),
     '  },',
-    ...(argTypes.length ? ['  argTypes: {', ...argTypes, '  },'] : []),
+    '  argTypes: {',
+    '    ...figma.argTypes,',
+    ...extra.map(([k]) => `    ${k}: { table: { category: 'Codice' } },`),
+    '  },',
     '};',
     '',
     ...stories,
@@ -469,12 +487,66 @@ export function generateTokens(variables, styles, hash) {
     lines.push('  /* styles di figma/tokens.json (valori non variabili, scritti a mano) */');
     for (const [k, v] of Object.entries(styles)) lines.push(`  ${cssVar(k)}: ${v};`);
   }
-  return `/* GENERATO da figma/export/variables.json (sha256 ${hash.slice(0, 16)}) e figma/tokens.json con figma:generate ${GENERATOR_VERSION}: non modificare a mano */\n\n:root {\n${lines.join('\n')}\n}\n`;
+  return `/* GENERATO da figma/export/variables.json (sha256 ${hash.slice(0, 16)}) e figma/tokens.json (styles) con figma:generate ${GENERATOR_VERSION}: non modificare a mano */\n\n:root {\n${lines.join('\n')}\n}\n`;
 }
 
 const sha = (text) => createHash('sha256').update(text).digest('hex');
 
 /** Tutti i file da generare: { percorso relativo a out → contenuto }. */
+/** tokens.json: `variables` dal mode predefinito di variables.json (alias risolti), `styles` come sono (scritti a mano). */
+export function generateTokensJson(current, variables, hash) {
+  const flat = {};
+  for (const col of Object.values(variables.collections)) {
+    for (const [vname, v] of Object.entries(col.variables)) flat[vname] = { value: v.values[col.defaultMode], type: v.type };
+  }
+  const resolve = (name, seen = new Set()) => {
+    const v = flat[name];
+    if (!v) fail('variables.json', `alias verso la variabile sconosciuta ${name}`);
+    if (v.value && typeof v.value === 'object') { if (seen.has(name)) fail('variables.json', `alias circolare ${name}`); seen.add(name); return resolve(v.value.alias, seen); }
+    return v.type === 'FLOAT' ? num(v.value) : String(v.value);
+  };
+  const vars = {};
+  for (const name of Object.keys(flat).sort()) vars[name] = resolve(name);
+  return JSON.stringify({
+    $comment: "Token. 'variables' è GENERATO da figma:generate (figma/export/variables.json, mode predefinito, alias risolti): non modificare a mano. 'styles' sono valori che in Figma non sono variabili: si scrivono a mano.",
+    source: { export: 'figma/export/variables.json', sha256: hash.slice(0, 16) },
+    variables: vars,
+    styles: current.styles ?? {},
+  }, null, 2) + '\n';
+}
+
+/** manifest.json: componenti dagli export; `file` e `screens` (schermate scritte a mano) restano come sono. */
+export function generateManifest(current, exports) {
+  const components = [];
+  for (const [id, d] of exports) {
+    const name = d.component.name;
+    const vp = Object.entries(d.properties ?? {}).find(([, p]) => p.type === 'VARIANT');
+    const def = d.variants.length ? d.variants.find((v) => vp && v.values[vp[0]] === vp[1].default) : null;
+    const t = def ? def.tree : d.tree;
+    const size = (tree) => [tree.size.width.value, tree.size.height.value];
+    components.push({
+      name,
+      kind: d.variants.length ? 'component_set' : 'component',
+      nodeId: d.component.nodeId,
+      size: size(t),
+      ...(d.component.description ? { description: d.component.description } : {}),
+      variants: d.variants.map((v) => ({ name: v.name, nodeId: v.nodeId, size: size(v.tree), render: v.render, screenshot: `export/${v.screenshot}`, story: pascal(Object.values(v.values)[0]) })),
+      properties: Object.fromEntries(Object.entries(d.properties ?? {}).map(([k, p]) => [k, { type: p.type, default: p.default, ...(p.options ? { options: p.options } : {}) }])),
+      ...(d.variants.length ? {} : { visualStory: 'Default', render: d.render }),
+      screenshot: `export/${def ? def.screenshot : d.screenshot}`,
+      code: `src/components/${id}/`,
+      stories: `Componenti/${pascal(name)}`,
+    });
+  }
+  return JSON.stringify({
+    $comment: "Inventario Figma. 'components' è GENERATO da figma:generate dagli export del plugin (figma/export/): non modificare a mano. 'screens' (schermate composte, non componenti) si scrive a mano. Screenshot: componenti in export/, schermate in screenshots/.",
+    file: current.file,
+    components,
+    screens: current.screens.map(({ designContext, ...rest }) => rest),
+  }, null, 2) + '\n';
+}
+
+/** Tutti i file da generare: { percorso relativo a figma-storybook/ → contenuto }. */
 export function generateAll({ exportDir = join(root, 'figma', 'export'), componentsDir = join(root, 'src', 'components'), only = null } = {}) {
   const read = (f) => readFileSync(join(exportDir, f), 'utf8');
   const exports = new Map();
@@ -485,8 +557,16 @@ export function generateAll({ exportDir = join(root, 'figma', 'export'), compone
     hashes.set(f.replace(/\.json$/, ''), sha(text));
   }
   const varText = read('variables.json');
+  const variables = JSON.parse(varText);
   const tokensJson = JSON.parse(readFileSync(join(root, 'figma', 'tokens.json'), 'utf8'));
-  const out = { 'tokens.css': generateTokens(JSON.parse(varText), tokensJson.styles, sha(varText)) };
+  const manifest = JSON.parse(readFileSync(join(root, 'figma', 'manifest.json'), 'utf8'));
+  const tokensCss = generateTokens(variables, tokensJson.styles, sha(varText));
+  const out = {
+    'figma/manifest.json': generateManifest(manifest, exports),
+    'figma/tokens.json': generateTokensJson(tokensJson, variables, sha(varText)),
+    'src/tokens.css': tokensCss,
+    '../it.progetti.figma/resources/css/tokens.css': tokensCss,
+  };
   for (const [id, data] of exports) {
     if (only && id !== only) continue;
     const rulesPath = join(componentsDir, id, `${id}.rules.json`);
@@ -497,17 +577,15 @@ export function generateAll({ exportDir = join(root, 'figma', 'export'), compone
       rules: existsSync(rulesPath) ? JSON.parse(readFileSync(rulesPath, 'utf8')) : null,
       extraCss: existsSync(extraPath) ? readFileSync(extraPath, 'utf8') : null,
     });
-    for (const [f, c] of Object.entries(files)) out[`${id}/${f}`] = c;
+    for (const [f, c] of Object.entries(files)) out[`src/components/${id}/${f}`] = c;
   }
   return out;
 }
 
 if (process.argv[1] === fileURLToPath(import.meta.url)) {
   const args = process.argv.slice(2);
-  const outArg = args.indexOf('--out');
-  const outDir = outArg >= 0 ? join(process.cwd(), args[outArg + 1]) : join(root, 'src', 'generated');
   const check = args.includes('--check');
-  const only = args.find((a, i) => !a.startsWith('--') && args[i - 1] !== '--out') ?? null;
+  const only = args.find((a) => !a.startsWith('--')) ?? null;
   let files;
   try {
     files = generateAll({ only });
@@ -517,7 +595,7 @@ if (process.argv[1] === fileURLToPath(import.meta.url)) {
   }
   let stale = 0;
   for (const [rel, content] of Object.entries(files)) {
-    const path = join(outDir, rel);
+    const path = join(root, rel);
     const current = existsSync(path) ? readFileSync(path, 'utf8').replace(/\r\n/g, '\n') : null;
     const name = relative(root, path).replace(/\\/g, '/');
     if (current === content) console.log(`${name}  già allineato`);

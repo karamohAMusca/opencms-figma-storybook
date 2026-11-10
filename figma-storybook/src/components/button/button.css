@@ -1,49 +1,44 @@
-/* Figma: Button (1:22) — Primary 1:18, Secondary 1:20 */
+/* GENERATO da figma/export/button.json (sha256 d851e51af60ee28c) con figma:generate 1.0.0: non modificare a mano */
 
-.fx-button {
+.fx-button,
+.fx-button:hover,
+.fx-button:focus {
   box-sizing: border-box;
   display: inline-flex;
-  align-items: center;
   justify-content: center;
+  align-items: center;
   margin: 0;
-  padding: 12px var(--space-lg);
+  padding: var(--space-sm-plus) var(--space-lg);
+  background: var(--brand-primary);
   border: 0;
   border-radius: var(--radius-md);
   font-family: var(--font-family);
-  font-size: 15px;
+  font-size: var(--font-size-md);
   font-weight: 600;
-  line-height: var(--font-line-height); /* "normal" di Figma: round(size × 1.21) */
+  line-height: var(--font-line-height);
+  color: var(--text-on-primary);
   text-decoration: none;
   white-space: nowrap;
   cursor: pointer;
 }
 
-/* :hover e :focus ripetono i colori: in OpenCms gli stili dei link di Mercury li cambierebbero */
-.fx-button--primary,
-.fx-button--primary:hover,
-.fx-button--primary:focus {
-  background: var(--brand-primary);
-  color: var(--text-on-primary);
-  text-decoration: none;
-}
-
-/* In Figma il bordo conta nel layout: Secondary è alto 44px, Primary 42px */
 .fx-button--secondary,
 .fx-button--secondary:hover,
 .fx-button--secondary:focus {
   background: var(--surface-card);
   border: 1px solid var(--border-default);
   color: var(--text-primary);
-  text-decoration: none;
 }
 
-/* In Figma il componente è a larghezza automatica; nella card del Login riempie la riga */
+/* ---------- button.extra.css (scritto a mano) ---------- */
+
+/* Non disegnato in Figma: larghezza piena (usata dal Login) e focus visibile da tastiera */
+
 .fx-button--full {
   display: flex;
   width: 100%;
 }
 
-/* Non disegnato in Figma: focus visibile per tastiera */
 .fx-button:focus-visible {
   outline: 2px solid var(--brand-primary);
   outline-offset: 2px;

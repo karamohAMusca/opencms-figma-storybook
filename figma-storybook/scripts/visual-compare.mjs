@@ -1,18 +1,17 @@
-// Confronto visivo tra le story e gli screenshot Figma (figma/screenshots/), guidato da figma/manifest.json.
+// Confronto visivo tra le story e gli screenshot Figma.
 //
 // Uso (con Storybook acceso: npm run storybook):
 //   npm run visual                       # confronta tutto, report in visual-report/index.html
 //   SB_URL=http://host:port npm run visual
 //   VISUAL_TOLERANCE=0.01 npm run visual  # quota massima di pixel diversi (default 0.02 = 2%: il testo resta
 //                                          leggermente diverso tra Figma e Chromium, un errore vero pesa molto di più)
-//   npm run visual -- --export           # generatore (G3): story "Generati/…" ↔ screenshot del plugin in figma/export/,
-//                                          composti su bianco (il plugin li esporta con lo sfondo trasparente)
 //
 // Cosa confronta:
-// - varianti (Button): ritaglio dello screenshot del component set (position + size) ↔ story della variante;
-// - componenti senza varianti (Input): screenshot intero ↔ story `visualStory`;
-// - schermate (Login): screenshot intero ↔ story `visualStory` con viewport grande quanto il frame.
-// Figma esporta i componenti sullo sfondo del canvas: le loro story vengono fotografate sullo stesso sfondo.
+// - componenti (Button, Input, Card): ogni variante (o la story Default) ↔ screenshot del plugin fx-export in
+//   figma/export/, composto su bianco (il plugin esporta con lo sfondo trasparente); `render` dell'export dà lo
+//   scostamento dello screenshot rispetto al componente (ombre), la misura del componente viene dal suo albero;
+// - schermate (Login, da figma/manifest.json): screenshot in figma/screenshots/ ↔ story `visualStory`, con viewport grande
+//   quanto il frame.
 import { readFileSync, writeFileSync, mkdirSync, rmSync, readdirSync } from 'node:fs';
 import { join, dirname } from 'node:path';
 import { fileURLToPath } from 'node:url';
@@ -23,17 +22,10 @@ import { PNG } from 'pngjs';
 const root = join(dirname(fileURLToPath(import.meta.url)), '..');
 const SB = (process.env.SB_URL ?? 'http://localhost:6007').replace(/\/$/, '');
 const TOLERANCE = Number(process.env.VISUAL_TOLERANCE ?? 0.02);
-const CANVAS_BG = 'rgb(229, 229, 229)'; // sfondo del canvas Figma negli screenshot dei componenti
+const CANVAS_BG = 'rgb(229, 229, 229)'; // sfondo di riserva per i componenti senza `bg`
 const OUT = join(root, 'visual-report');
 const manifest = JSON.parse(readFileSync(join(root, 'figma', 'manifest.json'), 'utf8'));
-const EXPORT_MODE = process.argv.includes('--export');
 const WHITE = 'rgb(255, 255, 255)';
-
-function crop(png, [x, y], [w, h]) {
-  const out = new PNG({ width: w, height: h });
-  PNG.bitblt(png, out, x, y, w, h, 0, 0);
-  return out;
-}
 
 const readPng = (rel) => PNG.sync.read(readFileSync(join(root, 'figma', rel)));
 
@@ -48,11 +40,10 @@ function onWhite(png) {
   return out;
 }
 
-// ---- Elenco dei confronti dal manifest ----
+// ---- Elenco dei confronti: componenti dagli export, schermate dal manifest ----
 
 const targets = [];
-if (EXPORT_MODE) {
-  // Dagli export del plugin: `render` dà lo scostamento dello screenshot (ombre) rispetto al componente
+{
   const dir = join(root, 'figma', 'export');
   const pascal = (s) => s.replace(/(^|[\s-]+)(\w)/g, (_, __, c) => c.toUpperCase());
   for (const f of readdirSync(dir).filter((f) => f.endsWith('.json') && f !== 'variables.json').sort()) {
@@ -62,26 +53,13 @@ if (EXPORT_MODE) {
       ? data.variants.map((v) => ({ story: pascal(Object.values(v.values)[0]), render: v.render, shot: v.screenshot, tree: v.tree, label: v.name, nodeId: v.nodeId }))
       : [{ story: 'Default', render: data.render, shot: data.screenshot, tree: data.tree, label: name, nodeId: data.component.nodeId }];
     for (const it of items) {
-      targets.push({ key: `gen-${name}-${it.story}`, label: `${name} / ${it.label} (${it.nodeId})`, title: `Generati/${name}`, story: it.story,
+      targets.push({ key: `${name}-${it.story}`, label: `${name} / ${it.label} (${it.nodeId})`, title: `Componenti/${pascal(name)}`, story: it.story,
         ref: onWhite(PNG.sync.read(readFileSync(join(dir, it.shot)))), size: [it.render[2], it.render[3]], offset: [it.render[0], it.render[1]],
         nodeSize: [it.tree.size.width.value, it.tree.size.height.value], kind: 'component', bg: WHITE });
     }
   }
 }
-for (const node of EXPORT_MODE ? [] : manifest.components) {
-  const shot = readPng(node.screenshot);
-  if (node.variants.length) {
-    for (const v of node.variants) {
-      targets.push({ key: `${node.name}-${v.story}`, label: `${node.name} / ${v.name} (${v.nodeId})`, title: node.stories,
-        story: v.story, ref: crop(shot, v.position, v.size), size: v.size, kind: 'component' });
-    }
-  } else {
-    // `position`: dove inizia il nodo se lo screenshot ha margini (es. l'ombra della Card)
-    targets.push({ key: `${node.name}-${node.visualStory}`, label: `${node.name} (${node.nodeId})`, title: node.stories,
-      story: node.visualStory, ref: node.position ? crop(shot, node.position, node.size) : shot, size: node.size, kind: 'component' });
-  }
-}
-for (const node of EXPORT_MODE ? [] : manifest.screens) {
+for (const node of manifest.screens) {
   targets.push({ key: `${node.name.replace(/\W+/g, '-')}-${node.visualStory}`, label: `${node.name} (${node.nodeId})`, title: node.stories,
     story: node.visualStory, ref: readPng(node.screenshot), size: node.size, kind: 'screen' });
 }

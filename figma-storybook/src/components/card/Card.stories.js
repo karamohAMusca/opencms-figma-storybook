@@ -1,31 +1,32 @@
+// GENERATO da figma/export/card.json (sha256 6a12a9ec94666f70) con figma:generate 1.0.0: non modificare a mano
 import { el } from '../../el.js';
 import { figmaMeta } from '../../figma.js';
 import { Card } from './card.js';
-import placeholder from './placeholder.svg';
 
 const figma = figmaMeta('Card');
 
-// Proprietà (Title, Text, Button label) da figma/manifest.json. In Figma non ci sono varianti.
+// Figma: Card (44:10). Proprietà e varianti da figma/manifest.json, generato dall'export;
+// la descrizione in Docs è quella del componente Figma (figmaMeta).
 export default {
   title: 'Componenti/Card',
-  // Larghezza del componente in Figma: 342px
   render: (args) => el('div', { style: 'width:342px' }, Card(args)),
   parameters: figma.parameters,
-  // L'immagine in Figma è un segnaposto color surface/background: la story usa un SVG dello stesso colore
-  args: { ...figma.args, image: placeholder, imageAlt: '', buttonHref: '#' },
+  args: {
+    ...figma.args,
+    buttonHref: '#',
+    image: '',
+    imageAlt: '',
+    buttonLabel: 'Scopri di più',
+  },
   argTypes: {
     ...figma.argTypes,
-    image: { control: 'text', description: 'URL dell\'immagine; vuoto = card senza immagine', table: { category: 'Codice' } },
-    imageAlt: { control: 'text', table: { category: 'Codice' } },
-    buttonHref: { control: 'text', table: { category: 'Codice' } },
+    buttonHref: { table: { category: 'Codice' } },
+    image: { table: { category: 'Codice' } },
+    imageAlt: { table: { category: 'Codice' } },
+    buttonLabel: { table: { category: 'Codice' } },
   },
 };
 
-/** Come in Figma (44:10). */
-export const Default = {};
-
-/** Senza immagine: la card parte dal corpo. */
-export const SenzaImmagine = { name: 'Senza immagine', args: { image: '' } };
-
-/** Senza bottone. */
-export const SenzaBottone = { name: 'Senza bottone', args: { buttonLabel: '' } };
+export const Default = { args: {"image":"data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='1' height='1'%3E%3Crect width='1' height='1' fill='%23f8fafc'/%3E%3C/svg%3E"} };
+export const SenzaImmagine = { name: 'Senza immagine', args: {"showImage":false} };
+export const SenzaBottone = { name: 'Senza bottone', args: {"showButton":false} };

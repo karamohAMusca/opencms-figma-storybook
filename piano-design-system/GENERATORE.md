@@ -291,7 +291,7 @@ Le chiavi ammesse in `rules.json` sono un elenco chiuso, con uno schema: una chi
 | G1 | Plugin di estrazione `fx-export` e formato del JSON | M | in corso: primo export vero fatto, manca la prova di ripetibilità |
 | G2 | `figma:lint`: le regole del disegno | S | fatto; export veri: 0 errori, 3 avvisi (bordi da 1px) |
 | G3 | `figma:generate`: Button, poi Input, poi Card | L | fatto (in `src/generated/`, accanto ai componenti attuali) |
-| G4 | I componenti attuali diventano generati, via i dati dell'MCP | M | da fare |
+| G4 | I componenti attuali diventano generati, via i dati dell'MCP | M | fatto; manca solo `compare:opencms` (OpenCms spento) |
 | G5 | Prova: variante Tertiary e un componente nuovo, solo con il tool | M | da fare |
 | G6 | Un comando solo e i controlli nella skill | S | da fare |
 
@@ -360,6 +360,14 @@ Stato (2026-11-10): fatto.
 - `export:opencms` come sempre.
 
 Verifica: `check:figma`, `visual`, `test:opencms`, `compare:opencms` entro il 2%; `npm run golden -- --update` con l'elenco delle differenze nei file del modulo e il motivo; nessun file del repo usato dal tool viene dall'MCP.
+
+Stato (2026-11-10): fatto, salvo `compare:opencms`.
+- `figma:generate` scrive in `src/components/` (template, CSS, `.js`, story "Componenti/…" con `figmaMeta`/`figmaVariant`), `src/tokens.css` e il `tokens.css` del modulo, la parte `variables` di `figma/tokens.json` e la parte `components` di `figma/manifest.json` (le `screens`, cioè il Login, restano a mano). Story extra (Full width, Come link, Password, Senza immagine/bottone) in `rules.json`, con la chiave nuova `width`.
+- Eliminati: `sync_tokens.py` (sostituito da `figma:generate`), `src/generated/` e `figma:compare-html` (servivano solo al confronto di G3), `figma/design-context/`, `figma/metadata.xml`, gli screenshot MCP di Button, Input e Card. Resta `figma/screenshots/login-1_27.png`: il Login è una schermata, il plugin non la esporta.
+- `npm run visual` usa sempre gli screenshot del plugin per i componenti: Button 1,92 / 0,74%, Card 0,76%, Input 1,38%, Login 0,66% (uguale a prima: la schermata composta con i componenti generati non cambia). `check:figma` ok, `test:opencms` 25 casi ok, Docs e scheda Design funzionano (verificato nel browser).
+- `golden` copre ora anche i file generati da Figma (44 file). Aggiornata con `--update`; nel modulo cambiano 4 file, tutti voluti: `tokens.css` (variabili nuove `font/size-*`, `space/sm-plus`, `space/md-minus`, `brand/primary-hover`, nuova intestazione), `components.css` (CSS generato: stessi valori, legati alle variabili, ordine fisso), `fx-input.jsp` (`for`/`id` omessi se vuoti, attributi in altro ordine). Button e Card: JSP identici.
+- Skill `check-modifiche`: il controllo dei token ora è "generati da Figma" (`figma:generate --check`).
+- Da fare: `npm run compare:opencms -- --deploy` con OpenCms acceso e `dev.py` spento.
 
 ### G5 — Prova solo con il tool · M
 
