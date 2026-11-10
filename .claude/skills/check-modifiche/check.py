@@ -212,6 +212,17 @@ def check_module():
         add("WARN", "module-types.json", "modificato: gli id dei content type devono restare stabili, controlla il diff")
 
 
+def check_eol():
+    """I file del generatore Figma devono avere fine riga LF fissi (.gitattributes): stessi byte su ogni macchina."""
+    paths = ["figma-storybook/figma/export/x.json", "figma-storybook/figma-export/code.js", "figma-storybook/scripts/figma/x.mjs"]
+    r = run(["git", "check-attr", "eol", "--"] + paths)
+    bad = [l.split(":")[0] for l in r.stdout.splitlines() if not l.rstrip().endswith("eol: lf")]
+    png = run(["git", "check-attr", "text", "--", "figma-storybook/figma/export/x.png"]).stdout.strip()
+    if not png.endswith("text: unset"):
+        bad.append("*.png non binario")
+    add("FAIL" if bad else "OK", "fine riga del generatore", ("senza eol=lf: " + ", ".join(bad)) if bad else "LF fissi da .gitattributes, PNG binari")
+
+
 def check_telemetry():
     """Storybook non deve inviare dati d'uso (requisito per dati sensibili, piano-design-system/GENERATORE.md)."""
     text = read_text("figma-storybook/.storybook/main.js")
@@ -270,6 +281,7 @@ def main():
     check_compose()
     check_module()
     check_telemetry()
+    check_eol()
     check_storybook()
     check_docs(files)
 

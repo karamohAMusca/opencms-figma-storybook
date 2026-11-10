@@ -31,6 +31,7 @@ Solo libreria standard, non stampa mai i valori di `.env`. Stampa una riga per c
 | docker compose | `docker compose config -q` con il `.env` locale |
 | build del modulo | `build_module.py` in una cartella temporanea (non tocca `dist/`) e `module-types.json` invariato: gli id dei content type devono restare stabili |
 | telemetria Storybook | `.storybook/main.js` ha `core: { disableTelemetry: true }` e lo script `storybook` ha `--no-version-updates`: Storybook non invia dati d'uso né controlla online le versioni (requisito per dati sensibili) |
+| fine riga del generatore | `.gitattributes` fissa LF per `figma/export/`, `figma-export/`, `scripts/figma/` e tiene binari i PNG: i file del generatore sono identici su ogni macchina |
 | check:figma | `npm run check:figma` in `figma-storybook/` (se `node_modules` c'è) |
 | documenti | link e file citati in `README.md` e `CLAUDE.md` esistono |
 
